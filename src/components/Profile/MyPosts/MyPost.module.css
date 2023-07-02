@@ -1,0 +1,27 @@
+
+.content {
+    grid-area: c;
+    background-color: #fadadd;
+    padding: 10px;
+}
+
+.content img {
+    width: 100%;
+}
+
+.item img {
+    border-radius: 50%;
+    width: 50px;
+}
+
+.postBlock {
+    padding: 10px;
+}
+
+.posts {
+    margin-top: 10px;
+}
+
+.item {
+    margin-bottom: 10px;
+}
