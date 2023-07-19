@@ -7,27 +7,27 @@ import Dialogs from "./components/Dialogs/Dialogs";
 import Music from "./components/Music/Music";
 import Settings from "./components/Settings/Settings";
 import News from "./components/News/News";
-import {BrowserRouter, Route} from "react-router-dom";
+import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
 
 
 function App() {
-    return (<BrowserRouter>
+
+    return (<Router>
             <div className='app-wrapper'>
                 <Header/>
                 <Navbar/>
                 <div className='app-wrapper-content'>
-                    <Route path='/dialogs' component={Dialogs}/>
-                    <Route path='/profile' component={Profile}/>
-                    <Route path='/news' component={News}/>
-                    <Route path='/music' component={Music}/>
-                    <Route path='/settings' component={Settings}/>
+                    <Routes>
+                        <Route path='/dialogs' Component={Dialogs}/>
+                        <Route path='/profile' Component={Profile}/>
+                        <Route path='/news' Component={News}/>
+                        <Route path='/music' Component={Music}/>
+                        <Route path='/settings' Component={Settings}/>
+                    </Routes>
                 </div>
             </div>
-        </BrowserRouter>
+        </Router>
     );
-
 }
 
-
-export default App;
-
+export default App
