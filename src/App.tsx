@@ -8,22 +8,45 @@ import Music from "./components/Music/Music";
 import Settings from "./components/Settings/Settings";
 import News from "./components/News/News";
 import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
-import {DialogsDataPropsType, MessageDataPropsType, PostsDataPropsType} from "./index";
+
+export type DialogsDataPropsType = {
+    id: string
+    name: string
+}
+export type MessageDataPropsType = {
+    id: string
+    title: string
+}
+export type PostsDataPropsType = {
+    id: string
+    message: string
+    likeCounts: string
+}
+
+type StatePropsType = {
+    profilePage: ProfilePropsType
+    messagePage: MessagePropsType
+}
+
+type MessagePropsType = {
+    messageData: MessageDataPropsType[]
+}
+type ProfilePropsType = {
+    dialogsData: DialogsDataPropsType[],
+    postsData: PostsDataPropsType[]
+}
 
 type AppPropsType = {
-    dialogsData: DialogsDataPropsType[]
-    messageData: MessageDataPropsType[]
-    postsData: PostsDataPropsType[]
+    state: StatePropsType
 }
 
 function App(props: AppPropsType) {
 
     let dialogs = () => <Dialogs
-        dialogsData={props.dialogsData}
-        messageData={props.messageData}/>
+        dialogsData={props.state.profilePage.dialogsData}
+        messageData={props.state.messagePage.messageData}/>
 
-    let profile = () => <Profile
-        postsData={props.postsData}/>
+    let profile = () => <Profile postsData={props.state.profilePage.postsData}/>
 
     let news = () => <News/>
     let music = () => <Music/>

@@ -4,9 +4,10 @@ import {DialogItem} from "./DialogItem/DialogItem";
 import {Message} from "./Message/Message";
 import {DialogsDataPropsType, MessageDataPropsType} from "../../App";
 
+
 type DialogsPropsType = {
     dialogsData: DialogsDataPropsType[]
-    messageData: MessagePropsType[]
+    messageData: MessageDataPropsType[]
 }
 
 const Dialogs = (props: DialogsPropsType) => {
