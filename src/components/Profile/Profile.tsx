@@ -1,12 +1,17 @@
-import headerImg from "../../img/back.jpg";
 import React from "react";
 import MyPost from "./MyPosts/MyPost";
 import ProfileInfo from "./MyPosts/ProfileInfo/ProfileInfo";
+import {PostsDataPropsType} from "../../index";
 
-const Profile = () => {
+
+type ProfilePropsType = {
+    postsData: PostsDataPropsType[]
+}
+
+const Profile = (props: ProfilePropsType) => {
     return (<div>
         <ProfileInfo/>
-        <MyPost/>
+        <MyPost postsData={props.postsData}/>
     </div>)
 }
 

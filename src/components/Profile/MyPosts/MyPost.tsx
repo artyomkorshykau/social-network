@@ -1,10 +1,17 @@
-import headerimg from "../../img/back.jpg";
 import React from "react";
 import s from './MyPost.module.css'
 import Post from "./Post/Post";
+import {PostsDataPropsType} from "../../../index";
 
 
-const MyPost = () => {
+type MyPostsPropsType = {
+    postsData: PostsDataPropsType[]
+}
+
+const MyPost = (props: MyPostsPropsType) => {
+
+    const posts = props.postsData.map(posts => <Post message={posts.message} likeCounts={posts.likeCounts}/>)
+
     return (<div className={s.content}>
         <div className={s.postBlock}>
             <h3>My posts</h3>
@@ -16,10 +23,7 @@ const MyPost = () => {
                     <button>Add post</button>
                 </div>
             </div>
-            <div className={s.posts}>
-                <Post message='Hi, Gitter' likeCounts='10'/>
-                <Post message='Hi, Stalin' likeCounts='5'/>
-            </div>
+            <div className={s.posts}>{posts}</div>
         </div>
     </div>)
 }
