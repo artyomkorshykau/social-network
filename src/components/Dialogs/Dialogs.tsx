@@ -21,7 +21,14 @@ const Dialogs = (props: DialogsPropsType) => {
                 <div className={s.dialogsItems}>{dialogsItem}</div>
                 <div className={s.messages}>{messageItem}</div>
             </div>
-
+            <div>
+                <div>
+                    <textarea></textarea>
+                </div>
+                <div>
+                    <button>Send</button>
+                </div>
+            </div>
         </div>
     )
 }

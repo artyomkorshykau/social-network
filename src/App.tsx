@@ -38,6 +38,7 @@ type ProfilePropsType = {
 
 type AppPropsType = {
     state: StatePropsType
+    addPost: (value: string) => void
 }
 
 function App(props: AppPropsType) {
@@ -46,27 +47,26 @@ function App(props: AppPropsType) {
         dialogsData={props.state.profilePage.dialogsData}
         messageData={props.state.messagePage.messageData}/>
 
-    let profile = () => <Profile postsData={props.state.profilePage.postsData}/>
+    let profile = () => <Profile postsData={props.state.profilePage.postsData} addPost={props.addPost}/>
 
     let news = () => <News/>
     let music = () => <Music/>
     let settings = () => <Settings/>
 
-    return (<Router>
-            <div className='app-wrapper'>
-                <Header/>
-                <Navbar/>
-                <div className='app-wrapper-content'>
-                    <Routes>
-                        <Route path='/dialogs' Component={dialogs}/>
-                        <Route path='/profile' Component={profile}/>
-                        <Route path='/news' Component={news}/>
-                        <Route path='/music' Component={music}/>
-                        <Route path='/settings' Component={settings}/>
-                    </Routes>
-                </div>
+    return (
+        <div className='app-wrapper'>
+            <Header/>
+            <Navbar/>
+            <div className='app-wrapper-content'>
+                <Routes>
+                    <Route path='/dialogs' Component={dialogs}/>
+                    <Route path='/profile' Component={profile}/>
+                    <Route path='/news' Component={news}/>
+                    <Route path='/music' Component={music}/>
+                    <Route path='/settings' Component={settings}/>
+                </Routes>
             </div>
-        </Router>
+        </div>
     );
 }
 

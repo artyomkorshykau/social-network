@@ -1,4 +1,6 @@
-let state = {
+import {rerenderDom} from "../render";
+
+export let state = {
     profilePage: {
         dialogsData: [
             {id: '1', name: 'Лежана Раздвиногова'},
@@ -27,4 +29,13 @@ let state = {
     }
 }
 
-export default state
+export let addPost = (postMessage: string) => {
+    let newPost = {
+        id: '5',
+        message: postMessage,
+        likeCounts: '0'
+    }
+
+    state.profilePage.postsData.push(newPost)
+    rerenderDom()
+}
