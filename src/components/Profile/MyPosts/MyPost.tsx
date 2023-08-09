@@ -2,7 +2,6 @@ import React from "react";
 import s from './MyPost.module.css'
 import Post from "./Post/Post";
 import {PostsDataPropsType} from "../../../App";
-import {rerenderDom} from "../../../index";
 
 
 type MyPostsPropsType = {
@@ -17,6 +16,7 @@ const MyPost = (props: MyPostsPropsType) => {
     let newPostElement = React.createRef<HTMLTextAreaElement>()
 
     const addPost = () => {
+        debugger
         let text = newPostElement.current?.value
         props.addPost(text)
     }
