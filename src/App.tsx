@@ -7,34 +7,9 @@ import Dialogs from "./components/Dialogs/Dialogs";
 import Music from "./components/Music/Music";
 import Settings from "./components/Settings/Settings";
 import News from "./components/News/News";
-import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
+import {Route} from "react-router-dom";
+import {StatePropsType} from "./redux/state";
 
-export type DialogsDataPropsType = {
-    id: string
-    name: string
-}
-export type MessageDataPropsType = {
-    id: string
-    title: string
-}
-export type PostsDataPropsType = {
-    id: string
-    message: string
-    likeCounts: string
-}
-
-type StatePropsType = {
-    profilePage: ProfilePropsType
-    messagePage: MessagePropsType
-}
-
-type MessagePropsType = {
-    messageData: MessageDataPropsType[]
-}
-type ProfilePropsType = {
-    dialogsData: DialogsDataPropsType[],
-    postsData: PostsDataPropsType[]
-}
 
 type AppPropsType = {
     state: StatePropsType
@@ -42,12 +17,13 @@ type AppPropsType = {
 }
 
 function App(props: AppPropsType) {
-
+    debugger
     let dialogs = () => <Dialogs
         dialogsData={props.state.profilePage.dialogsData}
         messageData={props.state.messagePage.messageData}/>
 
-    let profile = () => <Profile postsData={props.state.profilePage.postsData} addPost={props.addPost}/>
+    let profile = () => <Profile profilePage={props.state.profilePage}
+                                 addPost={props.addPost}/>
 
     let news = () => <News/>
     let music = () => <Music/>
@@ -58,13 +34,11 @@ function App(props: AppPropsType) {
             <Header/>
             <Navbar/>
             <div className='app-wrapper-content'>
-                <Routes>
-                    <Route path='/dialogs' Component={dialogs}/>
-                    <Route path='/profile' Component={profile}/>
-                    <Route path='/news' Component={news}/>
-                    <Route path='/music' Component={music}/>
-                    <Route path='/settings' Component={settings}/>
-                </Routes>
+                <Route path='/dialogs' render={dialogs}/>
+                <Route path='/profile' render={profile}/>
+                <Route path='/news' render={news}/>
+                <Route path='/music' render={music}/>
+                <Route path='/settings' render={settings}/>
             </div>
         </div>
     );

@@ -1,6 +1,34 @@
-import {rerenderDom} from "../render";
+let rerenderDom = (state: StatePropsType) => {
+    console.log('State changed')
+}
 
-export let state = {
+export type DialogsDataPropsType = {
+    id: string
+    name: string
+}
+export type MessageDataPropsType = {
+    id: string
+    title: string
+}
+export type PostsDataPropsType = {
+    id: string
+    message: string
+    likeCounts: string
+}
+export type StatePropsType = {
+    profilePage: ProfilePropsType
+    messagePage: MessagePropsType
+}
+export type MessagePropsType = {
+    messageData: MessageDataPropsType[]
+}
+export type ProfilePropsType = {
+    dialogsData: DialogsDataPropsType[],
+    postsData: PostsDataPropsType[],
+    newPostText: string
+}
+
+export let state: StatePropsType = {
     profilePage: {
         dialogsData: [
             {id: '1', name: 'Лежана Раздвиногова'},
@@ -14,7 +42,8 @@ export let state = {
         postsData: [
             {id: '1', message: 'Hi', likeCounts: '10'},
             {id: '2', message: 'By', likeCounts: '5'}
-        ]
+        ],
+        newPostText: 'Hello'
     },
     messagePage: {
         messageData: [
@@ -37,5 +66,14 @@ export let addPost = (postMessage: string) => {
     }
 
     state.profilePage.postsData.push(newPost)
-    rerenderDom()
+    rerenderDom(state)
+}
+
+export let updateNewPostTest = (postMessage: string) => {
+    state.profilePage.newPostText = postMessage
+    rerenderDom(state)
+}
+
+export const subscribe = (observer: (state: StatePropsType) => void) => {
+    rerenderDom = observer
 }
