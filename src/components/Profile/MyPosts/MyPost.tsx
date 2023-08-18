@@ -1,11 +1,12 @@
 import React from "react";
 import s from './MyPost.module.css'
 import Post from "./Post/Post";
-import {ProfilePropsType, updateNewPostTest} from "../../../redux/state";
+import {ProfilePropsType} from "../../../redux/state";
 
 type MyPostsPropsType = {
     profilePage: ProfilePropsType
     addPost: (value: any) => void
+    updateNewPostTest: (text: string) => void
 }
 
 const MyPost = (props: MyPostsPropsType) => {
@@ -18,13 +19,13 @@ const MyPost = (props: MyPostsPropsType) => {
     const addPost = () => {
         let text = newPostElement.current?.value
         props.addPost(text)
-        updateNewPostTest('')
+        props.updateNewPostTest('')
     }
 
     const onPostChange = () => {
         let text = newPostElement.current?.value
         if (text) {
-            updateNewPostTest(text)
+            props.updateNewPostTest(text)
         }
 
     }
