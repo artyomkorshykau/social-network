@@ -10,12 +10,11 @@ export let rerenderDom = (state: StatePropsType) => {
         <BrowserRouter>
             <App
                 state={store.getState()}
-                addPost={store.addPost.bind(store)}
-                updateNewPostTest={store.updateNewPostTest.bind(store)}/>
+                dispatch={store.dispatch.bind(store)}/>
         </BrowserRouter>,
         document.getElementById('root')
     );
 }
 rerenderDom(store.getState())
-store.subscribe(store.callSubscriber)
+store.subscribe(rerenderDom)
 
