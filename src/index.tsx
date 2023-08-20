@@ -2,10 +2,10 @@ import './index.css';
 import ReactDOM from "react-dom";
 import {BrowserRouter} from "react-router-dom";
 import App from "./App";
-import {StatePropsType, store, StoreType} from "./redux/state";
+import {store} from "./redux/state";
 import React from "react";
 
-export let rerenderDom = (state: StatePropsType) => {
+export let rerenderDom = () => {
     ReactDOM.render(
         <BrowserRouter>
             <App
@@ -15,6 +15,6 @@ export let rerenderDom = (state: StatePropsType) => {
         document.getElementById('root')
     );
 }
-rerenderDom(store.getState())
+rerenderDom()
 store.subscribe(rerenderDom)
 
