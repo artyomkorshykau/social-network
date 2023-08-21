@@ -1,11 +1,11 @@
 import React from "react";
 import s from './MyPost.module.css'
 import Post from "./Post/Post";
-import {ActionType, addPostActionCreator, PostsDataPropsType, updateNewPostMessage} from "../../../redux/state";
+import {ActionType, addPostAC, PostsType, updateNewPostMessageAC} from "../../../redux/store";
 
 type MyPostsPropsType = {
     dispatch: (action: ActionType) => void
-    posts: PostsDataPropsType[]
+    posts: PostsType[]
     newPostText: string
 }
 
@@ -19,15 +19,14 @@ const MyPost = (props: MyPostsPropsType) => {
     const addPost = () => {
         let text = newPostElement.current?.value
         if (text) {
-            props.dispatch(addPostActionCreator(text))
+            props.dispatch(addPostAC(text))
         }
-        // props.dispatch({type: 'UPDATE-NEW-POST-TEXT', postMessage: ''})
     }
 
     const onPostChange = () => {
         let text = newPostElement.current?.value
         if (text) {
-            props.dispatch(updateNewPostMessage(text))
+            props.dispatch(updateNewPostMessageAC(text))
         }
 
     }

@@ -8,22 +8,17 @@ import Music from "./components/Music/Music";
 import Settings from "./components/Settings/Settings";
 import News from "./components/News/News";
 import {Route} from "react-router-dom";
-import {ActionType, StatePropsType} from "./redux/state";
+import {StoreType,} from "./redux/store";
 
 
 type AppPropsType = {
-    state: StatePropsType
-    dispatch: (action: ActionType) => void
+    store: StoreType
 }
 
 function App(props: AppPropsType) {
-    let dialogs = () => <Dialogs
-        dialogsData={props.state.profilePage.dialogsData}
-        messageData={props.state.messagePage.messageData}/>
-
-    let profile = () => <Profile profilePage={props.state.profilePage}
-                                 dispatch={props.dispatch}/>
-
+    let dialogs = () => <Dialogs store={props.store}/>
+    let profile = () => <Profile profilePage={props.store.getState().profilePage}
+                                 dispatch={props.store.dispatch}/>
     let news = () => <News/>
     let music = () => <Music/>
     let settings = () => <Settings/>
