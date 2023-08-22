@@ -1,7 +1,8 @@
 import React from "react";
 import s from './MyPost.module.css'
 import Post from "./Post/Post";
-import {ActionType, addPostAC, PostsType, updateNewPostMessageAC} from "../../../redux/store";
+import {ActionType, PostsType} from "../../../redux/store";
+import {addPostAC, updateNewPostMessageAC} from "../../../redux/profileReducer";
 
 type MyPostsPropsType = {
     dispatch: (action: ActionType) => void
@@ -28,7 +29,6 @@ const MyPost = (props: MyPostsPropsType) => {
         if (text) {
             props.dispatch(updateNewPostMessageAC(text))
         }
-
     }
 
     return (<div className={s.content}>

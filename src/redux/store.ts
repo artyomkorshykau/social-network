@@ -1,9 +1,5 @@
-import profileReducer from "./profileReducer";
-
-const ADD_POST = 'ADD-POST'
-const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT'
-const UPDATE_NEW_MESSAGE_BODY = 'UPDATE-NEW-MESSAGE-BODY'
-const SEND_MESSAGE = 'SEND-MESSAGE'
+import profileReducer, {addPostAC, updateNewPostMessageAC} from "./profileReducer";
+import dialogsReducer, {sendMessageAC, updateNewMessageBodyAC} from "./dialogsReducer"
 
 //----------------STATE-TYPE----------------
 export type StateType = {
@@ -92,18 +88,16 @@ export let store: StoreType = {
     },
 
     dispatch(action: ActionType) {
-        this._state.profilePage = (this._state.profilePage, action)
-        this._state.dialogsPage = (this._state.dialogsPage, action)
+        debugger
+        let res = this.getState().profilePage
+        debugger
+        this._state.profilePage = profileReducer(this._state.profilePage, action)
+        this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action)
 
         this._callSubscriber(this._state)
     }
 }
 
-//----------------ACTION-CREATOR----------------
-export const addPostAC = (text: string) => ({type: ADD_POST, newPostText: text} as const)
-export const updateNewPostMessageAC = (text: string) => ({type: UPDATE_NEW_POST_TEXT, postMessage: text} as const)
-export const updateNewMessageBodyAC = (body: string) => ({type: UPDATE_NEW_MESSAGE_BODY, body: body} as const)
-export const sendMessageAC = () => ({type: SEND_MESSAGE} as const)
 
 
 
