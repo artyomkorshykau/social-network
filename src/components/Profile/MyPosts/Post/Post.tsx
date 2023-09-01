@@ -7,7 +7,7 @@ type PostPropsType = {
     likeCounts: string
 }
 
-const Post = (props: PostPropsType) => {
+const Post: React.FC<PostPropsType> = (props) => {
     return (
         <div className={s.item}>
             <img src={profileAva} alt=""/>
