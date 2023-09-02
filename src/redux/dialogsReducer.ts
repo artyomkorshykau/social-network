@@ -1,7 +1,15 @@
-import {ActionType, DialogsPageType} from "./store";
-
 const UPDATE_NEW_MESSAGE_BODY = 'UPDATE-NEW-MESSAGE-BODY'
 const SEND_MESSAGE = 'SEND-MESSAGE'
+
+type InitialStateType = typeof initialState
+type DialogsType = {
+    id: string
+    name: string
+}
+type MessageType = {
+    id: string
+    title: string
+}
 
 let initialState = {
     dialogs: [
@@ -12,7 +20,7 @@ let initialState = {
         {id: '5', name: 'Жарь-Лук де Блюю'},
         {id: '6', name: 'Хельга Шлюхер'},
         {id: '7', name: 'Отлов Приматов'}
-    ],
+    ] as DialogsType[],
     messages: [
         {id: '1', title: 'Hi'},
         {id: '2', title: 'Where'},
@@ -21,11 +29,12 @@ let initialState = {
         {id: '5', title: 'money'},
         {id: '6', title: 'fucking'},
         {id: '7', title: 'dog?'}
-    ],
+    ] as MessageType[],
     newMessageBody: ''
 }
 
-const dialogsReducer = (state: DialogsPageType = initialState, action: ActionType): DialogsPageType => {
+
+const dialogsReducer = (state: InitialStateType = initialState, action: any): InitialStateType => {
     switch (action.type) {
         case UPDATE_NEW_MESSAGE_BODY :
             state.newMessageBody = action.body

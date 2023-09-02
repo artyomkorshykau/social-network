@@ -1,28 +1,36 @@
 import React from "react";
-import {addPostAC, updateNewPostMessageAC} from "../../../redux/profileReducer";
+import {addPostAC, PostsType, updateNewPostMessageAC} from "../../../redux/profileReducer";
 import MyPost from "./MyPost";
-import StoreContext from "../../../StoreContext";
+import {connect} from "react-redux";
+import {AppStateType, StoreReduxType} from "../../../redux/redux-store";
+import {Dispatch} from "redux";
 
-const MyPostContainer = () => {
+type MapStateToPropsType = {
+    posts: PostsType[]
+    newPostText: string
+}
+type MapDispatchToPropsType = {
+    updateNewPostText: (text: string) => void
+    addPost: () => void
+}
+export type MyPostsPropsType = MapStateToPropsType | MapDispatchToPropsType
 
-    return (
-        <StoreContext.Consumer> {(store) => {
-            const addPost = () => {
-                store.dispatch(addPostAC())
-            }
-            const onPostChange = (text: string) => {
-                let action = updateNewPostMessageAC(text)
-                store.dispatch(action)
-            }
-
-            let profilePage = store.getState().profilePage
-            return <MyPost updateNewPostText={onPostChange}
-                           addPost={addPost}
-                           posts={profilePage.posts}
-                           newPostText={profilePage.newPostText}/>
-        }}
-        </StoreContext.Consumer>
-    )
+const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
+    return {
+        posts: state.profilePage.posts,
+        newPostText: state.profilePage.newPostText
+    }
+}
+const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToPropsType => {
+    return {
+        updateNewPostText: (text: string) => {
+            let action = updateNewPostMessageAC(text)
+            dispatch(action)
+        },
+        addPost: () => {
+            dispatch(addPostAC())
+        }
+    }
 }
 
-export default MyPostContainer
+export const MyPostContainer = connect(mapStateToProps, mapDispatchToProps)(MyPost)
