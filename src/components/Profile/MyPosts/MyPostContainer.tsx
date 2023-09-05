@@ -1,8 +1,8 @@
-import React from "react";
+import React, {ChangeEvent} from "react";
 import {addPostAC, PostsType, updateNewPostMessageAC} from "../../../redux/profileReducer";
 import MyPost from "./MyPost";
 import {connect} from "react-redux";
-import {AppStateType, StoreReduxType} from "../../../redux/redux-store";
+import {AppStateType, store} from "../../../redux/redux-store";
 import {Dispatch} from "redux";
 
 type MapStateToPropsType = {
@@ -10,10 +10,10 @@ type MapStateToPropsType = {
     newPostText: string
 }
 type MapDispatchToPropsType = {
-    updateNewPostText: (text: string) => void
+    updateNewPostText: (e: ChangeEvent<HTMLTextAreaElement>) => void
     addPost: () => void
 }
-export type MyPostsPropsType = MapStateToPropsType | MapDispatchToPropsType
+export type MyPostsPropsType = MapStateToPropsType & MapDispatchToPropsType
 
 const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
     return {
@@ -23,12 +23,12 @@ const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
 }
 const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToPropsType => {
     return {
-        updateNewPostText: (text: string) => {
-            let action = updateNewPostMessageAC(text)
+        updateNewPostText: (e: ChangeEvent<HTMLTextAreaElement>) => {
+            let action = updateNewPostMessageAC(e.currentTarget.value)
             dispatch(action)
         },
         addPost: () => {
-            dispatch(addPostAC())
+            dispatch(addPostAC(store.getState().profilePage.newPostText))
         }
     }
 }

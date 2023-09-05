@@ -1,16 +1,7 @@
 import React from "react";
 import s from './MyPost.module.css'
-import Post from "./Post/Post";
-import {store} from "../../../redux/redux-store";
-import {PostsType} from "../../../redux/store";
-
-type MyPostsPropsType = {
-    updateNewPostText: () => void
-    addPost: () => void
-    posts: PostsType[]
-    newPostText: string
-}
-
+import Post from "./Post/Post"
+import {MyPostsPropsType} from "./MyPostContainer";
 
 const MyPost: React.FC<MyPostsPropsType> = (props) => {
     const posts = props.posts.map(posts => <Post message={posts.message}

@@ -1,12 +1,12 @@
 const UPDATE_NEW_MESSAGE_BODY = 'UPDATE-NEW-MESSAGE-BODY'
 const SEND_MESSAGE = 'SEND-MESSAGE'
 
-type InitialStateType = typeof initialState
-type DialogsType = {
+export type ProfilePageType = typeof initialState
+export type DialogsType = {
     id: string
     name: string
 }
-type MessageType = {
+export type MessageType = {
     id: string
     title: string
 }
@@ -34,16 +34,13 @@ let initialState = {
 }
 
 
-const dialogsReducer = (state: InitialStateType = initialState, action: any): InitialStateType => {
+const dialogsReducer = (state: ProfilePageType = initialState, action: any): ProfilePageType => {
     switch (action.type) {
         case UPDATE_NEW_MESSAGE_BODY :
-            state.newMessageBody = action.body
-            return state
+            return {...state, newMessageBody: action.body}
         case SEND_MESSAGE :
             let body = state.newMessageBody
-            state.newMessageBody = ''
-            state.messages.push({id: '1', title: body})
-            return state
+            return {...state, messages: [...state.messages, {id: '1', title: body}], newMessageBody: ''}
         default:
             return state
     }
