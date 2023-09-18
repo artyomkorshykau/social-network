@@ -33,8 +33,9 @@ let initialState = {
     newMessageBody: ''
 }
 
+type ActionType = ReturnType<typeof updateNewMessageBodyAC> | ReturnType<typeof sendMessageAC>
 
-const dialogsReducer = (state: ProfilePageType = initialState, action: any): ProfilePageType => {
+const dialogsReducer = (state: ProfilePageType = initialState, action: ActionType): ProfilePageType => {
     switch (action.type) {
         case UPDATE_NEW_MESSAGE_BODY :
             return {...state, newMessageBody: action.body}

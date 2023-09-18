@@ -18,8 +18,3 @@ export let rerenderDom = (state: AppStateType) => {
 }
 
 rerenderDom(store.getState())
-store.subscribe(() => {
-    let state = store.getState()
-    rerenderDom(state)
-})
-

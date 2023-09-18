@@ -19,7 +19,9 @@ let initialState = {
     newPostText: 'Hello'
 }
 
-const profileReducer = (state: InitialStateType = initialState, action: any): InitialStateType => {
+type ActionType = ReturnType<typeof addPostAC> | ReturnType<typeof updateNewPostMessageAC>
+
+const profileReducer = (state: InitialStateType = initialState, action: ActionType): InitialStateType => {
     switch (action.type) {
         case ADD_POST :
             let newPost = {
@@ -27,7 +29,7 @@ const profileReducer = (state: InitialStateType = initialState, action: any): In
                 message: action.newPostText,
                 likeCounts: '0'
             }
-            return {...state, posts: [...state.posts, newPost]}
+            return {...state, posts: [...state.posts, newPost], newPostText: ''}
         case UPDATE_NEW_POST_TEXT :
             return {...state, newPostText: action.postMessage}
         default:
