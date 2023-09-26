@@ -7,18 +7,46 @@ import {UsersClassType} from "./UsersContainer";
 
 class Users extends React.Component<UsersClassType> {
 
-    getUsers() {
+    constructor(props: any) {
+        super(props);
+    }
+
+    componentDidMount() {
         if (this.props.users.length === 0) {
-            axios.get('https://social-network.samuraijs.com/api/1.0/users')
+            axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`)
                 .then(res => {
                     this.props.setUser(res.data.items)
+                    this.props.setTotalUserCount(res.data.totalCount)
                 })
         }
     }
 
+    onPageChanged(pageNumber: number) {
+        this.props.setCurrentPage(pageNumber)
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.pageSize}`)
+            .then(res => {
+                this.props.setUser(res.data.items)
+            })
+    }
+
     render() {
+
+        let pagesCount = Math.ceil(this.props.totalUserCount / this.props.pageSize)
+        let arrayOfPages = []
+        for (let i = 1; i <= pagesCount; i++) {
+            arrayOfPages.push(i)
+        }
+
         return (<div>
-            <button onClick={this.getUsers}>Получить пользователей</button>
+            <div>
+                {arrayOfPages.map(el => {
+                    return <span className={this.props.currentPage === el
+                        ? s.selectedPage
+                        : ''} onClick={() => {
+                        this.onPageChanged(el)
+                    }}> {el} </span>
+                })}
+            </div>
             {
                 this.props.users.map(el => <div key={el.id}>
                 <span>
