@@ -20,7 +20,7 @@ let initialState = {
         {id: '5', name: 'Жарь-Лук де Блюю'},
         {id: '6', name: 'Хельга Шлюхер'},
         {id: '7', name: 'Отлов Приматов'}
-    ] as DialogsType[],
+    ],
     messages: [
         {id: '1', title: 'Hi'},
         {id: '2', title: 'Where'},
@@ -29,7 +29,7 @@ let initialState = {
         {id: '5', title: 'money'},
         {id: '6', title: 'fucking'},
         {id: '7', title: 'dog?'}
-    ] as MessageType[],
+    ],
     newMessageBody: ''
 }
 

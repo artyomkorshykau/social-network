@@ -1,25 +1,35 @@
 import React from 'react'
 import {connect} from "react-redux";
-import {Users} from "./Users";
 import {AppStateType} from "../../redux/redux-store";
-import {followAC, InitialState, setUserAC, unfollowAC, userType} from "../../redux/UsersReducer";
+import {followAC, setUserAC, unfollowAC} from "../../redux/UsersReducer";
+import {UsersInfoType} from "../../api/social-network-api";
 import {Dispatch} from "redux";
+import Users from "./Users";
 
-const mapStateToProps = (state: AppStateType) => {
+
+type MapStateToProps = {
+    users: UsersInfoType[];
+}
+const mapStateToProps = (state: AppStateType): MapStateToProps => {
     return {
         users: state.usersPage.users
     }
 }
-
-const mapDispatchToProps = (dispatch: Dispatch) => {
+export type UsersClassType = MapStateToProps & MapDispatchToProps
+type MapDispatchToProps = {
+    follow: (id: number) => void;
+    unfollow: (id: number) => void;
+    setUser: (user: UsersInfoType[]) => void;
+}
+const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToProps => {
     return {
-        follow: (id: string) => {
+        follow: (id: number) => {
             dispatch(followAC(id))
         },
-        unfollow: (id: string) => {
+        unfollow: (id: number) => {
             dispatch(unfollowAC(id))
         },
-        setUser: (user: userType[]) => {
+        setUser: (user: UsersInfoType[]) => {
             dispatch(setUserAC(user))
         }
     }

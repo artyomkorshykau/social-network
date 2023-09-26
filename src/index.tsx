@@ -17,4 +17,5 @@ export let rerenderDom = (state: AppStateType) => {
     );
 }
 
+
 rerenderDom(store.getState())
