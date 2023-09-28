@@ -1,7 +1,7 @@
 import React from 'react';
 import s from "./users.module.css";
 import ava from "../../img/ava.jpg";
-import {UsersInfoType} from "../../api/social-network-api";
+import {UserType} from "../../api/social-network-api";
 import Navbar from "../Navbar/Navbar";
 import {NavLink} from "react-router-dom";
 
@@ -10,7 +10,7 @@ type UserFCPropsType = {
     totalUserCount: number
     pageSize: number
     currentPage: number
-    users: UsersInfoType[]
+    users: UserType[]
     follow: (id: number) => void
     unfollow: (id: number) => void
     isFetching: boolean

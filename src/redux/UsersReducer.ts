@@ -1,4 +1,4 @@
-import {UsersInfoType} from "../api/social-network-api";
+import {UserType} from "../api/social-network-api";
 
 const FOLLOW = 'FOLLOW'
 const UNFOLLOW = 'UNFOLLOW'
@@ -15,14 +15,14 @@ type ActionType =
     | ReturnType<typeof setTotalUserCount>
     | ReturnType<typeof toggleIsFetching>
 
-type UsersType = {
-    users: UsersInfoType[]
+type InitialStateType = {
+    users: UserType[]
     pageSize: number
     totalUserCount: number
     currentPage: number
     isFetching: boolean
 }
-let initialState: UsersType = {
+let initialState: InitialStateType = {
     users: [],
     pageSize: 5,
     totalUserCount: 0,
@@ -30,7 +30,7 @@ let initialState: UsersType = {
     isFetching: true
 }
 
-export const usersReducer = (state: UsersType = initialState, action: ActionType): UsersType => {
+export const usersReducer = (state: InitialStateType = initialState, action: ActionType): InitialStateType => {
     switch (action.type) {
         case FOLLOW :
             return {
@@ -57,7 +57,7 @@ export const usersReducer = (state: UsersType = initialState, action: ActionType
 
 export const follow = (id: number) => ({type: FOLLOW, id}) as const
 export const unfollow = (id: number) => ({type: UNFOLLOW, id}) as const
-export const setUser = (user: UsersInfoType[]) => ({type: SET_USER, user}) as const
+export const setUser = (user: UserType[]) => ({type: SET_USER, user}) as const
 export const setPage = (currentPage: number) => ({type: SET_CURRENT_PAGE, currentPage}) as const
 export const setTotalUserCount = (totalCount: number) => ({type: SET_TOTAL_USER_COUNT, totalCount}) as const
 export const toggleIsFetching = (fetching: boolean) => ({type: IS_FETCHING, fetching}) as const

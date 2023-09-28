@@ -1,6 +1,7 @@
 import headerLogo from "../../img/logo.png";
 import React from "react";
 import s from './Header.module.css'
+import {NavLink} from "react-router-dom";
 
 
 const Header = () => {
@@ -9,6 +10,10 @@ const Header = () => {
             <img
                 src={headerLogo}
                 alt="logo"/></div>
+
+        <div className={s.loginBlock}>
+            {props.isAuth ? props.login : <NavLink to={'/login'}>Login</NavLink>}
+        </div>
     </header>)
 }
 

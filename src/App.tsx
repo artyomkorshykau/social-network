@@ -9,11 +9,13 @@ import News from "./components/News/News";
 import {Route} from "react-router-dom";
 import {DialogsContainer} from "./components/Dialogs/Message/DialogsContainer";
 import UsersContainer from "./components/Users/UsersContainer";
+import ProfileContainer from "./components/Profile/ProfileContainer";
+import HeaderContainer from "./components/Header/HeaderContainer";
 
 
 const App = () => {
     let dialogs = () => <DialogsContainer/>
-    let profile = () => <Profile/>
+    let profile = () => <ProfileContainer/>
     let news = () => <News/>
     let music = () => <Music/>
     let settings = () => <Settings/>
@@ -21,11 +23,11 @@ const App = () => {
 
     return (
         <div className='app-wrapper'>
-            <Header/>
+            <HeaderContainer/>
             <Navbar/>
             <div className='app-wrapper-content'>
                 <Route path='/dialogs' render={dialogs}/>
-                <Route path='/profile' render={profile}/>
+                <Route path='/profile/:userID?' render={profile}/>
                 <Route path='/news' render={news}/>
                 <Route path='/music' render={music}/>
                 <Route path='/settings' render={settings}/>

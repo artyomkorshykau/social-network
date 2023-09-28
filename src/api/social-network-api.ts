@@ -1,4 +1,4 @@
-export type UsersInfoType = {
+export type UserType = {
     id: number
     uniqueUrlName: string | null
     photos: {
@@ -10,7 +10,7 @@ export type UsersInfoType = {
     status: string
 }
 export type UsersDataType = {
-    items: UsersInfoType[]
+    items: UserType[]
     totalCount: number
     error: string
 }

@@ -13,3 +13,11 @@
 .logo {
     margin-left: 60px;
 }
+
+.loginBlock {
+    float: right;
+}
+
+.loginBlock a {
+    color: white;
+}
