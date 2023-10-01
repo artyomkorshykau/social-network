@@ -1,25 +1,21 @@
 import Header from "./Header";
 import axios from "axios";
-import {ProfileUserType} from "../Profile/ProfileContainer";
 import {connect} from "react-redux";
 import {setAuthUserData} from "../../redux/auth-reducer";
 import {AppStateType} from "../../redux/redux-store";
+import React from "react";
+import {usersAPI} from "../../api/api";
 
-class HeaderContainer extends React.Component<any, any> {
+class HeaderContainer extends React.Component<HeaderContainerType> {
 
     componentDidMount() {
-
-        const settings = {
-            withCredentials: true
-        }
-
-        axios.get<ProfileUserType>(`https://social-network.samuraijs.com/api/1.0/auth/me`, settings)
-            .then(res => {
-                if (res.data.resultCode === 0) {
-                    let {id, login, email} = res.data.data
+        usersAPI.authMe()
+            .then(data => {
+                if (data.resultCode === 0) {
+                    let {id, login, email} = data.data
                     this.props.setAuthUserData(id, login, email)
                 }
-            }
+            })
     }
 
     render() {
@@ -27,15 +23,34 @@ class HeaderContainer extends React.Component<any, any> {
     }
 }
 
-type MapStateToPropsType = {
-    isAuth: boolean
-    login: string
+
+const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
+    return {
+        isAuth: state.auth.isAuth,
+        login: state.auth.login
+    }
 }
 
-const mapStateToProps = (state: AppStateType): MapStateToPropsType => ({
-    isAuth: state.auth.isAuth,
-    login: state.auth.login
-
-})
-
 export default connect(mapStateToProps, {setAuthUserData})(HeaderContainer)
+
+//types
+type MapStateToPropsType = {
+    isAuth: boolean | null
+    login: string | null
+}
+export type AuthMeType = {
+    data: DataAuthMe,
+    "messages": [],
+    "fieldsErrors": [],
+    "resultCode": number
+}
+export type DataAuthMe = {
+    id: number | null,
+    login: string | null,
+    email: string | null
+}
+export type HeaderContainerType = MapStateToPropsType & MapDispatchToProps
+
+type MapDispatchToProps = {
+    setAuthUserData: (id: number | null, login: string | null, email: string | null) => void
+}

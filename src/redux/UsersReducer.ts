@@ -25,12 +25,12 @@ type InitialStateType = {
 let initialState: InitialStateType = {
     users: [],
     pageSize: 5,
-    totalUserCount: 0,
+    totalUserCount: 1,
     currentPage: 1,
     isFetching: true
 }
 
-export const usersReducer = (state: InitialStateType = initialState, action: ActionType): InitialStateType => {
+const usersReducer = (state: InitialStateType = initialState, action: ActionType): InitialStateType => {
     switch (action.type) {
         case FOLLOW :
             return {
@@ -45,6 +45,7 @@ export const usersReducer = (state: InitialStateType = initialState, action: Act
         case SET_USER :
             return {...state, users: action.user}
         case SET_CURRENT_PAGE :
+            debugger
             return {...state, currentPage: action.currentPage}
         case SET_TOTAL_USER_COUNT :
             return {...state, totalUserCount: action.totalCount}
@@ -54,6 +55,7 @@ export const usersReducer = (state: InitialStateType = initialState, action: Act
             return state
     }
 }
+export default usersReducer
 
 export const follow = (id: number) => ({type: FOLLOW, id}) as const
 export const unfollow = (id: number) => ({type: UNFOLLOW, id}) as const

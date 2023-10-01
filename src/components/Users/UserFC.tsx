@@ -4,6 +4,8 @@ import ava from "../../img/ava.jpg";
 import {UserType} from "../../api/social-network-api";
 import Navbar from "../Navbar/Navbar";
 import {NavLink} from "react-router-dom";
+import axios from "axios";
+import {usersAPI} from "../../api/api";
 
 type UserFCPropsType = {
     onPageChanged: (page: number) => void
@@ -17,18 +19,24 @@ type UserFCPropsType = {
 }
 
 const UserFC = (props: UserFCPropsType) => {
-
-    let pagesCount = Math.ceil(props.totalUserCount / props.pageSize)
-    let arrayOfPages = []
-    for (let i = 1; i <= pagesCount; i++) {
-        arrayOfPages.push(i)
+    let pagesCount = Math.ceil(props.totalUserCount / props.pageSize);
+    let pages = [];
+    for (let i = 1; i <= pagesCount; i += 1) {
+        pages.push(i);
+    }
+    let slicedPages;
+    let curPage = props.currentPage;
+    if (curPage - 3 < 0) {
+        slicedPages = pages.slice(0, 5);
+    } else {
+        slicedPages = pages.slice(curPage - 3, curPage + 2);
     }
 
     return (
         <div>
             <div>
-                {arrayOfPages.map(el => {
-                    return <span className={props.currentPage === el
+                {slicedPages.map((el, index) => {
+                    return <span key={index} className={props.currentPage === el
                         ? s.selectedPage
                         : ''} onClick={() => {
                         props.onPageChanged(el)
@@ -36,7 +44,7 @@ const UserFC = (props: UserFCPropsType) => {
                 })}
             </div>
             {
-                props.users.map(el => <div key={el.id}>
+                props.users.map((el) => <div key={el.id}>
                 <span>
                     <div>
                         <NavLink to={'/profile/' + el.id}><img src={el.photos.small ? el.photos.small : ava} alt=""
@@ -45,23 +53,37 @@ const UserFC = (props: UserFCPropsType) => {
                     </div>
                     <div>{el.followed
                         ? <button onClick={() => {
-                            props.unfollow(el.id)
+                            usersAPI.following(el.id)
+                                .then(data => {
+                                    if (data.resultCode === 0) {
+                                        props.unfollow(el.id)
+                                    }
+                                })
+
                         }}>Отписаться</button>
                         : <button onClick={() => {
-                            props.follow(el.id)
+
+                            usersAPI.following(el.id,)
+                                .then(data => {
+                                    if (data.resultCode === 0) {
+                                        props.follow(el.id)
+                                    }
+                                })
+
+
                         }}>Подписаться</button>}
-                    </div>
-                </span>
+                            </div>
+                            </span>
                     <span>
-                    <span>
-                        <div>{el.name}</div>
-                        <div>{el.status}</div>
-                    </span>
-                    <span>
-                        <div>{el.id}</div>
-                        <div>{el.followed}</div>
-                    </span>
-                </span>
+                            <span>
+                            <div>{el.name}</div>
+                            <div>{el.status}</div>
+                            </span>
+                            <span>
+                            <div>{el.id}</div>
+                            <div>{el.followed}</div>
+                            </span>
+                            </span>
                 </div>)
             }
         </div>

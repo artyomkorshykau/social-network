@@ -6,7 +6,7 @@ import {ProfileUserType} from "../../ProfileContainer";
 
 
 type ProfileInfoPropsType = {
-    profile: ProfileUserType
+    profile: ProfileUserType|null
 }
 
 const ProfileInfo = (props: ProfileInfoPropsType) => {
