@@ -2,11 +2,6 @@ import s from "../MyPost.module.css";
 import profileAva from "../../../../img/ava.jpg";
 import React from "react";
 
-type PostPropsType = {
-    message: string,
-    likeCounts: string
-}
-
 const Post: React.FC<PostPropsType> = (props) => {
     return (
         <div className={s.item}>
@@ -21,3 +16,10 @@ const Post: React.FC<PostPropsType> = (props) => {
 }
 
 export default Post
+
+//--------------------------------TYPES--------------------------------
+
+type PostPropsType = {
+    message: string,
+    likeCounts: string
+}

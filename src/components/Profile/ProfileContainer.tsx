@@ -1,13 +1,13 @@
 import React from 'react';
 import Profile from "./Profile";
 import {connect} from "react-redux";
-import {setUserProfile} from "../../redux/profileReducer";
+import {getProfileTC} from "../../redux/profileReducer";
 import {AppStateType} from "../../redux/redux-store";
 import {RouteComponentProps, withRouter} from "react-router-dom";
-import {usersAPI} from "../../api/api";
+import {withAuthRedirect} from "../../HOC/withAuthRedirect";
 
 
-class ProfileContainer extends React.Component<PropsType> {
+class ProfileContainer extends React.Component<ProfileContainerPropsType> {
 
     componentDidMount() {
         let userID = this.props.match.params.userId
@@ -15,13 +15,11 @@ class ProfileContainer extends React.Component<PropsType> {
             userID = '2'
         }
 
-        usersAPI.getProfile(userID)
-            .then(data => {
-                this.props.setUserProfile(data)
-            })
+        this.props.getProfileTC(userID)
     }
 
     render() {
+
         return (<div>
             <Profile {...this.props} profile={this.props.profile}/>
         </div>)
@@ -29,14 +27,16 @@ class ProfileContainer extends React.Component<PropsType> {
 }
 
 const mapStateToProps = (state: AppStateType): MapStateToProps => ({
-    profile: state.profilePage.profile
+    profile: state.profilePage.profile,
 })
 
-let withUrlDataContainerComponent = withRouter(ProfileContainer)
+export let AuthRedirectComponent = withAuthRedirect(ProfileContainer)
 
-export default connect(mapStateToProps, {setUserProfile})(withUrlDataContainerComponent);
+let withUrlDataContainerComponent = withRouter(AuthRedirectComponent)
 
-//types
+export default connect(mapStateToProps, {getProfileTC})(withUrlDataContainerComponent);
+
+//--------------------------------TYPES--------------------------------
 export type ProfileUserType = {
     aboutMe: string
     userId: number
@@ -66,7 +66,7 @@ type MapStateToProps = {
     profile: ProfileUserType | null
 }
 type MapDispatchToProps = {
-    setUserProfile: (profile: ProfileUserType) => void
+    getProfileTC: (userID: string) => void
 }
 type ProfileClassType = MapStateToProps & MapDispatchToProps
-type PropsType = RouteComponentProps<PathParamsType> & ProfileClassType
+type ProfileContainerPropsType = RouteComponentProps<PathParamsType> & ProfileClassType

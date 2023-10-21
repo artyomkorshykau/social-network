@@ -1,16 +1,3 @@
-const UPDATE_NEW_MESSAGE_BODY = 'UPDATE-NEW-MESSAGE-BODY'
-const SEND_MESSAGE = 'SEND-MESSAGE'
-
-export type ProfilePageType = typeof initialState
-export type DialogsType = {
-    id: string
-    name: string
-}
-export type MessageType = {
-    id: string
-    title: string
-}
-
 let initialState = {
     dialogs: [
         {id: '1', name: 'Лежана Раздвиногова'},
@@ -46,8 +33,25 @@ const dialogsReducer = (state: ProfilePageType = initialState, action: ActionTyp
             return state
     }
 }
-
-export const updateNewMessageBodyAC = (body: string) => ({type: UPDATE_NEW_MESSAGE_BODY, body: body} as const)
-export const sendMessageAC = () => ({type: SEND_MESSAGE} as const)
-
 export default dialogsReducer
+
+//-------------------------------ACTION CREATORS TYPES-------------------------------
+const UPDATE_NEW_MESSAGE_BODY = 'UPDATE-NEW-MESSAGE-BODY'
+const SEND_MESSAGE = 'SEND-MESSAGE'
+
+//-------------------------------ACTION CREATORS-------------------------------
+export const updateNewMessageBodyAC = (body: string) =>
+    ({type: UPDATE_NEW_MESSAGE_BODY, body: body} as const)
+export const sendMessageAC = () =>
+    ({type: SEND_MESSAGE} as const)
+
+//-------------------------------TYPES-------------------------------
+export type ProfilePageType = typeof initialState
+export type DialogsType = {
+    id: string
+    name: string
+}
+export type MessageType = {
+    id: string
+    title: string
+}

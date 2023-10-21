@@ -2,23 +2,10 @@ import React from 'react';
 import s from "./users.module.css";
 import ava from "../../img/ava.jpg";
 import {UserType} from "../../api/social-network-api";
-import Navbar from "../Navbar/Navbar";
 import {NavLink} from "react-router-dom";
-import axios from "axios";
-import {usersAPI} from "../../api/api";
 
-type UserFCPropsType = {
-    onPageChanged: (page: number) => void
-    totalUserCount: number
-    pageSize: number
-    currentPage: number
-    users: UserType[]
-    follow: (id: number) => void
-    unfollow: (id: number) => void
-    isFetching: boolean
-}
 
-const UserFC = (props: UserFCPropsType) => {
+const UserFC = (props: UserPropsType) => {
     let pagesCount = Math.ceil(props.totalUserCount / props.pageSize);
     let pages = [];
     for (let i = 1; i <= pagesCount; i += 1) {
@@ -52,25 +39,11 @@ const UserFC = (props: UserFCPropsType) => {
                         </NavLink>
                     </div>
                     <div>{el.followed
-                        ? <button onClick={() => {
-                            usersAPI.following(el.id)
-                                .then(data => {
-                                    if (data.resultCode === 0) {
-                                        props.unfollow(el.id)
-                                    }
-                                })
-
+                        ? <button disabled={props.isFollowing.some(id => id === el.id)} onClick={() => {
+                            props.unFollowTC(el.id)
                         }}>Отписаться</button>
-                        : <button onClick={() => {
-
-                            usersAPI.following(el.id,)
-                                .then(data => {
-                                    if (data.resultCode === 0) {
-                                        props.follow(el.id)
-                                    }
-                                })
-
-
+                        : <button disabled={props.isFollowing.some(id => id === el.id)} onClick={() => {
+                            props.followTC(el.id)
                         }}>Подписаться</button>}
                             </div>
                             </span>
@@ -91,3 +64,19 @@ const UserFC = (props: UserFCPropsType) => {
 };
 
 export default UserFC;
+
+//--------------------------------TYPES--------------------------------
+type UserPropsType = {
+    onPageChanged: (page: number) => void
+    totalUserCount: number
+    pageSize: number
+    currentPage: number
+    users: UserType[]
+    follow: (id: number) => void
+    unfollow: (id: number) => void
+    isFetching: boolean
+    toggleIsFollowing: (fetching: boolean, id: number) => void
+    isFollowing: []
+    followTC: (id: number) => void
+    unFollowTC: (id: number) => void
+}

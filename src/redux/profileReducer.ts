@@ -1,19 +1,6 @@
 import {ProfileUserType} from "../components/Profile/ProfileContainer";
-
-const ADD_POST = 'ADD-POST'
-const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT'
-const SET_USER_PROFILE = 'SET_USER_PROFILE'
-
-export type PostsType = {
-    id: string
-    message: string
-    likeCounts: string
-}
-export type InitialStateType = {
-    posts: PostsType[]
-    newPostText: string
-    profile: null | ProfileUserType
-}
+import {Dispatch} from "redux";
+import {usersAPI} from "../api/api";
 
 let initialState: InitialStateType = {
     posts: [
@@ -23,11 +10,6 @@ let initialState: InitialStateType = {
     newPostText: 'Hello',
     profile: null
 }
-
-type ActionType =
-    ReturnType<typeof addPostAC>
-    | ReturnType<typeof updateNewPostMessageAC>
-    | ReturnType<typeof setUserProfile>
 
 const profileReducer = (state: InitialStateType = initialState, action: ActionType): InitialStateType => {
     switch (action.type) {
@@ -47,9 +29,44 @@ const profileReducer = (state: InitialStateType = initialState, action: ActionTy
             return state
     }
 }
-
-export const addPostAC = (text: string) => ({type: ADD_POST, newPostText: text} as const)
-export const updateNewPostMessageAC = (text: string) => ({type: UPDATE_NEW_POST_TEXT, postMessage: text} as const)
-export const setUserProfile = (profile: ProfileUserType) => ({type: SET_USER_PROFILE, profile} as const)
-
 export default profileReducer
+
+//--------------------------------ACTION CREATORS TYPE--------------------------------
+const ADD_POST = 'ADD-POST'
+const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT'
+const SET_USER_PROFILE = 'SET_USER_PROFILE'
+
+//--------------------------------ACTION CREATORS--------------------------------
+export const addPostAC = (text: string) =>
+    ({type: ADD_POST, newPostText: text} as const)
+export const updateNewPostMessageAC = (text: string) =>
+    ({type: UPDATE_NEW_POST_TEXT, postMessage: text} as const)
+export const setUserProfile = (profile: ProfileUserType) =>
+    ({type: SET_USER_PROFILE, profile} as const)
+
+//--------------------------------THUNK CREATORS--------------------------------
+export const getProfileTC = (userID: string) => {
+    return (dispatch: Dispatch) => {
+        usersAPI.getProfile(userID)
+            .then(data => {
+                dispatch(setUserProfile(data))
+            })
+    }
+}
+
+
+//--------------------------------TYPES--------------------------------
+export type PostsType = {
+    id: string
+    message: string
+    likeCounts: string
+}
+export type InitialStateType = {
+    posts: PostsType[]
+    newPostText: string
+    profile: null | ProfileUserType
+}
+type ActionType =
+    ReturnType<typeof addPostAC>
+    | ReturnType<typeof updateNewPostMessageAC>
+    | ReturnType<typeof setUserProfile>

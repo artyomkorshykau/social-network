@@ -5,10 +5,6 @@ import {Preloader} from "../../../../common/Preloader/Preloader";
 import {ProfileUserType} from "../../ProfileContainer";
 
 
-type ProfileInfoPropsType = {
-    profile: ProfileUserType|null
-}
-
 const ProfileInfo = (props: ProfileInfoPropsType) => {
 
     if (!props.profile) {
@@ -20,7 +16,7 @@ const ProfileInfo = (props: ProfileInfoPropsType) => {
                 <img src={headerImg} alt="img"/>
             </div>
             <div className={s.diskBlock}>
-                <img src='' alt=""/>
+                <img src={props.profile.photos.large} alt=""/>
                 AVA + DISC
             </div>
         </div>
@@ -28,3 +24,8 @@ const ProfileInfo = (props: ProfileInfoPropsType) => {
 };
 
 export default ProfileInfo;
+
+//--------------------------------TYPES--------------------------------
+type ProfileInfoPropsType = {
+    profile: ProfileUserType | null
+}
