@@ -5,7 +5,7 @@ import {ProfileUserType} from "../components/Profile/ProfileContainer";
 const settings = {
     withCredentials: true,
     headers: {
-        'API-KEY': 'd97e2ed5-672f-4df7-ab8f-20c419d5b616'
+        'API-KEY': '88c70fdf-4e66-4d91-860b-59030fc7971d'
     }
 }
 const instance = axios.create({baseURL: 'https://social-network.samuraijs.com/api/1.0/', ...settings})

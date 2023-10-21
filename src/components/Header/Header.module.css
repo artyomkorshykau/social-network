@@ -3,6 +3,7 @@
     background-color: #2E4A62;
     display: flex;
     align-items: center;
+    justify-content: space-between;
 }
 
 .header img {
@@ -16,6 +17,7 @@
 
 .loginBlock {
     float: right;
+    margin-right: 20px;
 }
 
 .loginBlock a {

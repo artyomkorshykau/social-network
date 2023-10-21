@@ -19,7 +19,7 @@ const profileReducer = (state: InitialStateType = initialState, action: ActionTy
                 message: action.newPostText,
                 likeCounts: '0'
             }
-            return {...state, posts: [...state.posts, newPost], newPostText: ''}
+            return {...state, posts: [newPost, ...state.posts], newPostText: ''}
         case UPDATE_NEW_POST_TEXT :
             return {...state, newPostText: action.postMessage}
         case SET_USER_PROFILE: {
@@ -51,6 +51,7 @@ export const getProfileTC = (userID: string) => {
             .then(data => {
                 dispatch(setUserProfile(data))
             })
+
     }
 }
 
