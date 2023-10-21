@@ -13,7 +13,7 @@ const ProfileInfo = (props: ProfileInfoPropsType) => {
     }
     return (
         <div>
-            <div>
+            <div className={s.profileInfo}>
                 <img src={headerImg} alt="img"/>
             </div>
             <div className={s.diskBlock}>

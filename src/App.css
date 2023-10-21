@@ -10,9 +10,11 @@
     grid-template-columns: 2fr 10fr;
     grid-gap: 10px;
     font-family: 'Comfortaa', cursive;
+    background-color: white;
 }
 
 .app-wrapper-content {
     grid-area: c;
-    background-color: #2E4A62;
+    background-color: #4b81bf;
+    border-radius: 20px;
 }

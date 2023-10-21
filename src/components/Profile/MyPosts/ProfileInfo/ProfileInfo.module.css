@@ -2,7 +2,17 @@
     padding: 10px;
 }
 
+.diskBlock img {
+    border-radius: 5px;
+}
+
 .ava {
     width: 200px;
     height: 200px;
+}
+
+.profileInfo img {
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+
 }
