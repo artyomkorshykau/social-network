@@ -16,9 +16,10 @@ import {UserType} from "../../api/social-network-api";
 import UserFC from "./UserFC";
 import {Preloader} from "../../common/Preloader/Preloader"
 import {withAuthRedirect} from "../../HOC/withAuthRedirect";
+import {compose} from "redux";
 
 
-class UsersAPIComponent extends React.Component<UsersPropsType> {
+class UsersContainer extends React.Component<UsersPropsType> {
     componentDidMount() {
         this.props.getUsersTC(this.props.currentPage, this.props.pageSize, this.props.users)
     }
@@ -59,8 +60,8 @@ const mapStateToProps = (state: AppStateType): MapStateToProps => {
     }
 }
 
-
-export default withAuthRedirect(connect(mapStateToProps, {
+export default compose<React.ComponentType>(
+    connect(mapStateToProps, {
         follow,
         unfollow,
         setUser,
@@ -72,8 +73,9 @@ export default withAuthRedirect(connect(mapStateToProps, {
         pageChangedTC,
         followTC,
         unFollowTC
-    }
-)(UsersAPIComponent))
+    }),
+    withAuthRedirect
+)(UsersContainer)
 
 //--------------------------------TYPES--------------------------------
 type MapStateToProps = {
