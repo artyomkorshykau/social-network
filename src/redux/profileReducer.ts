@@ -1,6 +1,6 @@
 import {ProfileUserType} from "../components/Profile/ProfileContainer";
 import {Dispatch} from "redux";
-import {usersAPI} from "../api/api";
+import {profileAPI, usersAPI} from "../api/api";
 
 let initialState: InitialStateType = {
     posts: [
@@ -8,7 +8,8 @@ let initialState: InitialStateType = {
         {id: '2', message: 'By', likeCounts: '5'}
     ],
     newPostText: 'Hello',
-    profile: null
+    profile: null,
+    status: ''
 }
 
 const profileReducer = (state: InitialStateType = initialState, action: ActionType): InitialStateType => {
@@ -25,6 +26,8 @@ const profileReducer = (state: InitialStateType = initialState, action: ActionTy
         case SET_USER_PROFILE: {
             return {...state, profile: action.profile}
         }
+        case SET_STATUS:
+            return {...state, status: action.status}
         default:
             return state
     }
@@ -35,6 +38,7 @@ export default profileReducer
 const ADD_POST = 'ADD-POST'
 const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT'
 const SET_USER_PROFILE = 'SET_USER_PROFILE'
+const SET_STATUS = 'SET-STATUS'
 
 //--------------------------------ACTION CREATORS--------------------------------
 export const addPostAC = (text: string) =>
@@ -43,15 +47,35 @@ export const updateNewPostMessageAC = (text: string) =>
     ({type: UPDATE_NEW_POST_TEXT, postMessage: text} as const)
 export const setUserProfile = (profile: ProfileUserType) =>
     ({type: SET_USER_PROFILE, profile} as const)
+export const setStatusAC = (status: string) =>
+    ({type: SET_STATUS, status} as const)
 
 //--------------------------------THUNK CREATORS--------------------------------
 export const getProfileTC = (userID: string) => {
     return (dispatch: Dispatch) => {
-        usersAPI.getProfile(userID)
+        profileAPI.getProfile(userID)
             .then(data => {
                 dispatch(setUserProfile(data))
             })
 
+    }
+}
+
+export const getUserStatusTC = (userId: string) => {
+    return (dispatch: Dispatch) => {
+        profileAPI.getStatus(userId)
+            .then(res => {
+                dispatch((setStatusAC(res.data)))
+            })
+    }
+}
+
+export const updateStatusTC = (status: string) => {
+    return (dispatch: Dispatch) => {
+        profileAPI.updateStatus(status)
+            .then(res => {
+                dispatch(setStatusAC(status))
+            })
     }
 }
 
@@ -66,8 +90,10 @@ export type InitialStateType = {
     posts: PostsType[]
     newPostText: string
     profile: null | ProfileUserType
+    status: string
 }
 type ActionType =
     ReturnType<typeof addPostAC>
     | ReturnType<typeof updateNewPostMessageAC>
     | ReturnType<typeof setUserProfile>
+    | ReturnType<typeof setStatusAC>

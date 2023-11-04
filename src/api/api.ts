@@ -22,14 +22,32 @@ export const usersAPI = {
     unfollow(id: number) {
         return instance.delete(`follow/${id}`)
             .then(res => res.data)
-    },
+    }
+
+};
+
+export const authAPI = {
     authMe() {
         return instance.get<AuthMeType>(`auth/me`)
             .then(res => res.data)
-    },
+    }
+}
+
+export const profileAPI = {
     getProfile(userID: string) {
         return instance.get<ProfileUserType>(`profile/` + userID)
             .then(res => res.data)
+    },
+    getStatus(userId: string) {
+        return instance.get(`profile/status/${userId}`)
+    },
+    updateStatus(status: string) {
+        return instance.put<ResponseType<{}>>(`profile/status`, {status})
     }
-};
+}
 
+type ResponseType<T> = {
+    resultCode: number
+    messages: []
+    data: T
+}

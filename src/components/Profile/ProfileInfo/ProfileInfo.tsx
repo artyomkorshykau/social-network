@@ -19,7 +19,7 @@ const ProfileInfo = (props: ProfileInfoPropsType) => {
             {/*</div>*/}
             <div className={s.diskBlock}>
                 <img src={props.profile.photos.small || ava} alt="" className={s.ava}/>
-                <ProfileStatus status={'Zdarova otec'}/>
+                <ProfileStatus status={props.status} updateStatus={props.updateStatus}/>
                 <div>- {props.profile.aboutMe}</div>
                 <div>- {props.profile.lookingForAJob}</div>
                 <div>- {props.profile.fullName}</div>
@@ -33,4 +33,6 @@ export default ProfileInfo;
 //--------------------------------TYPES--------------------------------
 type ProfileInfoPropsType = {
     profile: ProfileUserType | null
+    status: string
+    updateStatus: (status: string) => void
 }
