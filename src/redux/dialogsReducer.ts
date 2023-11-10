@@ -19,9 +19,7 @@ let initialState = {
     ]
 }
 
-type ActionType = | ReturnType<typeof sendMessageAC>
-
-const dialogsReducer = (state: ProfilePageType = initialState, action: ActionType): ProfilePageType => {
+const dialogsReducer = (state: ProfilePageType = initialState, action: DialogsActionType): ProfilePageType => {
     switch (action.type) {
         case SEND_MESSAGE :
             let body = action.newMessageBody
@@ -49,3 +47,5 @@ export type MessageType = {
     id: string
     title: string
 }
+
+export type DialogsActionType = | ReturnType<typeof sendMessageAC>

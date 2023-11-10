@@ -11,7 +11,7 @@ let initialState: InitialStateType = {
     status: ''
 }
 
-const profileReducer = (state: InitialStateType = initialState, action: ActionType): InitialStateType => {
+const profileReducer = (state: InitialStateType = initialState, action: ProfileActionType): InitialStateType => {
     switch (action.type) {
         case ADD_POST :
             let newPost = {
@@ -86,7 +86,7 @@ export type InitialStateType = {
     profile: null | ProfileUserType
     status: string
 }
-type ActionType =
-    ReturnType<typeof addPostAC>
+export type ProfileActionType =
+    | ReturnType<typeof addPostAC>
     | ReturnType<typeof setUserProfile>
     | ReturnType<typeof setStatusAC>

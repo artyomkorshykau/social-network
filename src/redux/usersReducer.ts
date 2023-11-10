@@ -11,7 +11,7 @@ let initialState: InitialStateType = {
     isFollowing: []
 }
 
-const usersReducer = (state: InitialStateType = initialState, action: ActionType): InitialStateType => {
+const usersReducer = (state: InitialStateType = initialState, action: UsersActionType): InitialStateType => {
     switch (action.type) {
         case FOLLOW :
             return {
@@ -122,7 +122,7 @@ const IS_FETCHING = 'IS_FETCHING'
 const IS_FOLLOWING = 'IS_FOLLOWING'
 
 //------------------------------TYPES------------------------------
-export type ActionType =
+export type UsersActionType =
     | ReturnType<typeof follow>
     | ReturnType<typeof unfollow>
     | ReturnType<typeof setUser>

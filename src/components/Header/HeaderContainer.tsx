@@ -1,6 +1,6 @@
 import Header from "./Header";
 import {connect} from "react-redux";
-import {authMeTC} from "../../redux/auth-reducer";
+import {authMeTC, LogoutTC} from "../../redux/auth-reducer";
 import {AppStateType} from "../../redux/redux-store";
 import React from "react";
 import {compose} from "redux";
@@ -24,7 +24,7 @@ const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
 }
 
 export default compose<React.ComponentType>(
-    connect(mapStateToProps, {authMeTC})
+    connect(mapStateToProps, {authMeTC, LogoutTC})
 )(HeaderContainer)
 
 
@@ -48,4 +48,5 @@ export type HeaderContainerType = MapStateToPropsType & MapDispatchToProps
 
 type MapDispatchToProps = {
     authMeTC: () => void
+    LogoutTC: () => void
 }

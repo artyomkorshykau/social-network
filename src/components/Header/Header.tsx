@@ -6,6 +6,7 @@ import {HeaderContainerType} from "./HeaderContainer";
 
 
 const Header = (props: HeaderContainerType) => {
+
     return (<header className={s.header}>
         <div className={s.logo}>
             <img
@@ -13,7 +14,9 @@ const Header = (props: HeaderContainerType) => {
                 alt="logo"/></div>
 
         <div className={s.loginBlock}>
-            {props.isAuth ? props.login : <NavLink to={'/login'}>Login</NavLink>}
+            {props.isAuth
+                ? <div>{props.login} - <button onClick={props.LogoutTC}>Log out</button></div>
+                : <NavLink to={'/login'}>Login</NavLink>}
         </div>
     </header>)
 }
