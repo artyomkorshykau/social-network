@@ -16,19 +16,16 @@ let initialState = {
         {id: '5', title: 'money'},
         {id: '6', title: 'fucking'},
         {id: '7', title: 'dog?'}
-    ],
-    newMessageBody: ''
+    ]
 }
 
-type ActionType = ReturnType<typeof updateNewMessageBodyAC> | ReturnType<typeof sendMessageAC>
+type ActionType = | ReturnType<typeof sendMessageAC>
 
 const dialogsReducer = (state: ProfilePageType = initialState, action: ActionType): ProfilePageType => {
     switch (action.type) {
-        case UPDATE_NEW_MESSAGE_BODY :
-            return {...state, newMessageBody: action.body}
         case SEND_MESSAGE :
-            let body = state.newMessageBody
-            return {...state, messages: [...state.messages, {id: '1', title: body}], newMessageBody: ''}
+            let body = action.newMessageBody
+            return {...state, messages: [...state.messages, {id: '1', title: body}]}
         default:
             return state
     }
@@ -36,14 +33,11 @@ const dialogsReducer = (state: ProfilePageType = initialState, action: ActionTyp
 export default dialogsReducer
 
 //-------------------------------ACTION CREATORS TYPES-------------------------------
-const UPDATE_NEW_MESSAGE_BODY = 'UPDATE-NEW-MESSAGE-BODY'
 const SEND_MESSAGE = 'SEND-MESSAGE'
 
 //-------------------------------ACTION CREATORS-------------------------------
-export const updateNewMessageBodyAC = (body: string) =>
-    ({type: UPDATE_NEW_MESSAGE_BODY, body: body} as const)
-export const sendMessageAC = () =>
-    ({type: SEND_MESSAGE} as const)
+export const sendMessageAC = (newMessageBody: string) =>
+    ({type: SEND_MESSAGE, newMessageBody} as const)
 
 //-------------------------------TYPES-------------------------------
 export type ProfilePageType = typeof initialState

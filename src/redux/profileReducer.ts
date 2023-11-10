@@ -7,7 +7,6 @@ let initialState: InitialStateType = {
         {id: '1', message: 'Hi', likeCounts: '10'},
         {id: '2', message: 'By', likeCounts: '5'}
     ],
-    newPostText: 'Hello',
     profile: null,
     status: ''
 }
@@ -20,9 +19,7 @@ const profileReducer = (state: InitialStateType = initialState, action: ActionTy
                 message: action.newPostText,
                 likeCounts: '0'
             }
-            return {...state, posts: [newPost, ...state.posts], newPostText: ''}
-        case UPDATE_NEW_POST_TEXT :
-            return {...state, newPostText: action.postMessage}
+            return {...state, posts: [newPost, ...state.posts]}
         case SET_USER_PROFILE: {
             return {...state, profile: action.profile}
         }
@@ -43,8 +40,6 @@ const SET_STATUS = 'SET-STATUS'
 //--------------------------------ACTION CREATORS--------------------------------
 export const addPostAC = (text: string) =>
     ({type: ADD_POST, newPostText: text} as const)
-export const updateNewPostMessageAC = (text: string) =>
-    ({type: UPDATE_NEW_POST_TEXT, postMessage: text} as const)
 export const setUserProfile = (profile: ProfileUserType) =>
     ({type: SET_USER_PROFILE, profile} as const)
 export const setStatusAC = (status: string) =>
@@ -88,12 +83,10 @@ export type PostsType = {
 }
 export type InitialStateType = {
     posts: PostsType[]
-    newPostText: string
     profile: null | ProfileUserType
     status: string
 }
 type ActionType =
     ReturnType<typeof addPostAC>
-    | ReturnType<typeof updateNewPostMessageAC>
     | ReturnType<typeof setUserProfile>
     | ReturnType<typeof setStatusAC>
