@@ -1,15 +1,11 @@
 import Header from "./Header";
 import {connect} from "react-redux";
 import {authMeTC, LogoutTC} from "../../redux/auth-reducer";
-import {AppStateType} from "../../redux/redux-store";
+import {AppStateType} from "../../redux/store";
 import React from "react";
 import {compose} from "redux";
 
 class HeaderContainer extends React.Component<HeaderContainerType> {
-
-    componentDidMount() {
-        this.props.authMeTC()
-    }
 
     render() {
         return <Header {...this.props}/>
@@ -24,7 +20,7 @@ const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
 }
 
 export default compose<React.ComponentType>(
-    connect(mapStateToProps, {authMeTC, LogoutTC})
+    connect(mapStateToProps, {LogoutTC})
 )(HeaderContainer)
 
 
@@ -40,13 +36,12 @@ export type AuthMeType = {
     "resultCode": number
 }
 export type DataAuthMe = {
-    id: number | null,
-    login: string | null,
-    email: string | null
+    id: number,
+    login: string,
+    email: string
 }
 export type HeaderContainerType = MapStateToPropsType & MapDispatchToProps
 
 type MapDispatchToProps = {
-    authMeTC: () => void
     LogoutTC: () => void
 }

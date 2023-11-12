@@ -1,6 +1,7 @@
 import {UserType} from "../api/social-network-api";
 import {Dispatch} from "redux";
 import {usersAPI} from "../api/api";
+import {AppThunk} from "./store";
 
 let initialState: InitialStateType = {
     users: [],
@@ -62,55 +63,65 @@ export const toggleIsFollowing = (fetching: boolean, id: number) =>
     ({type: IS_FOLLOWING, fetching, id}) as const
 
 //------------------------------THUNK CREATORS------------------------------
-export const getUsersTC = (currentPage: number, pageSize: number, users: UserType[]) => {
-    return (dispatch: Dispatch) => {
+export const getUsersTC = (currentPage: number, pageSize: number, users: UserType[]): AppThunk => {
+    return async (dispatch) => {
         if (users.length === 0) {
-            dispatch(toggleIsFetching(true))
-            usersAPI.getUsers(currentPage, pageSize)
-                .then(data => {
-                    dispatch(setUser(data.items))
-                    dispatch(toggleIsFetching(false))
-                    dispatch(setTotalUserCount(data.totalCount))
-                })
-
+            dispatch(toggleIsFetching(true));
+            try {
+                const data = await usersAPI.getUsers(currentPage, pageSize);
+                dispatch(setUser(data.items));
+                dispatch(toggleIsFetching(false));
+                dispatch(setTotalUserCount(data.totalCount));
+            } catch (error) {
+                // Handle error
+            }
         }
-    }
-}
-export const pageChangedTC = (pageNumber: number, pageSize: number) => {
-    return (dispatch: Dispatch) => {
-        dispatch(setPage(pageNumber))
-        dispatch(toggleIsFetching(true))
-        usersAPI.getUsers(pageNumber, pageSize)
-            .then(data => {
-                dispatch(setUser(data.items))
-                dispatch(toggleIsFetching(false))
-            })
-    }
-}
-export const followTC = (id: number) => {
-    return (dispatch: Dispatch) => {
-        dispatch(toggleIsFollowing(true, id))
-        usersAPI.follow(id)
-            .then(data => {
-                if (data.resultCode === 0) {
-                    dispatch(follow(id))
-                }
-                dispatch(toggleIsFollowing(false, id))
-            })
-    }
-}
-export const unFollowTC = (id: number) => {
-    return (dispatch: Dispatch) => {
-        dispatch(toggleIsFollowing(true, id))
-        usersAPI.unfollow(id)
-            .then(data => {
-                if (data.resultCode === 0) {
-                    dispatch(unfollow(id))
-                }
-                dispatch(toggleIsFollowing(false, id))
-            })
-    }
-}
+    };
+};
+
+export const pageChangedTC = (pageNumber: number, pageSize: number): AppThunk => {
+    return async (dispatch) => {
+        dispatch(setPage(pageNumber));
+        dispatch(toggleIsFetching(true));
+        try {
+            const data = await usersAPI.getUsers(pageNumber, pageSize);
+            dispatch(setUser(data.items));
+            dispatch(toggleIsFetching(false));
+        } catch (error) {
+            // Handle error
+        }
+    };
+};
+
+export const followTC = (id: number): AppThunk => {
+    return async (dispatch) => {
+        dispatch(toggleIsFollowing(true, id));
+        try {
+            const data = await usersAPI.follow(id);
+            if (data.resultCode === 0) {
+                dispatch(follow(id));
+            }
+            dispatch(toggleIsFollowing(false, id));
+        } catch (error) {
+            // Handle error
+        }
+    };
+};
+
+export const unFollowTC = (id: number): AppThunk => {
+    return async (dispatch) => {
+        dispatch(toggleIsFollowing(true, id));
+        try {
+            const data = await usersAPI.unfollow(id);
+            if (data.resultCode === 0) {
+                dispatch(unfollow(id));
+            }
+            dispatch(toggleIsFollowing(false, id));
+        } catch (error) {
+            // Handle error
+        }
+    };
+};
 
 //------------------------------ACTION CREATORS TYPE------------------------------
 const FOLLOW = 'FOLLOW'

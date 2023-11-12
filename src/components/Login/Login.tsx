@@ -5,7 +5,7 @@ import {maxLengthCreator, required} from "../../utils/validator";
 import {connect} from "react-redux";
 import {LoginTC, LogoutTC} from "../../redux/auth-reducer";
 import {Redirect} from "react-router-dom";
-import {AppStateType} from "../../redux/redux-store";
+import {AppStateType} from "../../redux/store";
 import s from '../../common/FormControls/FormControl.module.css'
 
 

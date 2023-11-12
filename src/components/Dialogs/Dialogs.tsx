@@ -2,8 +2,8 @@ import React, {ChangeEvent} from "react";
 import s from './Dialogs.module.css'
 import {DialogItem} from "./DialogItem/DialogItem";
 import {Message} from "./Message/Message";
-import {store} from "../../redux/redux-store";
-import {DialogsType, MessageType} from "../../redux/dialogsReducer";
+import {store} from "../../redux/store";
+import {DialogsType, MessageType} from "../../redux/dialogs-reducer";
 import {DialogsPropsType} from "./Message/DialogsContainer";
 import {Field, reduxForm} from "redux-form";
 import {TextArea} from "../../common/FormControls/FormControls";

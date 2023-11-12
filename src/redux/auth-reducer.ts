@@ -1,6 +1,7 @@
 import {authAPI} from "../api/api";
-import {AppThunk} from "./redux-store";
+import {AppDispatchType, AppThunk} from "./store";
 import {stopSubmit} from "redux-form";
+import {Dispatch} from "redux";
 
 const initialState = {
     id: null,
@@ -29,39 +30,46 @@ export const setAuthUserData = (userId: number | null, login: string | null, ema
 
 //-------------------------------THUNK CREATORS-------------------------------
 export const authMeTC = (): AppThunk => {
-    return (dispatch) => {
-        authAPI.authMe()
-            .then(data => {
-                if (data.resultCode === 0) {
-                    let {id, login, email} = data.data
-                    dispatch(setAuthUserData(id, login, email, true))
-                }
-            })
-    }
-}
+    return async (dispatch) => {
+        try {
+            const res = await authAPI.authMe();
+            if (res.data.resultCode === 0) {
+                let {id, login, email} = res.data.data
+                dispatch(setAuthUserData(id, login, email, true));
+            }
+        } catch (error) {
+            // Обработка ошибки
+        }
+    };
+};
+
 export const LoginTC = (log: string, pass: string, remember: boolean): AppThunk => {
-    return (dispatch) => {
-        authAPI.login(log, pass, remember)
-            .then((res) => {
-                if (res.data.resultCode === 0) {
-                    dispatch(authMeTC())
-                } else {
-                    dispatch(stopSubmit('login', {_error: res.data.messages[0] || 'Some error'}))
-                }
-            })
-    }
-}
+    return async (dispatch) => {
+        try {
+            const res = await authAPI.login(log, pass, remember);
+            if (res.data.resultCode === 0) {
+                await dispatch(authMeTC());
+            } else {
+                dispatch(stopSubmit('login', {_error: res.data.messages[0] || 'Some error'}));
+            }
+        } catch (error) {
+            // Обработка ошибки
+        }
+    };
+};
 
 export const LogoutTC = (): AppThunk => {
-    return (dispatch) => {
-        authAPI.logout()
-            .then((res) => {
-                if (res.data.resultCode === 0) {
-                    dispatch(setAuthUserData(null, null, null, false))
-                }
-            })
-    }
-}
+    return async (dispatch) => {
+        try {
+            const res = await authAPI.logout();
+            if (res.data.resultCode === 0) {
+                dispatch(setAuthUserData(null, null, null, false));
+            }
+        } catch (error) {
+            // Обработка ошибки
+        }
+    };
+};
 
 //-------------------------------TYPES-------------------------------
 type InitialStateType = {

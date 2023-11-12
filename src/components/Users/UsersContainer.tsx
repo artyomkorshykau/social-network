@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from "react-redux";
-import {AppStateType} from "../../redux/redux-store";
+import {AppStateType} from "../../redux/store";
 import {
     follow, followTC,
     getUsersTC,
@@ -11,7 +11,7 @@ import {
     toggleIsFetching,
     toggleIsFollowing,
     unfollow, unFollowTC
-} from "../../redux/usersReducer";
+} from "../../redux/users-reducer";
 import {UserType} from "../../api/social-network-api";
 import UserFC from "./UserFC";
 import {Preloader} from "../../common/Preloader/Preloader"

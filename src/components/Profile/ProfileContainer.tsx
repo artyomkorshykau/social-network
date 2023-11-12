@@ -1,8 +1,8 @@
 import React from 'react';
 import Profile from "./Profile";
 import {connect} from "react-redux";
-import {getProfileTC, getUserStatusTC, updateStatusTC} from "../../redux/profileReducer";
-import {AppStateType} from "../../redux/redux-store";
+import {getProfileTC, getUserStatusTC, updateStatusTC} from "../../redux/profile-reducer";
+import {AppStateType} from "../../redux/store";
 import {RouteComponentProps, withRouter} from "react-router-dom";
 import {compose} from "redux";
 
@@ -11,8 +11,12 @@ class ProfileContainer extends React.Component<ProfileContainerPropsType> {
 
     componentDidMount() {
         let userID = this.props.match.params.userId
+        
         if (!userID) {
-            userID = this.props.loggedUser as string
+            userID = !userID ? "29875" : String(this.props.loggedUser)
+            if (!userID) {
+                this.props.history.push('/login')
+            }
         }
 
         this.props.getProfileTC(userID)

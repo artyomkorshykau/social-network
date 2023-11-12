@@ -1,6 +1,7 @@
 import {ProfileUserType} from "../components/Profile/ProfileContainer";
 import {Dispatch} from "redux";
 import {profileAPI, usersAPI} from "../api/api";
+import {AppThunk} from "./store";
 
 let initialState: InitialStateType = {
     posts: [
@@ -46,34 +47,38 @@ export const setStatusAC = (status: string) =>
     ({type: SET_STATUS, status} as const)
 
 //--------------------------------THUNK CREATORS--------------------------------
-export const getProfileTC = (userID: string) => {
-    return (dispatch: Dispatch) => {
-        profileAPI.getProfile(userID)
-            .then(data => {
-                dispatch(setUserProfile(data))
-            })
+export const getProfileTC = (userID: string): AppThunk => {
+    return async (dispatch) => {
+        try {
+            const data = await profileAPI.getProfile(userID);
+            dispatch(setUserProfile(data));
+        } catch (error) {
+            // Handle error
+        }
+    };
+};
 
-    }
-}
+export const getUserStatusTC = (userId: string): AppThunk => {
+    return async (dispatch) => {
+        try {
+            const res = await profileAPI.getStatus(userId);
+            dispatch(setStatusAC(res.data));
+        } catch (error) {
+            // Handle error
+        }
+    };
+};
 
-export const getUserStatusTC = (userId: string) => {
-    return (dispatch: Dispatch) => {
-        profileAPI.getStatus(userId)
-            .then(res => {
-                dispatch((setStatusAC(res.data)))
-            })
-    }
-}
-
-export const updateStatusTC = (status: string) => {
-    return (dispatch: Dispatch) => {
-        profileAPI.updateStatus(status)
-            .then(res => {
-                dispatch(setStatusAC(status))
-            })
-    }
-}
-
+export const updateStatusTC = (status: string): AppThunk => {
+    return async (dispatch) => {
+        try {
+            await profileAPI.updateStatus(status);
+            dispatch(setStatusAC(status));
+        } catch (error) {
+            // Handle error
+        }
+    };
+};
 
 //--------------------------------TYPES--------------------------------
 export type PostsType = {
