@@ -6,6 +6,7 @@ import {connect} from "react-redux";
 import {LoginTC, LogoutTC} from "../../redux/auth-reducer";
 import {Redirect} from "react-router-dom";
 import {AppStateType} from "../../redux/redux-store";
+import s from '../../common/FormControls/FormControl.module.css'
 
 
 const LoginForm = (props: any) => {
@@ -29,6 +30,7 @@ const LoginForm = (props: any) => {
                        component={Input}
                 /> Remember me
             </div>
+            {props.error && <span className={s.formSummaryError}>{props.error}</span>}
             <div>
                 <button>Sign up</button>
             </div>

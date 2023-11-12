@@ -4,7 +4,7 @@ import profileReducer, {ProfileActionType} from "./profileReducer";
 import authReducer, {AuthActionType} from "./auth-reducer";
 import usersReducer, {UsersActionType} from "./usersReducer";
 import thunk, {ThunkAction, ThunkDispatch} from "redux-thunk";
-import {reducer as formReducer} from 'redux-form'
+import {reducer as formReducer, stopSubmit} from 'redux-form'
 
 
 let rootReducer = combineReducers({
@@ -25,6 +25,7 @@ export type AppActionType =
     | DialogsActionType
     | ProfileActionType
     | UsersActionType
+    | ReturnType<typeof stopSubmit>
 
 // @ts-ignore
 window.store = store

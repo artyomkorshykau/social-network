@@ -1,6 +1,6 @@
-import {authAPI, usersAPI} from "../api/api";
+import {authAPI} from "../api/api";
 import {AppThunk} from "./redux-store";
-import {Dispatch} from "redux";
+import {stopSubmit} from "redux-form";
 
 const initialState = {
     id: null,
@@ -45,6 +45,8 @@ export const LoginTC = (log: string, pass: string, remember: boolean): AppThunk 
             .then((res) => {
                 if (res.data.resultCode === 0) {
                     dispatch(authMeTC())
+                } else {
+                    dispatch(stopSubmit('login', {_error: res.data.messages[0] || 'Some error'}))
                 }
             })
     }
