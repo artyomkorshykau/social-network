@@ -12,11 +12,19 @@ import {
     toggleIsFollowing,
     unfollow, unFollowTC
 } from "../../redux/users-reducer";
-import {UserType} from "../../api/social-network-api";
 import UserFC from "./UserFC";
 import {Preloader} from "../../common/Preloader/Preloader"
 import {withAuthRedirect} from "../../HOC/withAuthRedirect";
 import {compose} from "redux";
+import {
+    getCurrentPage,
+    getIsFetching,
+    getIsFollowing,
+    getPageSize,
+    getTotalUserCount,
+    getUsers
+} from "../../utils/selectors/selectors";
+import {UserType} from "../../api/api";
 
 
 class UsersContainer extends React.Component<UsersPropsType> {
@@ -48,15 +56,14 @@ class UsersContainer extends React.Component<UsersPropsType> {
     }
 }
 
-
 const mapStateToProps = (state: AppStateType): MapStateToProps => {
     return {
-        users: state.usersPage.users,
-        pageSize: state.usersPage.pageSize,
-        totalUserCount: state.usersPage.totalUserCount,
-        currentPage: state.usersPage.currentPage,
-        isFetching: state.usersPage.isFetching,
-        isFollowing: state.usersPage.isFollowing
+        users: getUsers(state),
+        pageSize: getPageSize(state),
+        totalUserCount: getTotalUserCount(state),
+        currentPage: getCurrentPage(state),
+        isFetching: getIsFetching(state),
+        isFollowing: getIsFollowing(state)
     }
 }
 

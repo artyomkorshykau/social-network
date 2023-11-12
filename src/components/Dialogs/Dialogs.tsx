@@ -7,7 +7,7 @@ import {DialogsType, MessageType} from "../../redux/dialogs-reducer";
 import {DialogsPropsType} from "./Message/DialogsContainer";
 import {Field, reduxForm} from "redux-form";
 import {TextArea} from "../../common/FormControls/FormControls";
-import {maxLengthCreator, required} from "../../utils/validator";
+import {maxLengthCreator, required} from "../../utils/validators/validator";
 
 
 const Dialogs: React.FC<DialogsPropsType> = (props) => {

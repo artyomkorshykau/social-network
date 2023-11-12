@@ -1,6 +1,4 @@
-import {UserType} from "../api/social-network-api";
-import {Dispatch} from "redux";
-import {usersAPI} from "../api/api";
+import {usersAPI, UserType} from "../api/api";
 import {AppThunk} from "./store";
 
 let initialState: InitialStateType = {

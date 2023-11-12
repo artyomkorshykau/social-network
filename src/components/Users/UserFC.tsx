@@ -1,8 +1,8 @@
 import React from 'react';
 import s from "./users.module.css";
 import ava from "../../img/ava.jpg";
-import {UserType} from "../../api/social-network-api";
 import {NavLink} from "react-router-dom";
+import {UserType} from "../../api/api";
 
 
 const UserFC = (props: UserPropsType) => {

@@ -3,7 +3,7 @@ import s from './MyPost.module.css'
 import Post from "./Post/Post"
 import {MyPostsPropsType} from "./MyPostContainer";
 import {Field, reduxForm} from "redux-form";
-import {maxLengthCreator, required} from "../../../utils/validator";
+import {maxLengthCreator, required} from "../../../utils/validators/validator";
 import {TextArea} from "../../../common/FormControls/FormControls";
 
 const MyPost: React.FC<MyPostsPropsType> = (props) => {
