@@ -14,6 +14,7 @@ import Settings from "../components/Settings/Settings";
 import React from "react";
 import {connect} from "react-redux";
 import DialogsContainer from "../components/Dialogs/DialogsContainer";
+import './App.css';
 
 class App extends React.Component<AppType> {
 
