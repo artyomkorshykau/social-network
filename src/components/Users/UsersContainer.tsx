@@ -1,17 +1,6 @@
 import React from 'react'
 import {connect} from "react-redux";
 import {AppStateType} from "../../redux/store";
-import {
-    follow, followTC,
-    getUsersTC,
-    pageChangedTC,
-    setPage,
-    setTotalUserCount,
-    setUser,
-    toggleIsFetching,
-    toggleIsFollowing,
-    unfollow, unFollowTC
-} from "../../redux/users-reducer";
 import User from "./User";
 import {Preloader} from "../../common/Preloader/Preloader"
 import {withAuthRedirect} from "../../HOC/withAuthRedirect";
@@ -24,7 +13,16 @@ import {
     getTotalUserCount,
     getUsers
 } from "../../utils/selectors/selectors";
-import {UserType} from "../../api/api";
+import {UserType} from "../../api/social-network-api";
+import {
+    follow, setPage,
+    setTotalUserCount,
+    setUser,
+    toggleIsFetching,
+    toggleIsFollowing,
+    unfollow
+} from "../../redux/actions/actions";
+import {followTC, getUsersTC, pageChangedTC, unFollowTC} from "../../redux/thunks/thunks";
 
 
 class UsersContainer extends React.Component<UsersPropsType> {

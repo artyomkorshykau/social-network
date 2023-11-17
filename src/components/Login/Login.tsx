@@ -1,12 +1,12 @@
 import React from 'react'
 import {Field, reduxForm} from "redux-form";
 import {Input} from "../../common/FormControls/FormControls";
-import {maxLengthCreator, required} from "../../utils/validators/validator";
+import {required} from "../../utils/validators/validator";
 import {connect} from "react-redux";
-import {LoginTC, LogoutTC} from "../../redux/auth-reducer";
 import {Redirect} from "react-router-dom";
 import {AppStateType} from "../../redux/store";
 import s from '../../common/FormControls/FormControl.module.css'
+import {LoginTC, LogoutTC} from "../../redux/thunks/thunks";
 
 
 const LoginForm = (props: any) => {

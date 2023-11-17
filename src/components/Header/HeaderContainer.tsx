@@ -1,9 +1,9 @@
 import Header from "./Header";
 import {connect} from "react-redux";
-import {authMeTC, LogoutTC} from "../../redux/auth-reducer";
 import {AppStateType} from "../../redux/store";
 import React from "react";
 import {compose} from "redux";
+import {LogoutTC} from "../../redux/thunks/thunks";
 
 class HeaderContainer extends React.Component<HeaderContainerType> {
 

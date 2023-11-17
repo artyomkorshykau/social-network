@@ -51,6 +51,7 @@ export const profileAPI = {
     }
 }
 
+//---------------------------------TYPES---------------------------------
 type ResponseType<T> = {
     resultCode: number
     messages: []

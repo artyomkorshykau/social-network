@@ -1,6 +1,4 @@
-import {AppDispatchType, AppThunk} from "./store";
-import {authMeTC} from "./auth-reducer";
-import {Dispatch} from "redux";
+import {initializedSucceed} from "./actions/actions";
 
 const initialState = {
     initialized: false
@@ -15,22 +13,10 @@ const appReducer = (state: InitialStateType = initialState, action: InitializedA
     }
 }
 
-//-------------------------------ACTION CREATORS-------------------------------
-export const initializedSucceed = () => ({type: 'SET_INITIALIZED'})
-
-//-------------------------------THUNK CREATORS-------------------------------
-export const initializedTC = (): AppThunk => {
-    return async (dispatch) => {
-        const res = dispatch(authMeTC())
-        Promise.all([res])
-            .then(() => {
-                dispatch(initializedSucceed())
-            })
-    };
-};
 
 export default appReducer
 
+//---------------------------------TYPES---------------------------------
 
 type InitialStateType = typeof initialState
 export type InitializedActionType = ReturnType<typeof initializedSucceed>

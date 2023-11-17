@@ -1,10 +1,12 @@
 import React from "react"
-import {ProfilePageType, sendMessageAC} from "../../../redux/dialogs-reducer";
-import {connect} from "react-redux";
-import {AppStateType} from "../../../redux/store";
+import {AppStateType} from "../../redux/store";
+import {sendMessageAC} from "../../redux/actions/actions";
 import {compose, Dispatch} from "redux";
-import {withAuthRedirect} from "../../../HOC/withAuthRedirect";
-import Dialogs from "../Dialogs";
+import Dialogs from "./Dialogs";
+import {ProfilePageType} from "../../redux/dialogs-reducer";
+import {withAuthRedirect} from "../../HOC/withAuthRedirect";
+import {connect} from "react-redux";
+
 
 const mapStateToProps = (state: AppStateType): MapStateDialogsToProps => {
     return {
@@ -25,8 +27,6 @@ export default compose<React.ComponentType>(
     withAuthRedirect
 )(Dialogs)
 
-
-// export const DialogsContainer = withAuthRedirect(connect(mapStateToProps, mapDispatchToProps)(Dialogs))
 
 //--------------------------------TYPES--------------------------------
 type MapStateDialogsToProps = {

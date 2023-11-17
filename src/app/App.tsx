@@ -1,21 +1,19 @@
-import React from 'react';
-import './App.css';
-import Navbar from "./components/Navbar/Navbar";
-import Music from "./components/Music/Music";
-import Settings from "./components/Settings/Settings";
-import News from "./components/News/News";
+import HeaderContainer from "../components/Header/HeaderContainer";
+import Navbar from "../components/Navbar/Navbar";
+import {Preloader} from "../common/Preloader/Preloader";
+import {AppStateType} from "../redux/store";
+import UsersContainer from "../components/Users/UsersContainer";
 import {Route, withRouter} from "react-router-dom";
-import UsersContainer from "./components/Users/UsersContainer";
-import ProfileContainer from "./components/Profile/ProfileContainer";
-import HeaderContainer from "./components/Header/HeaderContainer";
-import Login from "./components/Login/Login";
-import DialogsContainer from "./components/Dialogs/Message/DialogsContainer";
-import {connect} from "react-redux";
+import Login from "../components/Login/Login";
 import {compose} from "redux";
-import {initializedTC} from "./redux/app-reducer";
-import {AppStateType} from "./redux/store";
-import {Preloader} from "./common/Preloader/Preloader";
-
+import ProfileContainer from "../components/Profile/ProfileContainer";
+import Music from "../components/Music/Music";
+import News from "../components/News/News";
+import {initializedTC} from "../redux/thunks/thunks";
+import Settings from "../components/Settings/Settings";
+import React from "react";
+import {connect} from "react-redux";
+import DialogsContainer from "../components/Dialogs/DialogsContainer";
 
 class App extends React.Component<AppType> {
 
@@ -53,6 +51,8 @@ export default compose<React.ComponentType>(
     withRouter,
     connect(mapStateToProps, {initializedTC})
 )(App)
+
+//---------------------------------TYPES---------------------------------
 
 type AppType = MapStateToPropsType & MapDispatchToPropsType
 

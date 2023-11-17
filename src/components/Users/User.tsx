@@ -2,7 +2,7 @@ import React from 'react';
 import s from "./Users.module.css";
 import ava from "../../img/ava.jpg";
 import {NavLink} from "react-router-dom";
-import {UserType} from "../../api/api";
+import {UserType} from "../../api/social-network-api";
 
 
 const User = (props: UserPropsType) => {
