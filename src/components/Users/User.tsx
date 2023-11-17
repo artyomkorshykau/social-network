@@ -1,11 +1,11 @@
 import React from 'react';
-import s from "./users.module.css";
+import s from "./Users.module.css";
 import ava from "../../img/ava.jpg";
 import {NavLink} from "react-router-dom";
 import {UserType} from "../../api/api";
 
 
-const UserFC = (props: UserPropsType) => {
+const User = (props: UserPropsType) => {
     let pagesCount = Math.ceil(props.totalUserCount / props.pageSize);
     let pages = [];
     for (let i = 1; i <= pagesCount; i += 1) {
@@ -63,7 +63,7 @@ const UserFC = (props: UserPropsType) => {
     );
 };
 
-export default UserFC;
+export default User;
 
 //--------------------------------TYPES--------------------------------
 type UserPropsType = {

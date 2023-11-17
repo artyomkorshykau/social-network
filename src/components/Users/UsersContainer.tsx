@@ -12,7 +12,7 @@ import {
     toggleIsFollowing,
     unfollow, unFollowTC
 } from "../../redux/users-reducer";
-import UserFC from "./UserFC";
+import User from "./User";
 import {Preloader} from "../../common/Preloader/Preloader"
 import {withAuthRedirect} from "../../HOC/withAuthRedirect";
 import {compose} from "redux";
@@ -39,18 +39,18 @@ class UsersContainer extends React.Component<UsersPropsType> {
     render() {
         return <>
             {this.props.isFetching ? <Preloader/> : null}
-            <UserFC onPageChanged={this.onPageChanged}
-                    totalUserCount={this.props.totalUserCount}
-                    pageSize={this.props.pageSize}
-                    currentPage={this.props.currentPage}
-                    users={this.props.users}
-                    follow={this.props.follow}
-                    unfollow={this.props.unfollow}
-                    isFetching={this.props.isFetching}
-                    toggleIsFollowing={this.props.toggleIsFollowing}
-                    isFollowing={this.props.isFollowing}
-                    followTC={this.props.followTC}
-                    unFollowTC={this.props.unFollowTC}
+            <User onPageChanged={this.onPageChanged}
+                  totalUserCount={this.props.totalUserCount}
+                  pageSize={this.props.pageSize}
+                  currentPage={this.props.currentPage}
+                  users={this.props.users}
+                  follow={this.props.follow}
+                  unfollow={this.props.unfollow}
+                  isFetching={this.props.isFetching}
+                  toggleIsFollowing={this.props.toggleIsFollowing}
+                  isFollowing={this.props.isFollowing}
+                  followTC={this.props.followTC}
+                  unFollowTC={this.props.unFollowTC}
             />
         </>
     }

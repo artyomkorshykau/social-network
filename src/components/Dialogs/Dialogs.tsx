@@ -14,9 +14,11 @@ const Dialogs: React.FC<DialogsPropsType> = (props) => {
 
     let dialogsPage = store.getState().dialogsPage
 
-    let dialogsItem = dialogsPage.dialogs.map((dialogs: DialogsType) => <DialogItem name={dialogs.name}
-                                                                                    id={dialogs.id}/>)
-    let messageItem = dialogsPage.messages.map((message: MessageType) => <Message message={message.title}/>)
+    let dialogsItem = dialogsPage.dialogs.map((dialogs: DialogsType, index) => <DialogItem key={index}
+                                                                                           name={dialogs.name}
+                                                                                           id={dialogs.id}/>)
+    let messageItem = dialogsPage.messages.map((message: MessageType, index) => <Message key={index}
+                                                                                         message={message.title}/>)
 
     const addNewMessage = (values: any) => {
         props.sendMessage(values.newMessageBody)
