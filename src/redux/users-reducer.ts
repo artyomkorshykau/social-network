@@ -8,6 +8,7 @@ import {
     toggleIsFollowing,
     unfollow
 } from "./actions/actions";
+import {ACTIONS_TYPE} from "./actions/actionTypes";
 
 let initialState: InitialStateType = {
     users: [],
@@ -20,25 +21,25 @@ let initialState: InitialStateType = {
 
 const usersReducer = (state: InitialStateType = initialState, action: UsersActionType): InitialStateType => {
     switch (action.type) {
-        case 'FOLLOW' :
+        case ACTIONS_TYPE.FOLLOW :
             return {
                 ...state,
                 users: state.users.map(el => el.id === action.id ? {...el, followed: true} : el)
             }
-        case 'UNFOLLOW' :
+        case ACTIONS_TYPE.UNFOLLOW :
             return {
                 ...state,
                 users: state.users.map(el => el.id === action.id ? {...el, followed: false} : el)
             }
-        case 'SET_USER' :
+        case ACTIONS_TYPE.SET_USER:
             return {...state, users: action.user}
-        case 'SET_CURRENT_PAGE' :
+        case ACTIONS_TYPE.SET_CURRENT_PAGE :
             return {...state, currentPage: action.currentPage}
-        case 'SET_TOTAL_USER_COUNT' :
+        case ACTIONS_TYPE.SET_TOTAL_USER_COUNT :
             return {...state, totalUserCount: action.totalCount}
-        case 'IS_FETCHING':
+        case ACTIONS_TYPE.IS_FETCHING:
             return {...state, isFetching: action.fetching}
-        case 'IS_FOLLOWING': {
+        case ACTIONS_TYPE.IS_FOLLOWING: {
             return <InitialStateType>{
                 ...state, isFollowing: action.fetching
                     ? [...state.isFollowing, action.id]

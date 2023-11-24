@@ -1,4 +1,5 @@
 import {sendMessageAC} from "./actions/actions";
+import {ACTIONS_TYPE} from "./actions/actionTypes";
 
 let initialState = {
     dialogs: [
@@ -23,7 +24,7 @@ let initialState = {
 
 const dialogsReducer = (state: ProfilePageType = initialState, action: DialogsActionType): ProfilePageType => {
     switch (action.type) {
-        case 'SEND-MESSAGE' :
+        case ACTIONS_TYPE.SEND_MESSAGE :
             let body = action.newMessageBody
             return {...state, messages: [...state.messages, {id: '1', title: body}]}
         default:

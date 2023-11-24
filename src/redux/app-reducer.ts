@@ -1,4 +1,5 @@
 import {initializedSucceed} from "./actions/actions";
+import {ACTIONS_TYPE} from "./actions/actionTypes";
 
 const initialState = {
     initialized: false
@@ -6,7 +7,7 @@ const initialState = {
 
 const appReducer = (state: InitialStateType = initialState, action: InitializedActionType): InitialStateType => {
     switch (action.type) {
-        case 'SET_INITIALIZED':
+        case ACTIONS_TYPE.SET_INITIALIZED:
             return {...state, initialized: true}
         default:
             return state

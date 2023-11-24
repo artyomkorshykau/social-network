@@ -1,4 +1,5 @@
 import {setAuthUserData} from "./actions/actions";
+import {ACTIONS_TYPE} from "./actions/actionTypes";
 
 const initialState = {
     id: null,
@@ -10,7 +11,7 @@ const initialState = {
 
 const authReducer = (state: InitialStateType = initialState, action: AuthActionType): InitialStateType => {
     switch (action.type) {
-        case 'SET_USER_DATA':
+        case ACTIONS_TYPE.SET_USER_DATA:
             return {...state, ...action.payload}
         default:
             return state

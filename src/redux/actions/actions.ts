@@ -17,6 +17,8 @@ export const sendMessageAC = (newMessageBody: string) =>
 //--------------------------------PROFILE-ACTION--------------------------------
 export const addPostAC = (text: string) =>
     ({type: ACTIONS_TYPE.ADD_POST, newPostText: text} as const)
+export const deletePostAC = (id: string) =>
+    ({type: ACTIONS_TYPE.DELETE_POST, id} as const)
 export const setUserProfile = (profile: ProfileUserType) =>
     ({type: ACTIONS_TYPE.SET_USER_PROFILE, profile} as const)
 export const setStatusAC = (status: string) =>
