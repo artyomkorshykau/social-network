@@ -1,7 +1,7 @@
 import profileReducer, {initialState} from "../redux/profile-reducer";
 import {addPostAC, deletePostAC} from "../redux/actions/actions";
 
-it('new post should be added ', () => {
+it('new post should be added', () => {
     let action = addPostAC('it-kamasutra.com')
     let newState = profileReducer(initialState, action)
 
