@@ -12,7 +12,7 @@ import {ACTIONS_TYPE} from "./actions/actionTypes";
 
 let initialState: InitialStateType = {
     users: [],
-    pageSize: 5,
+    pageSize: 10,
     totalUserCount: 1,
     currentPage: 1,
     isFetching: true,
