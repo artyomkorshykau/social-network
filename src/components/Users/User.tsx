@@ -1,4 +1,3 @@
-import {Pagination} from "./Pagination";
 import {NavLink} from "react-router-dom";
 import ava from "../../img/ava.jpg";
 import s from "./Users.module.css";
@@ -16,11 +15,12 @@ export const User = (props: UserPropsType) => {
 
     let {user} = props
 
-        return (<div>
+    return (<div>
                 <span>
                     <div>
-                        <NavLink to={'/profile/' + props.user.id}><img src={user.photos.small ? user.photos.small : ava} alt=""
-                                                               className={s.userPhoto}/>
+                        <NavLink to={'/profile/' + props.user.id}><img src={user.photos.small ? user.photos.small : ava}
+                                                                       alt=""
+                                                                       className={s.userPhoto}/>
                         </NavLink>
                     </div>
                     <div>{user.followed
@@ -32,7 +32,7 @@ export const User = (props: UserPropsType) => {
                         }}>Подписаться</button>}
                             </div>
                             </span>
-                        <span>
+        <span>
                             <span>
                             <div>{user.name}</div>
                             <div>{user.status}</div>
@@ -42,7 +42,8 @@ export const User = (props: UserPropsType) => {
                             <div>{user.followed}</div>
                             </span>
                             </span>
-                    </div>)}
+    </div>)
+}
 
 
 

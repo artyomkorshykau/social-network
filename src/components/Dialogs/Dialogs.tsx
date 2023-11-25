@@ -2,12 +2,12 @@ import React from "react";
 import s from './Dialogs.module.css'
 import {DialogItem} from "./DialogItem/DialogItem";
 import {Message} from "./Message/Message";
-import {store} from "../../redux/store";
 import {DialogsType, MessageType} from "../../redux/dialogs-reducer";
 import {Field, reduxForm} from "redux-form";
 import {TextArea} from "../../common/FormControls/FormControls";
 import {maxLengthCreator, required} from "../../utils/validators/validator";
 import {DialogsPropsType} from "./DialogsContainer";
+import {store} from "../../redux/store";
 
 
 const Dialogs: React.FC<DialogsPropsType> = (props) => {

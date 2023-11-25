@@ -4,20 +4,20 @@ import {Pagination} from "./Pagination";
 import {User} from "./User";
 
 
-const Users = (props: UserPropsType) => {
+const Users = (props: UsersPropsType) => {
 
     return (
         <div>
-           <Pagination totalUserCount={props.totalUserCount}
-                       pageSize={props.pageSize}
-                       currentPage={props.currentPage}
-                       onPageChanged={props.onPageChanged}/>
+            <Pagination totalUserCount={props.totalUserCount}
+                        pageSize={props.pageSize}
+                        currentPage={props.currentPage}
+                        onPageChanged={props.onPageChanged}/>
             {
                 props.users.map((el) => <User followTC={props.followTC}
                                               isFollowing={props.isFollowing}
                                               unFollowTC={props.unFollowTC}
                                               user={el}
-                key={el.id}/>)
+                                              key={el.id}/>)
             }
         </div>
     );
@@ -26,7 +26,7 @@ const Users = (props: UserPropsType) => {
 export default Users;
 
 //--------------------------------TYPES--------------------------------
-type UserPropsType = {
+type UsersPropsType = {
     onPageChanged: (page: number) => void
     totalUserCount: number
     pageSize: number
