@@ -9,9 +9,9 @@ import s from '../../common/FormControls/FormControl.module.css'
 import {LoginTC, LogoutTC} from "../../redux/thunks/thunks";
 
 
-const LoginForm = (props: any) => {
+const LoginForm = ({handleSubmit, error}: any) => {
     return (
-        <form onSubmit={props.handleSubmit}>
+        <form onSubmit={handleSubmit}>
             <div>
                 <Field placeholder={'Login'}
                        component={Input}
@@ -30,7 +30,7 @@ const LoginForm = (props: any) => {
                        component={Input}
                 /> Remember me
             </div>
-            {props.error && <span className={s.formSummaryError}>{props.error}</span>}
+            {error && <span className={s.formSummaryError}>{error}</span>}
             <div>
                 <button>Sign up</button>
             </div>
