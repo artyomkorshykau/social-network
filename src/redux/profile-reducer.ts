@@ -1,5 +1,5 @@
 import {ProfileUserType} from "../components/Profile/ProfileContainer";
-import {addPostAC, deletePostAC, setStatusAC, setUserProfile} from "./actions/actions";
+import {addPostAC, deletePostAC, setPhotoSuccess, setStatusAC, setUserProfile} from "./actions/actions";
 import {ACTIONS_TYPE} from "./actions/actionTypes";
 
 export let initialState: InitialStateType = {
@@ -29,6 +29,14 @@ const profileReducer = (state: InitialStateType = initialState, action: ProfileA
             return {
                 ...state, posts: state.posts.filter((el) => el.id != action.id)
             }
+        case ACTIONS_TYPE.SET_PHOTO :
+            if (state.profile) {
+                return {
+                    ...state,
+                    profile: {...state.profile, photos: {...state.profile.photos, ...action.photos}}
+                }
+            }
+            return {...state}
         default:
             return state
     }
@@ -52,3 +60,4 @@ export type ProfileActionType =
     | ReturnType<typeof setUserProfile>
     | ReturnType<typeof setStatusAC>
     | ReturnType<typeof deletePostAC>
+    | ReturnType<typeof setPhotoSuccess>

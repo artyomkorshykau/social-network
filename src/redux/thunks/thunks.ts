@@ -1,6 +1,6 @@
 import {
     follow, initializedSucceed,
-    setAuthUserData, setPage, setStatusAC,
+    setAuthUserData, setPage, setPhotoSuccess, setStatusAC,
     setTotalUserCount, setUser,
     setUserProfile,
     toggleIsFetching,
@@ -97,6 +97,15 @@ export const updateStatusTC = (status: string): AppThunk => {
         }
     };
 };
+
+export const savePhotoTC = (file: File): AppThunk => {
+    return async (dispatch) => {
+        let res = await profileAPI.savePhoto(file)
+        if (res.data.resultCode === 0) {
+            dispatch(setPhotoSuccess(res.data.data))
+        }
+    }
+}
 
 //------------------------------USERS-THUNK------------------------------
 export const getUsersTC = (currentPage: number, pageSize: number, users: UserType[]): AppThunk => {

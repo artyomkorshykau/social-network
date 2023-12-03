@@ -1,5 +1,5 @@
 import {NavLink} from "react-router-dom";
-import ava from "../../img/ava.jpg";
+import photo from "../../img/photo.png";
 import s from "./Users.module.css";
 import React from "react";
 import {UserType} from "../../api/social-network-api";
@@ -18,9 +18,10 @@ export const User = (props: UserPropsType) => {
     return (<div>
                 <span>
                     <div>
-                        <NavLink to={'/profile/' + props.user.id}><img src={user.photos.small ? user.photos.small : ava}
-                                                                       alt=""
-                                                                       className={s.userPhoto}/>
+                        <NavLink to={'/profile/' + props.user.id}><img
+                            src={user.photos.small ? user.photos.small : photo}
+                            alt=""
+                            className={s.userPhoto}/>
                         </NavLink>
                     </div>
                     <div>{user.followed

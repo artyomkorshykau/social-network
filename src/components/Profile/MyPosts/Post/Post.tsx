@@ -1,5 +1,5 @@
 import s from "../MyPost.module.css";
-import profileAva from "../../../../img/ava.jpg";
+import profileAva from "../../../../img/photo.png";
 import React from "react";
 
 const Post: React.FC<PostPropsType> = (props) => {

@@ -4,12 +4,12 @@ import {connect} from "react-redux";
 import {AppStateType} from "../../redux/store";
 import {RouteComponentProps, withRouter} from "react-router-dom";
 import {compose} from "redux";
-import {getProfileTC, getUserStatusTC, updateStatusTC} from "../../redux/thunks/thunks";
+import {getProfileTC, getUserStatusTC, savePhotoTC, updateStatusTC} from "../../redux/thunks/thunks";
 
 
 class ProfileContainer extends React.Component<ProfileContainerPropsType> {
 
-    componentDidMount() {
+    refreshProfile() {
         let userID = this.props.match.params.userId
 
         if (!userID) {
@@ -23,13 +23,24 @@ class ProfileContainer extends React.Component<ProfileContainerPropsType> {
         this.props.getUserStatusTC(userID)
     }
 
+    componentDidMount() {
+        this.refreshProfile()
+    }
+
+    componentDidUpdate(prevProps: Readonly<ProfileContainerPropsType>, prevState: Readonly<{}>, snapshot?: any) {
+        if (this.props.match.params.userId != prevProps.match.params.userId)
+            this.refreshProfile()
+    }
+
     render() {
 
         return (<div>
             <Profile {...this.props}
+                     isOwner={!this.props.match.params.userId}
                      profile={this.props.profile}
                      status={this.props.status}
-                     updateStatus={this.props.updateStatusTC}/>
+                     updateStatus={this.props.updateStatusTC}
+                     savePhoto={this.props.savePhotoTC}/>
         </div>)
     }
 }
@@ -42,7 +53,7 @@ const mapStateToProps = (state: AppStateType): MapStateToProps => ({
 })
 
 export default compose<React.ComponentType>(
-    connect(mapStateToProps, {getProfileTC, getUserStatusTC, updateStatusTC}),
+    connect(mapStateToProps, {getProfileTC, getUserStatusTC, updateStatusTC, savePhotoTC}),
     withRouter,
     // withAuthRedirect
 )(ProfileContainer)
@@ -56,11 +67,14 @@ export type ProfileUserType = {
     lookingForAJobDescription: string
     fullName: string
     contacts: ProfileContactsType
-    photos: {
-        small: string
-        large: string
-    }
+    photos: ProfilePhoto
 }
+
+export type ProfilePhoto = {
+    small: string | null
+    large: string | null
+}
+
 export type ProfileContactsType = {
     github: string
     vk: string
@@ -84,6 +98,7 @@ type MapDispatchToProps = {
     getProfileTC: (userID: string) => void
     getUserStatusTC: (status: string) => void
     updateStatusTC: (status: string) => void
+    savePhotoTC: (file: File) => void
 }
 type ProfileClassType = MapStateToProps & MapDispatchToProps
 type ProfileContainerPropsType = RouteComponentProps<PathParamsType> & ProfileClassType

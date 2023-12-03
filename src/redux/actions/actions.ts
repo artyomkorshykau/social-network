@@ -1,4 +1,4 @@
-import {ProfileUserType} from "../../components/Profile/ProfileContainer";
+import {ProfilePhoto, ProfileUserType} from "../../components/Profile/ProfileContainer";
 import {UserType} from "../../api/social-network-api";
 import {ACTIONS_TYPE} from './actionTypes'
 
@@ -23,6 +23,8 @@ export const setUserProfile = (profile: ProfileUserType) =>
     ({type: ACTIONS_TYPE.SET_USER_PROFILE, profile} as const)
 export const setStatusAC = (status: string) =>
     ({type: ACTIONS_TYPE.SET_STATUS, status} as const)
+export const setPhotoSuccess = (photos: ProfilePhoto) =>
+    ({type: ACTIONS_TYPE.SET_PHOTO, photos} as const)
 
 //------------------------------USERS-ACTION------------------------------
 export const follow = (id: number) =>

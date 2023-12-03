@@ -1,6 +1,7 @@
 import axios from "axios";
 import {AuthMeType} from "../components/Header/HeaderContainer";
-import {ProfileUserType} from "../components/Profile/ProfileContainer";
+import {ProfilePhoto, ProfileUserType} from "../components/Profile/ProfileContainer";
+import header from "../components/Header/Header";
 
 const settings = {
     withCredentials: true,
@@ -48,6 +49,11 @@ export const profileAPI = {
     },
     updateStatus(status: string) {
         return instance.put<ResponseType<{}>>(`profile/status`, {status})
+    },
+    savePhoto(photo: File) {
+        const formData = new FormData()
+        formData.append('image', photo)
+        return instance.put<ResponseType<ProfilePhoto>>(`profile/photo`, formData, {headers: {'Content-Type': 'multipart/form-data'}})
     }
 }
 
