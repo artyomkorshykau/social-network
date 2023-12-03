@@ -8,7 +8,7 @@ import App from "./app/App";
 
 export let rerenderDom = (state: AppStateType) => {
     ReactDOM.render(
-        <BrowserRouter>
+        <BrowserRouter basename={process.env.PUBLIC_URL}>
             <Provider store={store}>
                 <App/>
             </Provider>
