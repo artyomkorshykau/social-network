@@ -2,7 +2,7 @@ import HeaderContainer from "../components/Header/HeaderContainer";
 import Navbar from "../components/Navbar/Navbar";
 import {Preloader} from "../common/Preloader/Preloader";
 import {AppStateType} from "../redux/store";
-import {Route, withRouter} from "react-router-dom";
+import {Route, Switch, withRouter} from "react-router-dom";
 import Login from "../components/Login/Login";
 import {compose} from "redux";
 import Music from "../components/Music/Music";
@@ -20,8 +20,18 @@ const UsersContainer = React.lazy(() => import('../components/Users/UsersContain
 
 class App extends React.Component<AppType> {
 
+    catchAllHandleErrors = (promiseRejectEvent: any) => {
+        alert('Some error occurred')
+        console.error(promiseRejectEvent)
+    }
+
     componentDidMount() {
         this.props.initializedTC()
+        window.addEventListener('unhandledrejection', this.catchAllHandleErrors)
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('unhandledrejection', this.catchAllHandleErrors)
     }
 
     render() {
@@ -34,13 +44,16 @@ class App extends React.Component<AppType> {
                 <HeaderContainer/>
                 <Navbar/>
                 <div className='app-wrapper-content'>
-                    <Route path='/dialogs' render={withSuspense(DialogsContainer)}/>
-                    <Route path='/profile/:userId?' render={withSuspense(ProfileContainer)}/>
-                    <Route path='/users' render={withSuspense(UsersContainer)}/>
-                    <Route path='/news' render={() => <News/>}/>
-                    <Route path='/music' render={() => <Music/>}/>
-                    <Route path='/settings' render={() => <Settings/>}/>
-                    <Route path='/login' render={() => <Login/>}/>
+                    <Switch>
+                        <Route path='/dialogs' render={withSuspense(DialogsContainer)}/>
+                        <Route path='/profile/:userId?' render={withSuspense(ProfileContainer)}/>
+                        <Route path='/users' render={withSuspense(UsersContainer)}/>
+                        <Route path='/news' render={() => <News/>}/>
+                        <Route path='/music' render={() => <Music/>}/>
+                        <Route path='/settings' render={() => <Settings/>}/>
+                        <Route path='/login' render={() => <Login/>}/>
+                        <Route path='*' render={() => <div>404 PAGE OT FOUND</div>}/>
+                    </Switch>
                 </div>
             </div>
         );
