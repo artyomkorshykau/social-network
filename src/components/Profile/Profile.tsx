@@ -1,7 +1,7 @@
 import React from "react";
 import ProfileInfo from "./ProfileInfo/ProfileInfo";
 import {MyPostContainer} from "./MyPosts/MyPostContainer";
-import {ProfileUserType} from "./ProfileContainer";
+import {ProfileDataForm, ProfileUserType} from "./ProfileContainer";
 
 
 const Profile = (props: ProfilePropsType) => {
@@ -13,6 +13,7 @@ const Profile = (props: ProfilePropsType) => {
             updateStatus={props.updateStatus}
             isOwner={props.isOwner}
             savePhoto={props.savePhoto}
+            saveProfile={props.saveProfile}
         />
         <MyPostContainer/>
     </div>)
@@ -28,4 +29,5 @@ type ProfilePropsType = {
     updateStatus: (status: string) => void
     isOwner: boolean
     savePhoto: (file: File) => void
+    saveProfile: (profile: ProfileDataForm) => Promise<void>
 }

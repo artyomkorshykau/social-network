@@ -21,10 +21,10 @@ export default authReducer
 
 //-------------------------------TYPES-------------------------------
 type InitialStateType = {
-    id: null | string;
+    id: null | number;
     email: null | string,
     login: null | string,
     isFetching: boolean
-    isAuth: boolean | null
+    isAuth: boolean
 }
 export type AuthActionType = ReturnType<typeof setAuthUserData>

@@ -9,6 +9,7 @@ import {
 import {authAPI, profileAPI, usersAPI, UserType} from "../../api/social-network-api";
 import {stopSubmit} from "redux-form";
 import {AppThunk} from "../store";
+import {ProfileUserType} from "../../components/Profile/ProfileContainer";
 
 //-------------------------------APP-THUNK-------------------------------
 export const initializedTC = (): AppThunk => {
@@ -65,11 +66,11 @@ export const LogoutTC = (): AppThunk => {
 };
 
 //--------------------------------PROFILE-THUNK--------------------------------
-export const getProfileTC = (userID: string): AppThunk => {
+export const getProfileTC = (userID: number | null): AppThunk => {
     return async (dispatch) => {
         try {
             const data = await profileAPI.getProfile(userID);
-            dispatch(setUserProfile(data));
+            dispatch(setUserProfile(data.data));
         } catch (error) {
             // Handle error
         }
@@ -103,6 +104,23 @@ export const savePhotoTC = (file: File): AppThunk => {
         let res = await profileAPI.savePhoto(file)
         if (res.data.resultCode === 0) {
             dispatch(setPhotoSuccess(res.data.data))
+        }
+    }
+}
+
+export const saveProfileTC = (profile: ProfileUserType): AppThunk => {
+    return async (dispatch) => {
+        let res = await profileAPI.saveProfile(profile)
+        if (res.data.resultCode === 0) {
+            await dispatch(getProfileTC(29875))
+            return Promise.resolve()
+        } else if (res.data.resultCode === 1) {
+            const errorMessage = res.data.messages[0].split(' ')
+            const contactError = errorMessage[errorMessage.length - 1].split('->')
+            const contact = contactError[contactError.length - 1].slice(0, -1).toLowerCase()
+            dispatch(stopSubmit('Contacts', {'contacts': {[contact]: res.data.messages[0]}}))
+            console.log(contact, res.data.messages[0])
+            return Promise.reject(res.data.messages[0])
         }
     }
 }

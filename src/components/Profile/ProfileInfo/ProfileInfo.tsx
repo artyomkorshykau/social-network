@@ -1,12 +1,16 @@
-import React, {ChangeEvent} from 'react';
+import React, {ChangeEvent, useState} from 'react';
 import s from './ProfileInfo.module.css'
 import {Preloader} from "../../../common/Preloader/Preloader";
-import {ProfileUserType} from "../ProfileContainer";
+import {ProfileDataForm, ProfileUserType} from "../ProfileContainer";
 import photo from '../../../img/photo.png'
 import ProfileStatus from "../ProfileStatus";
-
+import {ProfileData} from "./ProfileData/ProfileData";
+import {ProfileDataReduxForm} from './ProfileDataForm/ProfileDataForm';
+import {ProfileType} from "../../../redux/profile-reducer";
 
 const ProfileInfo = (props: ProfileInfoPropsType) => {
+
+    const [editMode, setEditMode] = useState(false)
 
     if (!props.profile) {
         return <Preloader/>
@@ -18,15 +22,33 @@ const ProfileInfo = (props: ProfileInfoPropsType) => {
         }
     }
 
+    const onSubmit = (formData: ProfileDataForm) => {
+        props.saveProfile(formData)
+            .then(() => {
+                setEditMode(false)
+            })
+    }
+
     return (
         <div>
             <div className={s.diskBlock}>
                 <img src={props.profile.photos.large || photo} alt="" className={s.ava}/>
-                {props.isOwner && <input type={'file'} onChange={changeMainPhotoHandler}/>}
+
+                <div>{props.isOwner &&
+                    <input type={'file'} onChange={changeMainPhotoHandler}/>}</div>
+
                 <ProfileStatus status={props.status} updateStatus={props.updateStatus}/>
-                <div>- {props.profile.aboutMe}</div>
-                <div>- {props.profile.lookingForAJob}</div>
-                <div>- {props.profile.fullName}</div>
+
+                {editMode
+                    ? <ProfileDataReduxForm profile={props.profile}
+                                            isOwner={props.isOwner}
+                                            setEditMode={setEditMode}
+                                            onSubmit={onSubmit}/>
+                    : <ProfileData profile={props.profile}
+                                   isOwner={props.isOwner}
+                                   setEditMode={setEditMode}/>}
+
+
             </div>
         </div>
     );
@@ -34,11 +56,13 @@ const ProfileInfo = (props: ProfileInfoPropsType) => {
 
 export default ProfileInfo;
 
+
 //--------------------------------TYPES--------------------------------
 type ProfileInfoPropsType = {
-    profile: ProfileUserType | null
+    profile: ProfileType
     status: string
     updateStatus: (status: string) => void
     isOwner: boolean
     savePhoto: (file: File) => void
+    saveProfile: (profile: ProfileDataForm) => Promise<void>
 }

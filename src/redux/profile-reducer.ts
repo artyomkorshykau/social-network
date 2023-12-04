@@ -52,9 +52,12 @@ export type PostsType = {
 }
 export type InitialStateType = {
     posts: PostsType[]
-    profile: null | ProfileUserType
+    profile: ProfileType
     status: string
 }
+
+export type ProfileType = ProfileUserType | null
+
 export type ProfileActionType =
     | ReturnType<typeof addPostAC>
     | ReturnType<typeof setUserProfile>

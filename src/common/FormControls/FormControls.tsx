@@ -1,6 +1,5 @@
 import React from 'react'
 import s from './FormControl.module.css'
-import {required} from "../../utils/validators/validator";
 import {Field} from "redux-form";
 
 export const TextArea = ({input, meta, ...props}: any) => {

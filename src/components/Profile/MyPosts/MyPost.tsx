@@ -7,7 +7,6 @@ import {maxLengthCreator, required} from "../../../utils/validators/validator";
 import {TextArea} from "../../../common/FormControls/FormControls";
 
 const MyPost = React.memo((props: MyPostsPropsType) => {
-    console.log('render')
 
     const posts = props.posts.map((posts, index) => <Post key={index} message={posts.message}
                                                           likeCounts={posts.likeCounts}/>)

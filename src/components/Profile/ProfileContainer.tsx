@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 import {AppStateType} from "../../redux/store";
 import {RouteComponentProps, withRouter} from "react-router-dom";
 import {compose} from "redux";
-import {getProfileTC, getUserStatusTC, savePhotoTC, updateStatusTC} from "../../redux/thunks/thunks";
+import {getProfileTC, getUserStatusTC, savePhotoTC, saveProfileTC, updateStatusTC} from "../../redux/thunks/thunks";
 
 
 class ProfileContainer extends React.Component<ProfileContainerPropsType> {
@@ -28,7 +28,7 @@ class ProfileContainer extends React.Component<ProfileContainerPropsType> {
     }
 
     componentDidUpdate(prevProps: Readonly<ProfileContainerPropsType>, prevState: Readonly<{}>, snapshot?: any) {
-        if (this.props.match.params.userId != prevProps.match.params.userId)
+        if (this.props.match.params.userId !== prevProps.match.params.userId)
             this.refreshProfile()
     }
 
@@ -40,7 +40,8 @@ class ProfileContainer extends React.Component<ProfileContainerPropsType> {
                      profile={this.props.profile}
                      status={this.props.status}
                      updateStatus={this.props.updateStatusTC}
-                     savePhoto={this.props.savePhotoTC}/>
+                     savePhoto={this.props.savePhotoTC}
+                     saveProfile={this.props.saveProfileTC}/>
         </div>)
     }
 }
@@ -53,7 +54,7 @@ const mapStateToProps = (state: AppStateType): MapStateToProps => ({
 })
 
 export default compose<React.ComponentType>(
-    connect(mapStateToProps, {getProfileTC, getUserStatusTC, updateStatusTC, savePhotoTC}),
+    connect(mapStateToProps, {getProfileTC, getUserStatusTC, updateStatusTC, savePhotoTC, saveProfileTC}),
     withRouter,
     // withAuthRedirect
 )(ProfileContainer)
@@ -62,7 +63,7 @@ export default compose<React.ComponentType>(
 //--------------------------------TYPES--------------------------------
 export type ProfileUserType = {
     aboutMe: string
-    userId: number
+    userId: number | null
     lookingForAJob: boolean
     lookingForAJobDescription: string
     fullName: string
@@ -70,20 +71,22 @@ export type ProfileUserType = {
     photos: ProfilePhoto
 }
 
+export type ProfileDataForm = Omit<ProfileUserType, 'userId' | 'photos'>
+
 export type ProfilePhoto = {
     small: string | null
     large: string | null
 }
 
 export type ProfileContactsType = {
-    github: string
-    vk: string
-    facebook: string
-    instagram: string
-    twitter: string
-    website: string
-    youtube: string
-    mainLink: string
+    github: string | null
+    vk: string | null
+    facebook: string | null
+    instagram: string | null
+    twitter: string | null
+    website: string | null
+    youtube: string | null
+    mainLink: string | null
 }
 type PathParamsType = {
     userId: string
@@ -91,14 +94,15 @@ type PathParamsType = {
 type MapStateToProps = {
     profile: ProfileUserType | null
     status: string
-    loggedUser: string | null
-    isAuth: boolean | null
+    loggedUser: number | null
+    isAuth: boolean
 }
 type MapDispatchToProps = {
     getProfileTC: (userID: string) => void
     getUserStatusTC: (status: string) => void
     updateStatusTC: (status: string) => void
     savePhotoTC: (file: File) => void
+    saveProfileTC: (profile: ProfileDataForm) => Promise<void>
 }
 type ProfileClassType = MapStateToProps & MapDispatchToProps
 type ProfileContainerPropsType = RouteComponentProps<PathParamsType> & ProfileClassType

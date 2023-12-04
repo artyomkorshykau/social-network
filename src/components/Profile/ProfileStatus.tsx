@@ -28,11 +28,11 @@ const ProfileStatus = (props: ProfileStatusPropsType) => {
     }
 
     return (
-        <>
+        <div style={{marginTop: '10px'}}>
             {!editMode &&
                 <div><span
                     onDoubleClick={activateMode}
-                > - {props.status || '...'}</span></div>
+                ><b>Status: </b>{props.status || '...'}</span></div>
             }
             {editMode &&
                 <div><input
@@ -41,7 +41,7 @@ const ProfileStatus = (props: ProfileStatusPropsType) => {
                     onChange={changeStatus}
                     value={status}
                 /></div>}
-        </>)
+        </div>)
 }
 
 export default ProfileStatus;

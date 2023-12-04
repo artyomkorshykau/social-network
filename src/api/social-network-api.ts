@@ -40,27 +40,29 @@ export const authAPI = {
 }
 
 export const profileAPI = {
-    getProfile(userID: string) {
+    getProfile(userID: number | null) {
         return instance.get<ProfileUserType>(`profile/` + userID)
-            .then(res => res.data)
     },
     getStatus(userId: string) {
         return instance.get(`profile/status/${userId}`)
     },
     updateStatus(status: string) {
-        return instance.put<ResponseType<{}>>(`profile/status`, {status})
+        return instance.put<ResponseType>(`profile/status`, {status})
     },
     savePhoto(photo: File) {
         const formData = new FormData()
         formData.append('image', photo)
         return instance.put<ResponseType<ProfilePhoto>>(`profile/photo`, formData, {headers: {'Content-Type': 'multipart/form-data'}})
-    }
+    },
+    saveProfile(profile: ProfileUserType) {
+        return instance.put<ResponseType>(`profile`, profile)
+    },
 }
 
 //---------------------------------TYPES---------------------------------
-type ResponseType<T> = {
+type ResponseType<T = {}> = {
     resultCode: number
-    messages: []
+    messages: [string]
     data: T
 }
 
