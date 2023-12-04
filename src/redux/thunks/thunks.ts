@@ -1,12 +1,12 @@
 import {
     follow, initializedSucceed,
-    setAuthUserData, setPage, setPhotoSuccess, setStatusAC,
+    setAuthUserData, setCaptcha, setPage, setPhotoSuccess, setStatusAC,
     setTotalUserCount, setUser,
     setUserProfile,
     toggleIsFetching,
     toggleIsFollowing, unfollow
 } from "../actions/actions";
-import {authAPI, profileAPI, usersAPI, UserType} from "../../api/social-network-api";
+import {authAPI, profileAPI, securityAPI, usersAPI, UserType} from "../../api/social-network-api";
 import {stopSubmit} from "redux-form";
 import {AppThunk} from "../store";
 import {ProfileUserType} from "../../components/Profile/ProfileContainer";
@@ -37,13 +37,16 @@ export const authMeTC = (): AppThunk => {
     };
 };
 
-export const LoginTC = (log: string, pass: string, remember: boolean): AppThunk => {
+export const LoginTC = (log: string, pass: string, remember: boolean, captcha: string | null): AppThunk => {
     return async (dispatch) => {
         try {
-            const res = await authAPI.login(log, pass, remember);
+            const res = await authAPI.login(log, pass, captcha, remember);
             if (res.data.resultCode === 0) {
                 await dispatch(authMeTC());
             } else {
+                if (res.data.resultCode === 10) {
+                    dispatch(getCaptchaTC())
+                }
                 dispatch(stopSubmit('login', {_error: res.data.messages[0] || 'Some error'}));
             }
         } catch (error) {
@@ -64,6 +67,13 @@ export const LogoutTC = (): AppThunk => {
         }
     };
 };
+
+export const getCaptchaTC = (): AppThunk => {
+    return async (dispatch) => {
+        const res = await securityAPI.getCaptcha()
+        dispatch(setCaptcha(res.data.url))
+    }
+}
 
 //--------------------------------PROFILE-THUNK--------------------------------
 export const getProfileTC = (userID: number | null): AppThunk => {

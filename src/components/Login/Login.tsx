@@ -9,7 +9,7 @@ import s from '../../common/FormControls/FormControl.module.css'
 import {LoginTC, LogoutTC} from "../../redux/thunks/thunks";
 
 
-const LoginForm = ({handleSubmit, error}: any) => {
+const LoginForm = ({handleSubmit, error, captcha}: any) => {
     return (
         <form onSubmit={handleSubmit}>
             <div>
@@ -30,6 +30,13 @@ const LoginForm = ({handleSubmit, error}: any) => {
                        component={Input}
                 /> Remember me
             </div>
+
+            {captcha && <img src={captcha} alt={'captcha'}/>}
+            {captcha && <Field placeholder={'Antibot symbols'}
+                               component={Input}
+                               name={'captcha'}
+                               validate={[required]}/>}
+
             {error && <span className={s.formSummaryError}>{error}</span>}
             <div>
                 <button>Sign up</button>
@@ -38,12 +45,12 @@ const LoginForm = ({handleSubmit, error}: any) => {
     )
 }
 
-const LoginReduxForm = reduxForm({form: 'login'})(LoginForm)
+const LoginReduxForm = reduxForm<DataFormType, LoginFormProps>({form: 'login'})(LoginForm)
 
 const Login = (props: any) => {
 
     const onSubmit = (formData: any) => {
-        props.LoginTC(formData.email, formData.password, formData.rememberMe)
+        props.LoginTC(formData.email, formData.password, formData.rememberMe, formData.captcha)
     }
 
     if (props.isAuth) {
@@ -52,12 +59,28 @@ const Login = (props: any) => {
 
     return <div>
         <h1>Login</h1>
-        <LoginReduxForm onSubmit={onSubmit}/>
+        <LoginReduxForm onSubmit={onSubmit} captcha={props.captcha}/>
     </div>
 }
 
-const mapStateToProps = (state: AppStateType) => ({
-    isAuth: state.auth.isAuth
+const mapStateToProps = (state: AppStateType): MapToStatePropsType => ({
+    isAuth: state.auth.isAuth,
+    captcha: state.auth.captcha
 })
 
-export default connect(mapStateToProps, {LoginTC, LogoutTC})(Login)
+type MapToStatePropsType = {
+    isAuth: boolean
+    captcha: string | null
+}
+
+export type DataFormType = {
+    login: string;
+    password: string;
+    rememberMe: boolean;
+    captcha: string | null
+}
+
+type LoginFormProps = {
+    captcha: string | null
+}
+export default connect(mapStateToProps, {LoginTC})(Login)

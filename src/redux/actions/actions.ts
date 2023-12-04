@@ -9,6 +9,8 @@ export const initializedSucceed = () => ({type: ACTIONS_TYPE.SET_INITIALIZED})
 //-------------------------------AUTH-ACTION-------------------------------
 export const setAuthUserData = (userId: number | null, login: string | null, email: string | null, isAuth: boolean) =>
     ({type: ACTIONS_TYPE.SET_USER_DATA, payload: {userId, login, email, isAuth}})
+export const setCaptcha = (captcha: string | null) =>
+    ({type: ACTIONS_TYPE.SET_CAPTCHA, payload: {captcha}})
 
 //-------------------------------DIALOGS-ACTION-------------------------------
 export const sendMessageAC = (newMessageBody: string) =>

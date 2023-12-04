@@ -31,7 +31,7 @@ export const authAPI = {
     authMe() {
         return instance.get<AuthMeType>(`auth/me`)
     },
-    login(email: string, password: string, rememberMe: boolean = false) {
+    login(email: string, password: string, captcha: string | null = null, rememberMe: boolean = false) {
         return instance.post(`auth/login`, {email, password, rememberMe})
     },
     logout() {
@@ -57,6 +57,12 @@ export const profileAPI = {
     saveProfile(profile: ProfileUserType) {
         return instance.put<ResponseType>(`profile`, profile)
     },
+}
+
+export const securityAPI = {
+    getCaptcha() {
+        return instance.get<{ url: string }>(`security/get-captcha-url`)
+    }
 }
 
 //---------------------------------TYPES---------------------------------
