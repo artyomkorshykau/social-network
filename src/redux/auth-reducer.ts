@@ -13,6 +13,7 @@ const initialState = {
 const authReducer = (state: InitialStateType = initialState, action: AuthActionType): InitialStateType => {
     switch (action.type) {
         case ACTIONS_TYPE.SET_USER_DATA:
+            return {...state, ...action.payload}
         case ACTIONS_TYPE.SET_CAPTCHA:
             return {...state, ...action.payload}
         default:

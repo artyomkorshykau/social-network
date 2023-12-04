@@ -1,7 +1,6 @@
 import axios from "axios";
 import {AuthMeType} from "../components/Header/HeaderContainer";
 import {ProfilePhoto, ProfileUserType} from "../components/Profile/ProfileContainer";
-import header from "../components/Header/Header";
 
 const settings = {
     withCredentials: true,
@@ -41,7 +40,7 @@ export const authAPI = {
 
 export const profileAPI = {
     getProfile(userID: number | null) {
-        return instance.get<ProfileUserType>(`profile/` + userID)
+        return instance.get<ProfileUserType>(`profile/${userID}`)
     },
     getStatus(userId: string) {
         return instance.get(`profile/status/${userId}`)

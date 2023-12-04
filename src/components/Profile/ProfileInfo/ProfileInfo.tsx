@@ -23,10 +23,12 @@ const ProfileInfo = (props: ProfileInfoPropsType) => {
     }
 
     const onSubmit = (formData: ProfileDataForm) => {
+
         props.saveProfile(formData)
             .then(() => {
                 setEditMode(false)
-            })
+            }).catch(e => {
+        })
     }
 
     return (

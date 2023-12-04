@@ -18,7 +18,6 @@ class ProfileContainer extends React.Component<ProfileContainerPropsType> {
                 this.props.history.push('/login')
             }
         }
-
         this.props.getProfileTC(userID)
         this.props.getUserStatusTC(userID)
     }
@@ -28,7 +27,7 @@ class ProfileContainer extends React.Component<ProfileContainerPropsType> {
     }
 
     componentDidUpdate(prevProps: Readonly<ProfileContainerPropsType>, prevState: Readonly<{}>, snapshot?: any) {
-        if (this.props.match.params.userId !== prevProps.match.params.userId)
+        if (this.props.match.params.userId !== this.props.match.params.userId)
             this.refreshProfile()
     }
 

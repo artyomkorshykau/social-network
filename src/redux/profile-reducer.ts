@@ -2,12 +2,12 @@ import {ProfileUserType} from "../components/Profile/ProfileContainer";
 import {addPostAC, deletePostAC, setPhotoSuccess, setStatusAC, setUserProfile} from "./actions/actions";
 import {ACTIONS_TYPE} from "./actions/actionTypes";
 
-export let initialState: InitialStateType = {
+export let initialState = {
     posts: [
         {id: '1', message: 'Hi', likeCounts: '10'},
         {id: '2', message: 'By', likeCounts: '5'}
     ],
-    profile: null,
+    profile: null as ProfileType,
     status: ''
 }
 

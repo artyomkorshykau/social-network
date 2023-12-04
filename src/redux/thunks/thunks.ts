@@ -8,7 +8,7 @@ import {
 } from "../actions/actions";
 import {authAPI, profileAPI, securityAPI, usersAPI, UserType} from "../../api/social-network-api";
 import {stopSubmit} from "redux-form";
-import {AppThunk} from "../store";
+import {AppRootState, AppThunk} from "../store";
 import {ProfileUserType} from "../../components/Profile/ProfileContainer";
 
 //-------------------------------APP-THUNK-------------------------------
@@ -47,7 +47,8 @@ export const LoginTC = (log: string, pass: string, remember: boolean, captcha: s
                 if (res.data.resultCode === 10) {
                     dispatch(getCaptchaTC())
                 }
-                dispatch(stopSubmit('login', {_error: res.data.messages[0] || 'Some error'}));
+                let message = res.data.messages.length > 0 ? res.data.messages[0] : 'Some Error'
+                dispatch(stopSubmit('login', {_error: message}))
             }
         } catch (error) {
             // Handle error
@@ -76,7 +77,7 @@ export const getCaptchaTC = (): AppThunk => {
 }
 
 //--------------------------------PROFILE-THUNK--------------------------------
-export const getProfileTC = (userID: number | null): AppThunk => {
+export const getProfileTC = (userID: number | null = 29875): AppThunk => {
     return async (dispatch) => {
         try {
             const data = await profileAPI.getProfile(userID);
@@ -119,17 +120,17 @@ export const savePhotoTC = (file: File): AppThunk => {
 }
 
 export const saveProfileTC = (profile: ProfileUserType): AppThunk => {
-    return async (dispatch) => {
+    return async (dispatch, getState) => {
+        const userId = getState().profilePage.profile?.userId
         let res = await profileAPI.saveProfile(profile)
         if (res.data.resultCode === 0) {
-            await dispatch(getProfileTC(29875))
+            await dispatch(getProfileTC(userId))
             return Promise.resolve()
         } else if (res.data.resultCode === 1) {
             const errorMessage = res.data.messages[0].split(' ')
             const contactError = errorMessage[errorMessage.length - 1].split('->')
             const contact = contactError[contactError.length - 1].slice(0, -1).toLowerCase()
             dispatch(stopSubmit('Contacts', {'contacts': {[contact]: res.data.messages[0]}}))
-            console.log(contact, res.data.messages[0])
             return Promise.reject(res.data.messages[0])
         }
     }

@@ -50,6 +50,7 @@ const LoginReduxForm = reduxForm<DataFormType, LoginFormProps>({form: 'login'})(
 const Login = (props: any) => {
 
     const onSubmit = (formData: any) => {
+        console.log(formData)
         props.LoginTC(formData.email, formData.password, formData.rememberMe, formData.captcha)
     }
 
