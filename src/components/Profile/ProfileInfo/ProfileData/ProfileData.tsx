@@ -14,10 +14,10 @@ export const ProfileData = (props: Props) => {
         <div style={{marginTop: '10px'}}>
             <h4>Contacts </h4>
             <ul>
-                {Object.keys(props.profile.contacts).map((el, index) => {
+                {Object.keys(props.profile.contacts).map((el) => {
                     return <li style={{marginLeft: '20px'}}><Contacts title={el}
                                                                       value={props.profile.contacts[el as keyof ProfileContactsType]}
-                                                                      key={index}/></li>
+                                                                      key={el}/></li>
                 })}
             </ul>
             <div>{props.isOwner && <button onClick={() => {
