@@ -7,6 +7,7 @@ import ProfileStatus from "../ProfileStatus";
 import {ProfileData} from "./ProfileData/ProfileData";
 import {ProfileDataReduxForm} from './ProfileDataForm/ProfileDataForm';
 import {ProfileType} from "../../../redux/profile-reducer";
+import {debuglog} from "node:util";
 
 const ProfileInfo = (props: ProfileInfoPropsType) => {
 
@@ -26,6 +27,7 @@ const ProfileInfo = (props: ProfileInfoPropsType) => {
 
         props.saveProfile(formData)
             .then(() => {
+                console.log('lol')
                 setEditMode(false)
             }).catch(e => {
         })

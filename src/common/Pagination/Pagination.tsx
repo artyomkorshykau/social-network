@@ -1,14 +1,14 @@
 import s from "./Users.module.css";
 import React, {useState} from "react";
 
-type PropsType = {
+type Props = {
     totalUserCount: number
     pageSize: number
     currentPage: number
     onPageChanged: (page: number) => void
 }
 
-export const Pagination = (props: PropsType) => {
+export const Pagination = (props: Props) => {
     let pagesCount = Math.ceil(props.totalUserCount / props.pageSize);
     let pages = [];
     for (let i = 1; i <= pagesCount; i += 1) {
