@@ -1,35 +1,35 @@
-import {ProfileUserType} from "../components/Profile/ProfileContainer";
 import {addPostAC, deletePostAC, setPhotoSuccess, setStatusAC, setUserProfile} from "./actions/actions";
-import {ACTIONS_TYPE} from "./actions/actionTypes";
+import {ACTION_TYPE} from "../common/enums/Actions";
+import {UserProfile} from "../api/types/typesApi";
 
 export let initialState = {
     posts: [
         {id: '1', message: 'Hi', likeCounts: '10'},
         {id: '2', message: 'By', likeCounts: '5'}
     ],
-    profile: null as ProfileType,
+    profile: null as Profile,
     status: ''
 }
 
-const profileReducer = (state: InitialStateType = initialState, action: ProfileActionType): InitialStateType => {
+const profileReducer = (state: InitialState = initialState, action: ProfileAction): InitialState => {
     switch (action.type) {
-        case ACTIONS_TYPE.ADD_POST :
+        case ACTION_TYPE.ADD_POST :
             let newPost = {
                 id: '5',
                 message: action.newPostText,
                 likeCounts: '0'
             }
             return {...state, posts: [newPost, ...state.posts]}
-        case ACTIONS_TYPE.SET_USER_PROFILE: {
+        case ACTION_TYPE.SET_USER_PROFILE: {
             return {...state, profile: action.profile}
         }
-        case ACTIONS_TYPE.SET_STATUS:
+        case ACTION_TYPE.SET_STATUS:
             return {...state, status: action.status}
-        case ACTIONS_TYPE.DELETE_POST:
+        case ACTION_TYPE.DELETE_POST:
             return {
                 ...state, posts: state.posts.filter((el) => el.id != action.id)
             }
-        case ACTIONS_TYPE.SET_PHOTO :
+        case ACTION_TYPE.SET_PHOTO :
             if (state.profile) {
                 return {
                     ...state,
@@ -45,20 +45,20 @@ export default profileReducer
 
 
 //--------------------------------TYPES--------------------------------
-export type PostsType = {
+export type Post = {
     id: string
     message: string
     likeCounts: string
 }
-export type InitialStateType = {
-    posts: PostsType[]
-    profile: ProfileType
+export type InitialState = {
+    posts: Post[]
+    profile: Profile
     status: string
 }
 
-export type ProfileType = ProfileUserType | null
+export type Profile = UserProfile | null
 
-export type ProfileActionType =
+export type ProfileAction =
     | ReturnType<typeof addPostAC>
     | ReturnType<typeof setUserProfile>
     | ReturnType<typeof setStatusAC>

@@ -2,10 +2,10 @@ import headerLogo from "../../img/logo.png";
 import React from "react";
 import s from './Header.module.css'
 import {NavLink} from "react-router-dom";
-import {HeaderContainerType} from "./HeaderContainer";
+import {Props} from "./HeaderContainer";
 
 
-const Header = (props: HeaderContainerType) => {
+const Header = (props: Props) => {
 
     return (<header className={s.header}>
         <div className={s.logo}>

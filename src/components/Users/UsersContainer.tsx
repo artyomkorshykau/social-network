@@ -1,9 +1,9 @@
 import React from 'react'
 import {connect} from "react-redux";
-import {AppStateType} from "../../redux/store";
+import {AppState} from "../../redux/store";
 import Users from "./Users";
 import {Preloader} from "../../common/Preloader/Preloader"
-import {withAuthRedirect} from "../../HOC/withAuthRedirect";
+import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import {compose} from "redux";
 import {
     getCurrentPage,
@@ -12,10 +12,10 @@ import {
     getPageSize,
     getTotalUserCount,
     getUsers
-} from "../../utils/selectors/selectors";
-import {UserType} from "../../api/social-network-api";
+} from "../../utils/selectors/userSelectors";
 import {
-    follow, setPage,
+    follow,
+    setPage,
     setTotalUserCount,
     setUser,
     toggleIsFetching,
@@ -23,9 +23,10 @@ import {
     unfollow
 } from "../../redux/actions/actions";
 import {followTC, getUsersTC, pageChangedTC, unFollowTC} from "../../redux/thunks/thunks";
+import {UserType} from "../../api/types/typesApi";
 
 
-class UsersContainer extends React.Component<UsersPropsType> {
+class UsersContainer extends React.Component<Props> {
     componentDidMount() {
         this.props.getUsersTC(this.props.currentPage, this.props.pageSize, this.props.users)
     }
@@ -54,7 +55,7 @@ class UsersContainer extends React.Component<UsersPropsType> {
     }
 }
 
-const mapStateToProps = (state: AppStateType): MapStateToProps => {
+const mapStateToProps = (state: AppState): MapStateToProps => {
     return {
         users: getUsers(state),
         pageSize: getPageSize(state),
@@ -66,7 +67,7 @@ const mapStateToProps = (state: AppStateType): MapStateToProps => {
 }
 
 export default compose<React.ComponentType>(
-    connect(mapStateToProps, {
+    connect<MapStateToProps, MapDispatchToProps, unknown, AppState>(mapStateToProps, {
         follow,
         unfollow,
         setUser,
@@ -91,7 +92,7 @@ type MapStateToProps = {
     isFetching: boolean
     isFollowing: []
 }
-export type UsersPropsType = MapStateToProps & MapDispatchToProps
+export type Props = MapStateToProps & MapDispatchToProps
 
 type MapDispatchToProps = {
     follow: (id: number) => void;

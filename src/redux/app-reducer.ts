@@ -1,13 +1,13 @@
 import {initializedSucceed} from "./actions/actions";
-import {ACTIONS_TYPE} from "./actions/actionTypes";
+import {ACTION_TYPE} from "../common/enums/Actions";
 
 const initialState = {
     initialized: false
 }
 
-const appReducer = (state: InitialStateType = initialState, action: InitializedActionType): InitialStateType => {
+const appReducer = (state: InitialState = initialState, action: InitializedAction): InitialState => {
     switch (action.type) {
-        case ACTIONS_TYPE.SET_INITIALIZED:
+        case ACTION_TYPE.SET_INITIALIZED:
             return {...state, initialized: true}
         default:
             return state
@@ -19,5 +19,5 @@ export default appReducer
 
 //---------------------------------TYPES---------------------------------
 
-type InitialStateType = typeof initialState
-export type InitializedActionType = ReturnType<typeof initializedSucceed>
+type InitialState = typeof initialState
+export type InitializedAction = ReturnType<typeof initializedSucceed>

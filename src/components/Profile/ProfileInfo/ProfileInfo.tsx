@@ -1,15 +1,23 @@
 import React, {ChangeEvent, useState} from 'react';
 import s from './ProfileInfo.module.css'
 import {Preloader} from "../../../common/Preloader/Preloader";
-import {ProfileDataForm, ProfileUserType} from "../ProfileContainer";
+import {ProfileDataForm} from "../ProfileContainer";
 import photo from '../../../img/photo.png'
 import ProfileStatus from "../ProfileStatus";
 import {ProfileData} from "./ProfileData/ProfileData";
 import {ProfileDataReduxForm} from './ProfileDataForm/ProfileDataForm';
-import {ProfileType} from "../../../redux/profile-reducer";
-import {debuglog} from "node:util";
+import {Profile} from "../../../redux/profile-reducer";
 
-const ProfileInfo = (props: ProfileInfoPropsType) => {
+type Props = {
+    profile: Profile
+    status: string
+    updateStatus: (status: string) => void
+    isOwner: boolean
+    savePhoto: (file: File) => void
+    saveProfile: (profile: ProfileDataForm) => Promise<void>
+}
+
+const ProfileInfo = (props: Props) => {
 
     const [editMode, setEditMode] = useState(false)
 
@@ -59,14 +67,3 @@ const ProfileInfo = (props: ProfileInfoPropsType) => {
 };
 
 export default ProfileInfo;
-
-
-//--------------------------------TYPES--------------------------------
-type ProfileInfoPropsType = {
-    profile: ProfileType
-    status: string
-    updateStatus: (status: string) => void
-    isOwner: boolean
-    savePhoto: (file: File) => void
-    saveProfile: (profile: ProfileDataForm) => Promise<void>
-}

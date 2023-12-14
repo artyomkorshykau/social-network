@@ -1,7 +1,7 @@
 import HeaderContainer from "../components/Header/HeaderContainer";
 import Navbar from "../components/Navbar/Navbar";
 import {Preloader} from "../common/Preloader/Preloader";
-import {AppStateType} from "../redux/store";
+import {AppState} from "../redux/store";
 import {Route, Switch, withRouter} from "react-router-dom";
 import Login from "../components/Login/Login";
 import {compose} from "redux";
@@ -12,13 +12,13 @@ import Settings from "../components/Settings/Settings";
 import React from "react";
 import {connect} from "react-redux";
 import './App.css';
-import {withSuspense} from "../HOC/withSuspense";
+import {withSuspense} from "../hoc/withSuspense";
 
 const DialogsContainer = React.lazy(() => import('../components/Dialogs/DialogsContainer'))
 const ProfileContainer = React.lazy(() => import('../components/Profile/ProfileContainer'))
 const UsersContainer = React.lazy(() => import('../components/Users/UsersContainer'))
 
-class App extends React.Component<AppType> {
+class App extends React.Component<Props> {
 
     catchAllHandleErrors = (promiseRejectEvent: any) => {
         alert('Some error occurred')
@@ -35,7 +35,7 @@ class App extends React.Component<AppType> {
     }
 
     render() {
-        if (!this.props.initialized) {
+        if (!this.props.isInitialized) {
             return <Preloader/>
         }
 
@@ -61,7 +61,7 @@ class App extends React.Component<AppType> {
 }
 
 
-const mapStateToProps = (state: AppStateType): MapStateToPropsType => ({initialized: state.app.initialized})
+const mapStateToProps = (state: AppState): MapStateToProps => ({isInitialized: state.app.initialized})
 
 export default compose<React.ComponentType>(
     withRouter,
@@ -70,12 +70,12 @@ export default compose<React.ComponentType>(
 
 //---------------------------------TYPES---------------------------------
 
-type AppType = MapStateToPropsType & MapDispatchToPropsType
+type Props = MapStateToProps & MapDispatchToProps
 
-type MapDispatchToPropsType = {
+type MapDispatchToProps = {
     initializedTC: () => void
 }
 
-type MapStateToPropsType = {
-    initialized: boolean
+type MapStateToProps = {
+    isInitialized: boolean
 }

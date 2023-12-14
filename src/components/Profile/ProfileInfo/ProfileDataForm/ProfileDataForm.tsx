@@ -1,13 +1,17 @@
 import React from "react";
-import {ProfileContactsType, ProfileUserType} from "../../ProfileContainer";
-import {Contacts} from "../Contacts/Contacts";
 import {Input, TextArea} from "../../../../common/FormControls/FormControls";
 import {Field, InjectedFormProps, reduxForm} from "redux-form";
+import {UserProfile} from "../../../../api/types/typesApi";
 
-const ProfileDataForm: React.FC<ProfileDataFormProps & InjectedFormProps<ProfileUserType, ProfileDataFormProps>> = ({
-                                                                                                                        handleSubmit,
-                                                                                                                        profile
-                                                                                                                    }) => {
+
+type Props = {
+    profile: UserProfile
+    setEditMode: (value: boolean) => void
+    isOwner: boolean
+}
+
+
+const ProfileDataForm = ({handleSubmit, profile}: Props & InjectedFormProps<UserProfile, Props>) => {
     return <form onSubmit={handleSubmit}>
         <div style={{marginTop: '10px', display: 'flex', flexDirection: 'column', width: '450px'}}>
             <div style={{display: 'flex', gap: '10px', justifyContent: 'space-between'}}><b>Full name</b> {<Field
@@ -54,10 +58,4 @@ const ProfileDataForm: React.FC<ProfileDataFormProps & InjectedFormProps<Profile
     </form>
 }
 
-type ProfileDataFormProps = {
-    profile: ProfileUserType
-    setEditMode: (value: boolean) => void
-    isOwner: boolean
-}
-
-export const ProfileDataReduxForm = reduxForm<ProfileUserType, ProfileDataFormProps>({form: 'Contacts'})(ProfileDataForm)
+export const ProfileDataReduxForm = reduxForm<UserProfile, Props>({form: 'Contacts'})(ProfileDataForm)

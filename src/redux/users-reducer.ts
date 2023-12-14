@@ -1,4 +1,3 @@
-import {UserType} from "../api/social-network-api";
 import {
     follow,
     setPage,
@@ -8,9 +7,10 @@ import {
     toggleIsFollowing,
     unfollow
 } from "./actions/actions";
-import {ACTIONS_TYPE} from "./actions/actionTypes";
+import {ACTION_TYPE} from "../common/enums/Actions";
+import {UserType} from "../api/types/typesApi";
 
-let initialState: InitialStateType = {
+let initialState: InitialState = {
     users: [],
     pageSize: 10,
     totalUserCount: 1,
@@ -19,28 +19,28 @@ let initialState: InitialStateType = {
     isFollowing: []
 }
 
-const usersReducer = (state: InitialStateType = initialState, action: UsersActionType): InitialStateType => {
+const usersReducer = (state: InitialState = initialState, action: UsersAction): InitialState => {
     switch (action.type) {
-        case ACTIONS_TYPE.FOLLOW :
+        case ACTION_TYPE.FOLLOW :
             return {
                 ...state,
                 users: state.users.map(el => el.id === action.id ? {...el, followed: true} : el)
             }
-        case ACTIONS_TYPE.UNFOLLOW :
+        case ACTION_TYPE.UNFOLLOW :
             return {
                 ...state,
                 users: state.users.map(el => el.id === action.id ? {...el, followed: false} : el)
             }
-        case ACTIONS_TYPE.SET_USER:
+        case ACTION_TYPE.SET_USER:
             return {...state, users: action.user}
-        case ACTIONS_TYPE.SET_CURRENT_PAGE :
+        case ACTION_TYPE.SET_CURRENT_PAGE :
             return {...state, currentPage: action.currentPage}
-        case ACTIONS_TYPE.SET_TOTAL_USER_COUNT :
+        case ACTION_TYPE.SET_TOTAL_USER_COUNT :
             return {...state, totalUserCount: action.totalCount}
-        case ACTIONS_TYPE.IS_FETCHING:
+        case ACTION_TYPE.IS_FETCHING:
             return {...state, isFetching: action.fetching}
-        case ACTIONS_TYPE.IS_FOLLOWING: {
-            return <InitialStateType>{
+        case ACTION_TYPE.IS_FOLLOWING: {
+            return <InitialState>{
                 ...state, isFollowing: action.fetching
                     ? [...state.isFollowing, action.id]
                     : state.isFollowing.filter(id => id != action.id)
@@ -54,7 +54,7 @@ export default usersReducer
 
 
 //------------------------------TYPES------------------------------
-export type UsersActionType =
+export type UsersAction =
     | ReturnType<typeof follow>
     | ReturnType<typeof unfollow>
     | ReturnType<typeof setUser>
@@ -63,7 +63,7 @@ export type UsersActionType =
     | ReturnType<typeof toggleIsFetching>
     | ReturnType<typeof toggleIsFollowing>
 
-type InitialStateType = {
+type InitialState = {
     users: UserType[]
     pageSize: number
     totalUserCount: number

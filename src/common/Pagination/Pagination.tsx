@@ -1,5 +1,6 @@
 import s from "./Users.module.css";
 import React, {useState} from "react";
+import cn from 'classnames'
 
 type Props = {
     totalUserCount: number
@@ -31,8 +32,11 @@ export const Pagination = (props: Props) => {
             .filter(el => el >= leftPortionPageNumber && el <= rightPortionPageNumber)
             .map(el => {
                 return <span
+                    className={cn({
+                        [s.selectedPage]: props.currentPage === el
+                    }, s.pageNumber)}
                     key={el}
-                    onClick={(e) => {
+                    onClick={() => {
                         props.onPageChanged(el)
                     }}>
                     {el}

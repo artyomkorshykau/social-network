@@ -1,6 +1,13 @@
 import {Contacts} from "../Contacts/Contacts";
-import {ProfileContactsType, ProfileUserType} from "../../ProfileContainer";
+import {ProfileContacts} from "../../ProfileContainer";
 import React from "react";
+import {UserProfile} from "../../../../api/types/typesApi";
+
+type Props = {
+    profile: UserProfile
+    isOwner: boolean
+    setEditMode: (value: boolean) => void
+}
 
 export const ProfileData = (props: Props) => {
     return <>
@@ -16,7 +23,7 @@ export const ProfileData = (props: Props) => {
             <ul>
                 {Object.keys(props.profile.contacts).map((el) => {
                     return <li style={{marginLeft: '20px'}}><Contacts title={el}
-                                                                      value={props.profile.contacts[el as keyof ProfileContactsType]}
+                                                                      value={props.profile.contacts[el as keyof ProfileContacts]}
                                                                       key={el}/></li>
                 })}
             </ul>
@@ -27,8 +34,3 @@ export const ProfileData = (props: Props) => {
     </>
 }
 
-type Props = {
-    profile: ProfileUserType
-    isOwner: boolean
-    setEditMode: (value: boolean) => void
-}

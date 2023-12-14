@@ -1,15 +1,26 @@
 import {
-    follow, initializedSucceed,
-    setAuthUserData, setCaptcha, setPage, setPhotoSuccess, setStatusAC,
-    setTotalUserCount, setUser,
+    follow,
+    initializedSucceed,
+    setAuthUserData,
+    setCaptcha,
+    setPage,
+    setPhotoSuccess,
+    setStatusAC,
+    setTotalUserCount,
+    setUser,
     setUserProfile,
     toggleIsFetching,
-    toggleIsFollowing, unfollow
+    toggleIsFollowing,
+    unfollow
 } from "../actions/actions";
-import {authAPI, profileAPI, securityAPI, usersAPI, UserType} from "../../api/social-network-api";
 import {stopSubmit} from "redux-form";
-import {AppRootState, AppThunk} from "../store";
-import {ProfileUserType} from "../../components/Profile/ProfileContainer";
+import {AppThunk} from "../store";
+import {ResultCode} from "../../common/enums/Response";
+import {authAPI} from "../../api/authApi";
+import {securityAPI} from "../../api/securityApi";
+import {profileAPI} from "../../api/profileApi";
+import {UserProfile, UserType} from "../../api/types/typesApi";
+import {usersAPI} from "../../api/userApi";
 
 //-------------------------------APP-THUNK-------------------------------
 export const initializedTC = (): AppThunk => {
@@ -26,8 +37,8 @@ export const initializedTC = (): AppThunk => {
 export const authMeTC = (): AppThunk => {
     return async (dispatch) => {
         try {
-            const res = await authAPI.authMe();
-            if (res.data.resultCode === 0) {
+            const res = await authAPI.me();
+            if (res.data.resultCode === ResultCode.SUCCEED) {
                 let {id, login, email} = res.data.data
                 dispatch(setAuthUserData(id, login, email, true));
             }
@@ -41,11 +52,11 @@ export const LoginTC = (log: string, pass: string, remember: boolean, captcha: s
     return async (dispatch) => {
         try {
             const res = await authAPI.login(log, pass, captcha, remember);
-            if (res.data.resultCode === 0) {
+            if (res.data.resultCode === ResultCode.SUCCEED) {
                 await dispatch(authMeTC());
             } else {
-                if (res.data.resultCode === 10) {
-                    dispatch(getCaptchaTC())
+                if (res.data.resultCode === ResultCode.CAPTCHA) {
+                    await dispatch(getCaptchaTC())
                 }
                 let message = res.data.messages.length > 0 ? res.data.messages[0] : 'Some Error'
                 dispatch(stopSubmit('login', {_error: message}))
@@ -60,7 +71,7 @@ export const LogoutTC = (): AppThunk => {
     return async (dispatch) => {
         try {
             const res = await authAPI.logout();
-            if (res.data.resultCode === 0) {
+            if (res.data.resultCode === ResultCode.SUCCEED) {
                 dispatch(setAuthUserData(null, null, null, false));
             }
         } catch (error) {
@@ -113,20 +124,20 @@ export const updateStatusTC = (status: string): AppThunk => {
 export const savePhotoTC = (file: File): AppThunk => {
     return async (dispatch) => {
         let res = await profileAPI.savePhoto(file)
-        if (res.data.resultCode === 0) {
+        if (res.data.resultCode === ResultCode.SUCCEED) {
             dispatch(setPhotoSuccess(res.data.data))
         }
     }
 }
 
-export const saveProfileTC = (profile: ProfileUserType): AppThunk => {
+export const saveProfileTC = (profile: UserProfile): AppThunk => {
     return async (dispatch, getState) => {
         const userId = getState().profilePage.profile?.userId
         let res = await profileAPI.saveProfile(profile)
-        if (res.data.resultCode === 0) {
+        if (res.data.resultCode === ResultCode.SUCCEED) {
             await dispatch(getProfileTC(userId))
             return Promise.resolve()
-        } else if (res.data.resultCode === 1) {
+        } else if (res.data.resultCode === ResultCode.ERROR) {
             const errorMessage = res.data.messages[0].split(' ')
             const contactError = errorMessage[errorMessage.length - 1].split('->')
             const contact = contactError[contactError.length - 1].slice(0, -1).toLowerCase()
@@ -172,7 +183,7 @@ export const followTC = (id: number): AppThunk => {
         dispatch(toggleIsFollowing(true, id));
         try {
             const data = await usersAPI.follow(id);
-            if (data.resultCode === 0) {
+            if (data.resultCode === ResultCode.SUCCEED) {
                 dispatch(follow(id));
             }
             dispatch(toggleIsFollowing(false, id));
@@ -187,7 +198,7 @@ export const unFollowTC = (id: number): AppThunk => {
         dispatch(toggleIsFollowing(true, id));
         try {
             const data = await usersAPI.unfollow(id);
-            if (data.resultCode === 0) {
+            if (data.resultCode === ResultCode.SUCCEED) {
                 dispatch(unfollow(id));
             }
             dispatch(toggleIsFollowing(false, id));

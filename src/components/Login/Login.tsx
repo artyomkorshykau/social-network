@@ -1,53 +1,12 @@
 import React from 'react'
-import {Field, reduxForm} from "redux-form";
-import {Input} from "../../common/FormControls/FormControls";
-import {required} from "../../utils/validators/validator";
 import {connect} from "react-redux";
 import {Redirect} from "react-router-dom";
-import {AppStateType} from "../../redux/store";
-import s from '../../common/FormControls/FormControl.module.css'
-import {LoginTC, LogoutTC} from "../../redux/thunks/thunks";
+import {AppState} from "../../redux/store";
+import {LoginTC} from "../../redux/thunks/thunks";
+import {LoginReduxForm} from "./LoginForm";
 
 
-const LoginForm = ({handleSubmit, error, captcha}: any) => {
-    return (
-        <form onSubmit={handleSubmit}>
-            <div>
-                <Field placeholder={'Login'}
-                       component={Input}
-                       name={'email'}
-                       validate={[required]}/>
-            </div>
-            <div>
-                <Field placeholder={'Password'}
-                       component={Input}
-                       name={'password'}
-                       validate={[required]}/>
-            </div>
-            <div>
-                <Field name={'rememberMe'}
-                       type={'checkbox'}
-                       component={Input}
-                /> Remember me
-            </div>
-
-            {captcha && <img src={captcha} alt={'captcha'}/>}
-            {captcha && <Field placeholder={'Antibot symbols'}
-                               component={Input}
-                               name={'captcha'}
-                               validate={[required]}/>}
-
-            {error && <span className={s.formSummaryError}>{error}</span>}
-            <div>
-                <button>Sign up</button>
-            </div>
-        </form>
-    )
-}
-
-const LoginReduxForm = reduxForm<DataFormType, LoginFormProps>({form: 'login'})(LoginForm)
-
-const Login = (props: any) => {
+const Login = (props: Props) => {
 
     const onSubmit = (formData: any) => {
         console.log(formData)
@@ -64,24 +23,28 @@ const Login = (props: any) => {
     </div>
 }
 
-const mapStateToProps = (state: AppStateType): MapToStatePropsType => ({
+const mapStateToProps = (state: AppState): MapStateToProps => ({
     isAuth: state.auth.isAuth,
     captcha: state.auth.captcha
 })
 
-type MapToStatePropsType = {
+type MapStateToProps = {
     isAuth: boolean
     captcha: string | null
 }
 
-export type DataFormType = {
+type MapDispatchToProps = {
+    LoginTC: (log: string, pass: string, remember: boolean, captcha: string | null) => void
+}
+
+type Props = MapDispatchToProps & MapStateToProps
+
+export type DataForm = {
     login: string;
     password: string;
     rememberMe: boolean;
     captcha: string | null
 }
 
-type LoginFormProps = {
-    captcha: string | null
-}
-export default connect(mapStateToProps, {LoginTC})(Login)
+
+export default connect<MapStateToProps, MapDispatchToProps, unknown, AppState>(mapStateToProps, {LoginTC})(Login)

@@ -1,13 +1,14 @@
 import React from 'react';
 import Profile from "./Profile";
 import {connect} from "react-redux";
-import {AppStateType} from "../../redux/store";
+import {AppState} from "../../redux/store";
 import {RouteComponentProps, withRouter} from "react-router-dom";
 import {compose} from "redux";
 import {getProfileTC, getUserStatusTC, savePhotoTC, saveProfileTC, updateStatusTC} from "../../redux/thunks/thunks";
+import {UserProfile} from "../../api/types/typesApi";
 
 
-class ProfileContainer extends React.Component<ProfileContainerPropsType> {
+class ProfileContainer extends React.Component<Props> {
 
     refreshProfile() {
         let userID = this.props.match.params.userId
@@ -26,7 +27,7 @@ class ProfileContainer extends React.Component<ProfileContainerPropsType> {
         this.refreshProfile()
     }
 
-    componentDidUpdate(prevProps: Readonly<ProfileContainerPropsType>, prevState: Readonly<{}>, snapshot?: any) {
+    componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<{}>, snapshot?: any) {
         if (this.props.match.params.userId !== this.props.match.params.userId)
             this.refreshProfile()
     }
@@ -45,7 +46,7 @@ class ProfileContainer extends React.Component<ProfileContainerPropsType> {
     }
 }
 
-const mapStateToProps = (state: AppStateType): MapStateToProps => ({
+const mapStateToProps = (state: AppState): MapStateToProps => ({
     profile: state.profilePage.profile,
     status: state.profilePage.status,
     loggedUser: state.auth.id,
@@ -53,31 +54,29 @@ const mapStateToProps = (state: AppStateType): MapStateToProps => ({
 })
 
 export default compose<React.ComponentType>(
-    connect(mapStateToProps, {getProfileTC, getUserStatusTC, updateStatusTC, savePhotoTC, saveProfileTC}),
+    connect<MapStateToProps, MapDispatchToProps, unknown, AppState>(mapStateToProps, {
+        getProfileTC,
+        getUserStatusTC,
+        updateStatusTC,
+        savePhotoTC,
+        saveProfileTC
+    }),
     withRouter,
     // withAuthRedirect
 )(ProfileContainer)
 
 
 //--------------------------------TYPES--------------------------------
-export type ProfileUserType = {
-    aboutMe: string
-    userId: number | null
-    lookingForAJob: boolean
-    lookingForAJobDescription: string
-    fullName: string
-    contacts: ProfileContactsType
-    photos: ProfilePhoto
-}
 
-export type ProfileDataForm = Omit<ProfileUserType, 'userId' | 'photos'>
+
+export type ProfileDataForm = Omit<UserProfile, 'userId' | 'photos'>
 
 export type ProfilePhoto = {
     small: string | null
     large: string | null
 }
 
-export type ProfileContactsType = {
+export type ProfileContacts = {
     github: string | null
     vk: string | null
     facebook: string | null
@@ -87,11 +86,11 @@ export type ProfileContactsType = {
     youtube: string | null
     mainLink: string | null
 }
-type PathParamsType = {
+type PathParams = {
     userId: string
 }
 type MapStateToProps = {
-    profile: ProfileUserType | null
+    profile: UserProfile | null
     status: string
     loggedUser: number | null
     isAuth: boolean
@@ -103,5 +102,5 @@ type MapDispatchToProps = {
     savePhotoTC: (file: File) => void
     saveProfileTC: (profile: ProfileDataForm) => Promise<void>
 }
-type ProfileClassType = MapStateToProps & MapDispatchToProps
-type ProfileContainerPropsType = RouteComponentProps<PathParamsType> & ProfileClassType
+type ProfileClass = MapStateToProps & MapDispatchToProps
+type Props = RouteComponentProps<PathParams> & ProfileClass

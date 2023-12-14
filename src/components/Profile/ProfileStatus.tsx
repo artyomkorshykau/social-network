@@ -1,18 +1,18 @@
 import React, {ChangeEvent, useEffect, useState} from 'react';
 
-type ProfileStatusPropsType = {
+type Props = {
     status: string
     updateStatus: (status: string) => void
 }
 
-const ProfileStatus = (props: ProfileStatusPropsType) => {
+const ProfileStatus = (props: Props) => {
 
     useEffect(() => {
         setStatus(props.status)
     }, [props.status])
 
-    const [editMode, setEditMode] = useState(false)
-    const [status, setStatus] = useState(props.status)
+    const [editMode, setEditMode] = useState<boolean>(false)
+    const [status, setStatus] = useState<string>(props.status)
 
     const activateMode = () => {
         setEditMode(!editMode)

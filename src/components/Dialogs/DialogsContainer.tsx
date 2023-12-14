@@ -1,20 +1,20 @@
 import React from "react"
-import {AppStateType} from "../../redux/store";
+import {AppState} from "../../redux/store";
 import {sendMessageAC} from "../../redux/actions/actions";
 import {compose, Dispatch} from "redux";
 import Dialogs from "./Dialogs";
-import {ProfilePageType} from "../../redux/dialogs-reducer";
-import {withAuthRedirect} from "../../HOC/withAuthRedirect";
+import {ProfilePage} from "../../redux/dialogs-reducer";
+import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import {connect} from "react-redux";
 
 
-const mapStateToProps = (state: AppStateType): MapStateDialogsToProps => {
+const mapStateToProps = (state: AppState): MapStateToProps => {
     return {
         dialogsPage: state.dialogsPage,
     }
 }
 
-const mapDispatchToProps = (dispatch: Dispatch): MapDispatchDialogsToProps => {
+const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToProps => {
     return {
         sendMessage: (newMessageBody: string) => {
             dispatch(sendMessageAC(newMessageBody))
@@ -23,18 +23,18 @@ const mapDispatchToProps = (dispatch: Dispatch): MapDispatchDialogsToProps => {
 }
 
 export default compose<React.ComponentType>(
-    connect(mapStateToProps, mapDispatchToProps),
+    connect<MapStateToProps, MapDispatchToProps, unknown, AppState>(mapStateToProps, mapDispatchToProps),
     withAuthRedirect
 )(Dialogs)
 
 
 //--------------------------------TYPES--------------------------------
-type MapStateDialogsToProps = {
-    dialogsPage: ProfilePageType
+type MapStateToProps = {
+    dialogsPage: ProfilePage
 }
 
-type MapDispatchDialogsToProps = {
+type MapDispatchToProps = {
     sendMessage: (newMessageBody: string) => void
 }
 
-export type DialogsPropsType = MapDispatchDialogsToProps & MapStateDialogsToProps
+export type Props = MapDispatchToProps & MapStateToProps

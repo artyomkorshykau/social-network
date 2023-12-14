@@ -2,7 +2,12 @@ import s from "../Dialogs.module.css";
 import {NavLink} from "react-router-dom";
 import React from "react";
 
-export const DialogItem: React.FC<DialogItemPropsType> = (props) => {
+type Props = {
+    name: string
+    id: string
+}
+
+export const DialogItem = (props: Props) => {
     let path = '/dialogs/' + props.id
 
     return (<div className={s.dialog + ' ' + s.active}>
@@ -10,8 +15,3 @@ export const DialogItem: React.FC<DialogItemPropsType> = (props) => {
     </div>)
 }
 
-//--------------------------------TYPES--------------------------------
-type DialogItemPropsType = {
-    name: string
-    id: string
-}

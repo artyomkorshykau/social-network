@@ -2,16 +2,16 @@ import {NavLink} from "react-router-dom";
 import photo from "../../img/photo.png";
 import s from "./Users.module.css";
 import React from "react";
-import {UserType} from "../../api/social-network-api";
+import {UserType} from "../../api/types/typesApi";
 
-type UserPropsType = {
+type Props = {
     isFollowing: []
     followTC: (id: number) => void
     unFollowTC: (id: number) => void
     user: UserType
 }
 
-export const User = (props: UserPropsType) => {
+export const User = (props: Props) => {
 
     let {user} = props
 

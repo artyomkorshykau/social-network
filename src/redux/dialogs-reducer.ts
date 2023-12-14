@@ -1,5 +1,5 @@
 import {sendMessageAC} from "./actions/actions";
-import {ACTIONS_TYPE} from "./actions/actionTypes";
+import {ACTION_TYPE} from "../common/enums/Actions";
 
 let initialState = {
     dialogs: [
@@ -22,9 +22,9 @@ let initialState = {
     ]
 }
 
-const dialogsReducer = (state: ProfilePageType = initialState, action: DialogsActionType): ProfilePageType => {
+const dialogsReducer = (state: ProfilePage = initialState, action: DialogsAction): ProfilePage => {
     switch (action.type) {
-        case ACTIONS_TYPE.SEND_MESSAGE :
+        case ACTION_TYPE.SEND_MESSAGE :
             let body = action.newMessageBody
             return {...state, messages: [...state.messages, {id: '1', title: body}]}
         default:
@@ -35,14 +35,14 @@ export default dialogsReducer
 
 
 //-------------------------------TYPES-------------------------------
-export type ProfilePageType = typeof initialState
-export type DialogsType = {
+export type ProfilePage = typeof initialState
+export type Dialog = {
     id: string
     name: string
 }
-export type MessageType = {
+export type Messages = {
     id: string
     title: string
 }
 
-export type DialogsActionType = | ReturnType<typeof sendMessageAC>
+export type DialogsAction = | ReturnType<typeof sendMessageAC>

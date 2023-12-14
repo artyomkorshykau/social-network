@@ -2,7 +2,12 @@ import s from "../MyPost.module.css";
 import profileAva from "../../../../img/photo.png";
 import React from "react";
 
-const Post: React.FC<PostPropsType> = (props) => {
+type Props = {
+    message: string,
+    likeCounts: string
+}
+
+const Post: React.FC<Props> = (props) => {
     return (
         <div className={s.item}>
             <img src={profileAva} alt=""/>
@@ -17,9 +22,3 @@ const Post: React.FC<PostPropsType> = (props) => {
 
 export default Post
 
-//--------------------------------TYPES--------------------------------
-
-type PostPropsType = {
-    message: string,
-    likeCounts: string
-}

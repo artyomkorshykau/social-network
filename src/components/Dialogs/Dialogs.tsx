@@ -2,25 +2,25 @@ import React from "react";
 import s from './Dialogs.module.css'
 import {DialogItem} from "./DialogItem/DialogItem";
 import {Message} from "./Message/Message";
-import {DialogsType, MessageType} from "../../redux/dialogs-reducer";
+import {Dialog, Messages} from "../../redux/dialogs-reducer";
 import {Field, reduxForm} from "redux-form";
 import {TextArea} from "../../common/FormControls/FormControls";
 import {maxLengthCreator, required} from "../../utils/validators/validator";
-import {DialogsPropsType} from "./DialogsContainer";
+import {Props} from "./DialogsContainer";
 import {store} from "../../redux/store";
 
 
-const Dialogs: React.FC<DialogsPropsType> = (props) => {
+const Dialogs = (props: Props) => {
 
     let dialogsPage = store.getState().dialogsPage
 
     let dialogsItem = dialogsPage.dialogs
-        .map((dialogs: DialogsType, index) => <DialogItem key={index}
-                                                          name={dialogs.name}
-                                                          id={dialogs.id}/>)
+        .map((dialogs: Dialog, index) => <DialogItem key={index}
+                                                     name={dialogs.name}
+                                                     id={dialogs.id}/>)
     let messageItem = dialogsPage.messages
-        .map((message: MessageType, index) => <Message key={index}
-                                                       message={message.title}/>)
+        .map((message: Messages, index) => <Message key={index}
+                                                    message={message.title}/>)
 
     const addNewMessage = (values: any) => {
         props.sendMessage(values.newMessageBody)

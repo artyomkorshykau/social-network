@@ -1,10 +1,20 @@
 import React from "react";
 import ProfileInfo from "./ProfileInfo/ProfileInfo";
 import {MyPostContainer} from "./MyPosts/MyPostContainer";
-import {ProfileDataForm, ProfileUserType} from "./ProfileContainer";
+import {ProfileDataForm} from "./ProfileContainer";
+import {UserProfile} from "../../api/types/typesApi";
+
+type Props = {
+    profile: UserProfile | null
+    status: string
+    updateStatus: (status: string) => void
+    isOwner: boolean
+    savePhoto: (file: File) => void
+    saveProfile: (profile: ProfileDataForm) => Promise<void>
+}
 
 
-const Profile = (props: ProfilePropsType) => {
+const Profile = (props: Props) => {
 
     return (<div>
         <ProfileInfo
@@ -20,14 +30,3 @@ const Profile = (props: ProfilePropsType) => {
 }
 
 export default Profile
-
-
-//--------------------------------TYPES--------------------------------
-type ProfilePropsType = {
-    profile: ProfileUserType | null
-    status: string
-    updateStatus: (status: string) => void
-    isOwner: boolean
-    savePhoto: (file: File) => void
-    saveProfile: (profile: ProfileDataForm) => Promise<void>
-}

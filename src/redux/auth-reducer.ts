@@ -1,5 +1,5 @@
 import {setAuthUserData, setCaptcha} from "./actions/actions";
-import {ACTIONS_TYPE} from "./actions/actionTypes";
+import {ACTION_TYPE} from "../common/enums/Actions";
 
 const initialState = {
     id: null,
@@ -10,11 +10,11 @@ const initialState = {
     captcha: null
 }
 
-const authReducer = (state: InitialStateType = initialState, action: AuthActionType): InitialStateType => {
+const authReducer = (state: InitialState = initialState, action: AuthAction): InitialState => {
     switch (action.type) {
-        case ACTIONS_TYPE.SET_USER_DATA:
+        case ACTION_TYPE.SET_USER_DATA:
             return {...state, ...action.payload}
-        case ACTIONS_TYPE.SET_CAPTCHA:
+        case ACTION_TYPE.SET_CAPTCHA:
             return {...state, ...action.payload}
         default:
             return state
@@ -23,7 +23,7 @@ const authReducer = (state: InitialStateType = initialState, action: AuthActionT
 export default authReducer
 
 //-------------------------------TYPES-------------------------------
-type InitialStateType = {
+type InitialState = {
     id: null | number;
     email: null | string,
     login: null | string,
@@ -31,4 +31,4 @@ type InitialStateType = {
     isAuth: boolean
     captcha: null | string
 }
-export type AuthActionType = ReturnType<typeof setAuthUserData> | ReturnType<typeof setCaptcha>
+export type AuthAction = ReturnType<typeof setAuthUserData> | ReturnType<typeof setCaptcha>
