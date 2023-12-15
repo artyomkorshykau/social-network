@@ -13,7 +13,7 @@ export const LoginForm = ({
                               handleSubmit,
                               error,
                               captcha
-                          }: LoginFormProps & InjectedFormProps<DataForm, LoginFormProps>) => {
+                          }: InjectedFormProps<DataForm, LoginFormProps> & LoginFormProps) => {
     return (
         <form onSubmit={handleSubmit}>
             <div>
