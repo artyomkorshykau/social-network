@@ -10,7 +10,7 @@ const initialState = {
     captcha: null
 }
 
-const authReducer = (state: InitialState = initialState, action: Action): InitialState => {
+const authReducer = (state: InitialState = initialState, action: AuthActions): InitialState => {
     switch (action.type) {
         case ACTION_TYPE.SET_USER_DATA:
             return {...state, ...action.payload}
@@ -31,4 +31,4 @@ type InitialState = {
     isAuth: boolean
     captcha: null | string
 }
-export type Action = ReturnType<typeof setAuthUserData> | ReturnType<typeof setCaptcha>
+export type AuthActions = ReturnType<typeof setAuthUserData> | ReturnType<typeof setCaptcha>

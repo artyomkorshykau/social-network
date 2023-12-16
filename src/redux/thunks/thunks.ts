@@ -38,8 +38,8 @@ export const authMeTC = (): AppThunk => {
     return async (dispatch) => {
         try {
             const res = await authAPI.me();
-            if (res.data.resultCode === ResultCode.SUCCEED) {
-                let {id, login, email} = res.data.data
+            if (res.resultCode === ResultCode.SUCCEED) {
+                let {id, login, email} = res.data
                 dispatch(setAuthUserData(id, login, email, true));
             }
         } catch (error) {
@@ -52,13 +52,13 @@ export const LoginTC = (log: string, pass: string, remember: boolean, captcha: s
     return async (dispatch) => {
         try {
             const res = await authAPI.login(log, pass, captcha, remember);
-            if (res.data.resultCode === ResultCode.SUCCEED) {
+            if (res.resultCode === ResultCode.SUCCEED) {
                 await dispatch(authMeTC());
             } else {
-                if (res.data.resultCode === ResultCode.CAPTCHA) {
+                if (res.resultCode === ResultCode.CAPTCHA) {
                     await dispatch(getCaptchaTC())
                 }
-                let message = res.data.messages.length > 0 ? res.data.messages[0] : 'Some Error'
+                let message = res.messages.length > 0 ? res.messages[0] : 'Some Error'
                 dispatch(stopSubmit('login', {_error: message}))
             }
         } catch (error) {
@@ -71,7 +71,7 @@ export const LogoutTC = (): AppThunk => {
     return async (dispatch) => {
         try {
             const res = await authAPI.logout();
-            if (res.data.resultCode === ResultCode.SUCCEED) {
+            if (res.resultCode === ResultCode.SUCCEED) {
                 dispatch(setAuthUserData(null, null, null, false));
             }
         } catch (error) {
@@ -83,16 +83,16 @@ export const LogoutTC = (): AppThunk => {
 export const getCaptchaTC = (): AppThunk => {
     return async (dispatch) => {
         const res = await securityAPI.getCaptcha()
-        dispatch(setCaptcha(res.data.url))
+        dispatch(setCaptcha(res.url))
     }
 }
 
 //--------------------------------PROFILE-THUNK--------------------------------
-export const getProfileTC = (userID: number | null = 29875): AppThunk => {
+export const getProfileTC = (userID: number | null): AppThunk => {
     return async (dispatch) => {
         try {
             const data = await profileAPI.getProfile(userID);
-            dispatch(setUserProfile(data.data));
+            dispatch(setUserProfile(data));
         } catch (error) {
             // Handle error
         }
@@ -103,7 +103,7 @@ export const getUserStatusTC = (userId: string): AppThunk => {
     return async (dispatch) => {
         try {
             const res = await profileAPI.getStatus(userId);
-            dispatch(setStatusAC(res.data));
+            dispatch(setStatusAC(res));
         } catch (error) {
             // Handle error
         }
@@ -124,25 +124,25 @@ export const updateStatusTC = (status: string): AppThunk => {
 export const savePhotoTC = (file: File): AppThunk => {
     return async (dispatch) => {
         let res = await profileAPI.savePhoto(file)
-        if (res.data.resultCode === ResultCode.SUCCEED) {
-            dispatch(setPhotoSuccess(res.data.data))
+        if (res.resultCode === ResultCode.SUCCEED) {
+            dispatch(setPhotoSuccess(res.data))
         }
     }
 }
 
 export const saveProfileTC = (profile: UserProfile): AppThunk => {
     return async (dispatch, getState) => {
-        const userId = getState().profilePage.profile?.userId
+        const userId = getState().profilePage.profile?.userId||29875
         let res = await profileAPI.saveProfile(profile)
-        if (res.data.resultCode === ResultCode.SUCCEED) {
+        if (res.resultCode === ResultCode.SUCCEED) {
             await dispatch(getProfileTC(userId))
             return Promise.resolve()
-        } else if (res.data.resultCode === ResultCode.ERROR) {
-            const errorMessage = res.data.messages[0].split(' ')
+        } else if (res.resultCode === ResultCode.ERROR) {
+            const errorMessage = res.messages[0].split(' ')
             const contactError = errorMessage[errorMessage.length - 1].split('->')
             const contact = contactError[contactError.length - 1].slice(0, -1).toLowerCase()
-            dispatch(stopSubmit('Contacts', {'contacts': {[contact]: res.data.messages[0]}}))
-            return Promise.reject(res.data.messages[0])
+            dispatch(stopSubmit('Contacts', {'contacts': {[contact]: res.messages[0]}}))
+            return Promise.reject(res.messages[0])
         }
     }
 }

@@ -1,4 +1,4 @@
-import React, {ComponentType} from 'react';
+import React, {ComponentType, FunctionComponent} from 'react';
 import {Redirect} from "react-router-dom";
 import {AppState} from "../redux/store";
 import {connect} from "react-redux";

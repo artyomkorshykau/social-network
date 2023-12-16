@@ -28,8 +28,9 @@ class ProfileContainer extends React.Component<Props> {
     }
 
     componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<{}>, snapshot?: any) {
-        if (this.props.match.params.userId !== this.props.match.params.userId)
+        if (this.props.match.params.userId !== this.props.match.params.userId) {
             this.refreshProfile()
+        }
     }
 
     render() {
@@ -41,7 +42,8 @@ class ProfileContainer extends React.Component<Props> {
                      status={this.props.status}
                      updateStatus={this.props.updateStatusTC}
                      savePhoto={this.props.savePhotoTC}
-                     saveProfile={this.props.saveProfileTC}/>
+                     saveProfile={(this.props.saveProfileTC)}
+            />
         </div>)
     }
 }
@@ -54,7 +56,7 @@ const mapStateToProps = (state: AppState): MapStateToProps => ({
 })
 
 export default compose<React.ComponentType>(
-    connect<MapStateToProps, MapDispatchToProps, unknown, AppState>(mapStateToProps, {
+    connect(mapStateToProps, {
         getProfileTC,
         getUserStatusTC,
         updateStatusTC,
@@ -96,7 +98,7 @@ type MapStateToProps = {
     isAuth: boolean
 }
 type MapDispatchToProps = {
-    getProfileTC: (userID: string) => void
+    getProfileTC: (userID: string | null) => void
     getUserStatusTC: (status: string) => void
     updateStatusTC: (status: string) => void
     savePhotoTC: (file: File) => void

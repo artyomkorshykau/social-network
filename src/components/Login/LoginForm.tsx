@@ -6,13 +6,13 @@ import React from "react";
 import {DataForm} from "./Login";
 
 type LoginFormProps = {
-    captcha: string | null
+    captchaUrl: string | null
 }
 
 export const LoginForm = ({
                               handleSubmit,
                               error,
-                              captcha
+                              captchaUrl
                           }: InjectedFormProps<DataForm, LoginFormProps> & LoginFormProps) => {
     return (
         <form onSubmit={handleSubmit}>
@@ -35,11 +35,11 @@ export const LoginForm = ({
                 /> Remember me
             </div>
 
-            {captcha && <img src={captcha} alt={'captcha'}/>}
-            {captcha && <Field placeholder={'Antibot symbols'}
-                               component={Input}
-                               name={'captcha'}
-                               validate={[required]}/>}
+            {captchaUrl && <img src={captchaUrl} alt={'captcha'}/>}
+            {captchaUrl && <Field placeholder={'Antibot symbols'}
+                                  component={Input}
+                                  name={'captcha'}
+                                  validate={[required]}/>}
 
             {error && <span className={s.formSummaryError}>{error}</span>}
             <div>

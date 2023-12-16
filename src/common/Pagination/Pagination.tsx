@@ -1,4 +1,3 @@
-import s from "./Users.module.css";
 import React, {useState} from "react";
 import cn from 'classnames'
 
@@ -23,7 +22,7 @@ export const Pagination = (props: Props) => {
     let leftPortionPageNumber = (portionNumber - 1) * portionSize + 1
     let rightPortionPageNumber = portionNumber * portionSize
 
-    return <div className={s.pagination}>
+    return <div className={''}>
         {portionNumber > 1 &&
             <button onClick={() => {
                 setPortionNumber(portionNumber - 1)
@@ -33,8 +32,8 @@ export const Pagination = (props: Props) => {
             .map(el => {
                 return <span
                     className={cn({
-                        [s.selectedPage]: props.currentPage === el
-                    }, s.pageNumber)}
+                        ['']: props.currentPage === el
+                    }, '')}
                     key={el}
                     onClick={() => {
                         props.onPageChanged(el)
