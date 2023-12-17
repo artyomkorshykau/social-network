@@ -1,18 +1,18 @@
 import React, {ChangeEvent, useEffect, useState} from 'react';
 
 type Props = {
-    status: string
+    profileStatus: string
     updateStatus: (status: string) => void
 }
 
-const ProfileStatus = (props: Props) => {
+const ProfileStatus = ({updateStatus, profileStatus}: Props) => {
 
     useEffect(() => {
-        setStatus(props.status)
-    }, [props.status])
+        setStatus(status)
+    }, [profileStatus])
 
     const [editMode, setEditMode] = useState<boolean>(false)
-    const [status, setStatus] = useState<string>(props.status)
+    const [status, setStatus] = useState<string>(profileStatus)
 
     const activateMode = () => {
         setEditMode(!editMode)
@@ -20,7 +20,7 @@ const ProfileStatus = (props: Props) => {
 
     const deactivatedMode = () => {
         setEditMode(!editMode)
-        props.updateStatus(status)
+        updateStatus(status)
     }
 
     const changeStatus = (event: ChangeEvent<HTMLInputElement>) => {
@@ -32,7 +32,7 @@ const ProfileStatus = (props: Props) => {
             {!editMode &&
                 <div><span
                     onDoubleClick={activateMode}
-                ><b>Status: </b>{props.status || '...'}</span></div>
+                ><b>Status: </b>{status || '...'}</span></div>
             }
             {editMode &&
                 <div><input

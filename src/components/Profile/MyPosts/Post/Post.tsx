@@ -7,14 +7,14 @@ type Props = {
     likeCounts: string
 }
 
-const Post: React.FC<Props> = (props) => {
+const Post = ({message, likeCounts}: Props) => {
     return (
         <div className={s.item}>
             <img src={profileAva} alt=""/>
-            {props.message}
+            {message}
             <div>
                 <span>Like </span>
-                {props.likeCounts}
+                {likeCounts}
             </div>
         </div>
     )

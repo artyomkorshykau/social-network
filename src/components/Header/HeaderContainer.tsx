@@ -20,7 +20,7 @@ const mapStateToProps = (state: AppState): MapStateToProps => {
 }
 
 export default compose<React.ComponentType>(
-    connect<MapStateToProps, MapDispatchToProps, unknown, AppState>(mapStateToProps, {LogoutTC})
+    connect<MapStateToProps, MapDispatchToProps, {}, AppState>(mapStateToProps, {logoutTC: LogoutTC})
 )(HeaderContainer)
 
 
@@ -31,7 +31,7 @@ type MapStateToProps = {
 }
 
 type MapDispatchToProps = {
-    LogoutTC: () => void
+    logoutTC: () => void
 }
 
 export type Props = MapStateToProps & MapDispatchToProps

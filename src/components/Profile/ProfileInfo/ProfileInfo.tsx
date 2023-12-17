@@ -17,25 +17,24 @@ type Props = {
     saveProfile: (profile: ProfileDataForm) => Promise<void>
 }
 
-const ProfileInfo = (props: Props) => {
+const ProfileInfo = ({saveProfile, profile, savePhoto, isOwner, status, updateStatus}: Props) => {
 
     const [editMode, setEditMode] = useState(false)
 
-    if (!props.profile) {
+    if (!profile) {
         return <Preloader/>
     }
 
     const changeMainPhotoHandler = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files !== null) {
-            props.savePhoto(e.target.files[0])
+            savePhoto(e.target.files[0])
         }
     }
 
     const onSubmit = (formData: ProfileDataForm) => {
 
-        props.saveProfile(formData)
+        saveProfile(formData)
             .then(() => {
-                console.log('lol')
                 setEditMode(false)
             }).catch(e => {
         })
@@ -44,20 +43,20 @@ const ProfileInfo = (props: Props) => {
     return (
         <div>
             <div className={s.diskBlock}>
-                <img src={props.profile.photos.large || photo} alt="" className={s.ava}/>
+                <img src={profile.photos.large || photo} alt="" className={s.ava}/>
 
-                <div>{props.isOwner &&
+                <div>{isOwner &&
                     <input type={'file'} onChange={changeMainPhotoHandler}/>}</div>
 
-                <ProfileStatus status={props.status} updateStatus={props.updateStatus}/>
+                <ProfileStatus profileStatus={status} updateStatus={updateStatus}/>
 
                 {editMode
-                    ? <ProfileDataReduxForm profile={props.profile}
-                                            isOwner={props.isOwner}
+                    ? <ProfileDataReduxForm profile={profile}
+                                            isOwner={isOwner}
                                             setEditMode={setEditMode}
                                             onSubmit={onSubmit}/>
-                    : <ProfileData profile={props.profile}
-                                   isOwner={props.isOwner}
+                    : <ProfileData profile={profile}
+                                   isOwner={isOwner}
                                    setEditMode={setEditMode}/>}
 
 

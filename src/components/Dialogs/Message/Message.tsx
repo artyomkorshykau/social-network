@@ -5,6 +5,6 @@ type Props = {
     message: string
 }
 
-export const Message = (props: Props) => {
-    return (<div className={s.dialog}>{props.message}</div>)
+export const Message = ({message}: Props) => {
+    return (<div className={s.dialog}>{message}</div>)
 }

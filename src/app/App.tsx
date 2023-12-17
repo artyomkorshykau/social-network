@@ -18,11 +18,15 @@ const DialogsContainer = React.lazy(() => import('../components/Dialogs/DialogsC
 const ProfileContainer = React.lazy(() => import('../components/Profile/ProfileContainer'))
 const UsersContainer = React.lazy(() => import('../components/Users/UsersContainer'))
 
+const SuspendedProfile = withSuspense(ProfileContainer)
+const SuspendedDialogs = withSuspense(DialogsContainer)
+const SuspendedUsers = withSuspense(UsersContainer)
+
 class App extends React.Component<Props> {
 
-    catchAllHandleErrors = (promiseRejectEvent: any) => {
-        alert('Some error occurred')
-        console.error(promiseRejectEvent)
+    catchAllHandleErrors = (e: PromiseRejectionEvent) => {
+        alert('Some error occurred, check console')
+        console.error(e)
     }
 
     componentDidMount() {
@@ -45,9 +49,9 @@ class App extends React.Component<Props> {
                 <Navbar/>
                 <div className='app-wrapper-content'>
                     <Switch>
-                        <Route path='/dialogs' render={withSuspense(DialogsContainer)}/>
-                        <Route path='/profile/:userId?' render={withSuspense(ProfileContainer)}/>
-                        <Route path='/users' render={withSuspense(UsersContainer)}/>
+                        <Route path='/dialogs' render={() => <SuspendedDialogs/>}/>
+                        <Route path='/profile/:userId?' render={() => <SuspendedProfile/>}/>
+                        <Route path='/users' render={() => <SuspendedUsers/>}/>
                         <Route path='/news' render={() => <News/>}/>
                         <Route path='/music' render={() => <Music/>}/>
                         <Route path='/settings' render={() => <Settings/>}/>

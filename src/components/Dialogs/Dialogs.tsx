@@ -3,11 +3,9 @@ import s from './Dialogs.module.css'
 import {DialogItem} from "./DialogItem/DialogItem";
 import {Message} from "./Message/Message";
 import {Dialog, Messages} from "../../redux/dialogs-reducer";
-import {Field, reduxForm} from "redux-form";
-import {TextArea} from "../../common/FormControls/FormControls";
-import {maxLengthCreator, required} from "../../utils/validators/validator";
-import {Props} from "./DialogsContainer";
 import {store} from "../../redux/store";
+import {AddMessageReduxForm} from "./AddMessageForm/AddMessageForm";
+import {Props} from "./DialogsContainer";
 
 
 const Dialogs = (props: Props) => {
@@ -22,7 +20,7 @@ const Dialogs = (props: Props) => {
         .map((message: Messages, index) => <Message key={index}
                                                     message={message.title}/>)
 
-    const addNewMessage = (values: any) => {
+    const addNewMessage = (values: MessageBody) => {
         props.sendMessage(values.newMessageBody)
     }
 
@@ -39,25 +37,8 @@ const Dialogs = (props: Props) => {
     )
 }
 
-const maxLength = maxLengthCreator(100)
-
-const AddMessageForm = (props: any) => {
-    return (
-        <form onSubmit={props.handleSubmit}>
-            <div>
-                <Field component={TextArea}
-                       name={'newMessageBody'}
-                       placeholder={'Enter your message'}
-                       validate={[required, maxLength]}
-                />
-            </div>
-            <div>
-                <button>Send</button>
-            </div>
-        </form>
-    )
+export type MessageBody = {
+    newMessageBody: string
 }
-
-const AddMessageReduxForm = reduxForm({form: 'dialogsAddMessageForm'})(AddMessageForm)
 
 export default Dialogs

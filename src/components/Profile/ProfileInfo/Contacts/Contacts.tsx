@@ -5,8 +5,8 @@ type Props = {
     value: string | null
 }
 
-export const Contacts = (props: Props) => {
+export const Contacts = ({title, value}: Props) => {
     return <div>
-        <b>{props.title}:</b> {props.value}
+        <b>{title}:</b> {value}
     </div>
 }

@@ -11,25 +11,23 @@ type Props = {
     user: UserType
 }
 
-export const User = (props: Props) => {
-
-    let {user} = props
+export const User = ({user, unFollowTC, followTC, isFollowing}: Props) => {
 
     return (<div>
                 <span>
                     <div>
-                        <NavLink to={'/profile/' + props.user.id}><img
+                        <NavLink to={'/profile/' + user.id}><img
                             src={user.photos.small ? user.photos.small : photo}
                             alt=""
                             className={s.userPhoto}/>
                         </NavLink>
                     </div>
                     <div>{user.followed
-                        ? <button disabled={props.isFollowing.some(id => id === user.id)} onClick={() => {
-                            props.unFollowTC(user.id)
+                        ? <button disabled={isFollowing.some(id => id === user.id)} onClick={() => {
+                            unFollowTC(user.id)
                         }}>Отписаться</button>
-                        : <button disabled={props.isFollowing.some(id => id === user.id)} onClick={() => {
-                            props.followTC(user.id)
+                        : <button disabled={isFollowing.some(id => id === user.id)} onClick={() => {
+                            followTC(user.id)
                         }}>Подписаться</button>}
                             </div>
                             </span>

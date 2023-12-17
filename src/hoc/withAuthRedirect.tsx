@@ -1,4 +1,4 @@
-import React, {ComponentType, FunctionComponent} from 'react';
+import React, {ComponentType} from 'react';
 import {Redirect} from "react-router-dom";
 import {AppState} from "../redux/store";
 import {connect} from "react-redux";
@@ -15,10 +15,10 @@ export function withAuthRedirect<T>(Component: ComponentType<T>) {
         let {isAuth, ...restProps} = props
         if (!isAuth) return <Redirect to={'/login'}/>
 
-        return <Component {...restProps as T}/>
+        return <Component {...restProps as unknown as T}/>
     }
 
-    return connect<MapStateToProps, unknown, unknown, AppState>(mapStateToProps)(RedirectComponent)
+    return connect<MapStateToProps, {}, T, AppState>(mapStateToProps)(RedirectComponent)
 }
 
 //--------------------------------TYPES--------------------------------

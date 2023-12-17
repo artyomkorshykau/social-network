@@ -42,7 +42,9 @@ const ProfileDataForm = ({handleSubmit, profile}: Props & InjectedFormProps<User
         <div style={{marginTop: '10px', width: '300px'}}>
             <h4>Contacts </h4>
             <ul>
-                {Object.keys(profile.contacts).map((el) => {
+                {Object
+                    .keys(profile.contacts)
+                    .map((el) => {
                     return <li style={{marginLeft: '20px'}}><b
                         style={{display: 'flex', gap: '10px', justifyContent: 'space-between'}}>{el}: {<Field
                         placeholder={el}

@@ -14,16 +14,16 @@ type Props = {
 }
 
 
-const Profile = (props: Props) => {
+const Profile = ({profile, saveProfile, savePhoto, status, updateStatus, isOwner}: Props) => {
 
     return (<div>
         <ProfileInfo
-            profile={props.profile}
-            status={props.status}
-            updateStatus={props.updateStatus}
-            isOwner={props.isOwner}
-            savePhoto={props.savePhoto}
-            saveProfile={props.saveProfile}
+            profile={profile}
+            status={status}
+            updateStatus={updateStatus}
+            isOwner={isOwner}
+            savePhoto={savePhoto}
+            saveProfile={saveProfile}
         />
         <MyPostContainer/>
     </div>)

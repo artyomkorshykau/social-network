@@ -10,6 +10,10 @@ import {UserProfile} from "../../api/types/typesApi";
 
 class ProfileContainer extends React.Component<Props> {
 
+    constructor(props: Props) {
+        super(props);
+    }
+
     refreshProfile() {
         let userID = this.props.match.params.userId
 
@@ -27,8 +31,8 @@ class ProfileContainer extends React.Component<Props> {
         this.refreshProfile()
     }
 
-    componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<{}>, snapshot?: any) {
-        if (this.props.match.params.userId !== this.props.match.params.userId) {
+    componentDidUpdate(prevProps: Props, prevState: Props) {
+        if (this.props.match.params.userId !== prevProps.match.params.userId) {
             this.refreshProfile()
         }
     }

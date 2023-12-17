@@ -9,30 +9,35 @@ type Props = {
     pageSize: number
     currentPage: number
     users: UserType[]
-    follow: (id: number) => void
-    unfollow: (id: number) => void
-    isFetching: boolean
-    toggleIsFollowing: (fetching: boolean, id: number) => void
     isFollowing: []
     followTC: (id: number) => void
     unFollowTC: (id: number) => void
 }
 
 
-const Users = (props: Props) => {
+const Users = ({
+                   users,
+                   unFollowTC,
+                   followTC,
+                   isFollowing,
+                   totalUserCount,
+                   pageSize,
+                   onPageChanged,
+                   currentPage,
+               }: Props) => {
 
     return (
         <div>
-            <Pagination totalUserCount={props.totalUserCount}
-                        pageSize={props.pageSize}
-                        currentPage={props.currentPage}
-                        onPageChanged={props.onPageChanged}/>
+            <Pagination totalUserCount={totalUserCount}
+                        pageSize={pageSize}
+                        currentPage={currentPage}
+                        onPageChanged={onPageChanged}/>
             {
-                props.users.map((el) => <User followTC={props.followTC}
-                                              isFollowing={props.isFollowing}
-                                              unFollowTC={props.unFollowTC}
-                                              user={el}
-                                              key={el.id}/>)
+                users.map((el) => <User followTC={followTC}
+                                        isFollowing={isFollowing}
+                                        unFollowTC={unFollowTC}
+                                        user={el}
+                                        key={el.id}/>)
             }
         </div>
     );

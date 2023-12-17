@@ -8,8 +8,8 @@ type Props = {
     onPageChanged: (page: number) => void
 }
 
-export const Pagination = (props: Props) => {
-    let pagesCount = Math.ceil(props.totalUserCount / props.pageSize);
+export const Pagination = ({totalUserCount, pageSize, onPageChanged, currentPage}: Props) => {
+    let pagesCount = Math.ceil(totalUserCount / pageSize);
     let pages = [];
     for (let i = 1; i <= pagesCount; i += 1) {
         pages.push(i);
@@ -32,11 +32,11 @@ export const Pagination = (props: Props) => {
             .map(el => {
                 return <span
                     className={cn({
-                        ['']: props.currentPage === el
+                        ['']: currentPage === el
                     }, '')}
                     key={el}
                     onClick={() => {
-                        props.onPageChanged(el)
+                        onPageChanged(el)
                     }}>
                     {el}
                 </span>

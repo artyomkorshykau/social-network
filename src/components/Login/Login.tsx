@@ -8,7 +8,7 @@ import {LoginReduxForm} from "./LoginForm";
 
 const Login = (props: Props) => {
 
-    const onSubmit = (formData: any) => {
+    const onSubmit = (formData: DataForm) => {
         console.log(formData)
         props.LoginTC(formData.email, formData.password, formData.rememberMe, formData.captcha)
     }
@@ -40,7 +40,7 @@ type MapDispatchToProps = {
 type Props = MapDispatchToProps & MapStateToProps
 
 export type DataForm = {
-    login: string;
+    email: string;
     password: string;
     rememberMe: boolean;
     captcha: string | null

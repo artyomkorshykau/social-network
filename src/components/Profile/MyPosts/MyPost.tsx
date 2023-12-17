@@ -3,14 +3,15 @@ import s from './MyPost.module.css'
 import Post from "./Post/Post"
 import {Props} from "./MyPostContainer";
 import {AddNewPostReduxForm} from "./AddNewPostForm";
+import {MessageBody} from "../../Dialogs/Dialogs";
 
 const MyPost = React.memo((props: Props) => {
 
     const posts = props.posts.map((posts, index) => <Post key={index} message={posts.message}
                                                           likeCounts={posts.likeCounts}/>)
 
-    let onAddPost = (values: any) => {
-        props.addPost(values.newPostElement)
+    let onAddPost = (values: MessageBody) => {
+        props.addPost(values.newMessageBody)
     }
 
     return (<div className={s.content}>
