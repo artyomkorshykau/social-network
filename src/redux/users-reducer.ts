@@ -63,7 +63,7 @@ export type UserActions =
     | ReturnType<typeof toggleIsFetching>
     | ReturnType<typeof toggleIsFollowing>
 
-type InitialState = {
+export type InitialState = {
     users: UserType[]
     pageSize: number
     totalUserCount: number

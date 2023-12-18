@@ -7,13 +7,15 @@ export const usersAPI = {
         let res = await instance.get<UsersData>(`users?page=${currentPage}&count=${pageSize}`);
         return res.data;
     },
-    async follow(id: number) {
-        let res = await instance.post<Response>(`follow/${id}`);
-        return res.data;
+    follow(id: number) {
+        return instance.post<Response>(`follow/${id}`)
+            .then(res => res.data)
+
     },
-    async unfollow(id: number) {
-        let res = await instance.delete<Response>(`follow/${id}`);
-        return res.data;
+    unfollow(id: number) {
+        return instance.delete<Response>(`follow/${id}`)
+            .then(res => res.data)
+
     }
 
 };
