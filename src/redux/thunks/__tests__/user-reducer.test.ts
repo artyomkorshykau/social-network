@@ -23,12 +23,11 @@ const res: Response = {
     data: {}
 }
 
-userApiMock.follow.mockReturnValue(Promise.resolve(res))
-userApiMock.unfollow.mockReturnValue(Promise.resolve(res))
-
 test('Success follow thunk', async () => {
-    const thunk = followTC(1)
+    userApiMock.follow.mockReturnValue(Promise.resolve(res))
+    userApiMock.unfollow.mockReturnValue(Promise.resolve(res))
 
+    const thunk = followTC(1)
     await thunk(dispatchMock, getStateMock, {})
 
     expect(dispatchMock).toBeCalledTimes(3)
