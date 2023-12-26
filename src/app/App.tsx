@@ -3,7 +3,7 @@ import Navbar from "../components/Navbar/Navbar";
 import {Preloader} from "../common/Preloader/Preloader";
 import {AppState} from "../redux/store";
 import {Route, Switch, withRouter} from "react-router-dom";
-import Login from "../components/Login/Login";
+import {Login} from "../components/Login/Login";
 import {compose} from "redux";
 import Music from "../components/Music/Music";
 import News from "../components/News/News";

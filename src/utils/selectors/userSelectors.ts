@@ -6,6 +6,8 @@ export const getTotalUserCount = (state: AppState) => state.usersPage.totalUserC
 export const getCurrentPage = (state: AppState) => state.usersPage.currentPage
 export const getIsFetching = (state: AppState) => state.usersPage.isFetching
 export const getIsFollowing = (state: AppState) => state.usersPage.isFollowing
+export const getCaptchaUrl = (state: AppState) => state.auth.captcha
+export const getIsAuth = (state: AppState) => state.auth.isAuth
 
 
 
