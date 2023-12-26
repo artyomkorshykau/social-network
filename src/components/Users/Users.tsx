@@ -1,30 +1,38 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {User} from "./User";
 import {Pagination} from "../../common/Pagination/Pagination";
-import {UserType} from "../../api/types/typesApi";
+import {useDispatch, useSelector} from "react-redux";
+import {
+    getCurrentPage,
+    getIsFollowing,
+    getPageSize,
+    getTotalUserCount,
+    getUsers
+} from "../../utils/selectors/userSelectors";
+import {followTC, getUsersTC, pageChangedTC, unFollowTC} from "../../redux/thunks/thunks";
 
-type Props = {
-    onPageChanged: (page: number) => void
-    totalUserCount: number
-    pageSize: number
-    currentPage: number
-    users: UserType[]
-    isFollowing: []
-    followTC: (id: number) => void
-    unFollowTC: (id: number) => void
-}
+export const Users = () => {
 
+    const totalUserCount = useSelector(getTotalUserCount)
+    const currentPage = useSelector(getCurrentPage)
+    const pageSize = useSelector(getPageSize)
+    const users = useSelector(getUsers)
+    const isFollowing = useSelector(getIsFollowing)
 
-const Users = ({
-                   users,
-                   unFollowTC,
-                   followTC,
-                   isFollowing,
-                   totalUserCount,
-                   pageSize,
-                   onPageChanged,
-                   currentPage,
-               }: Props) => {
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(getUsersTC(currentPage, pageSize, users))
+    }, [])
+    const onPageChanged = (pageNumber: number) => {
+        dispatch(pageChangedTC(pageNumber, pageSize))
+    }
+    const follow = (id: number) => {
+        dispatch(followTC(id))
+    }
+    const unfollow = (id: number) => {
+        dispatch(unFollowTC(id))
+    }
 
     return (
         <div>
@@ -33,9 +41,9 @@ const Users = ({
                         currentPage={currentPage}
                         onPageChanged={onPageChanged}/>
             {
-                users.map((el) => <User followTC={followTC}
+                users.map((el) => <User followTC={follow}
                                         isFollowing={isFollowing}
-                                        unFollowTC={unFollowTC}
+                                        unFollowTC={unfollow}
                                         user={el}
                                         key={el.id}/>)
             }
