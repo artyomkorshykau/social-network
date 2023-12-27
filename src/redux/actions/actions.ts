@@ -1,7 +1,7 @@
-import {ProfilePhoto} from "../../components/Profile/ProfileContainer";
 import {UserProfile, UserType} from "../../api/types/typesApi";
 import {ACTION_TYPE} from "../../common/enums/Actions";
 import {Filter} from "../users-reducer";
+import {ProfilePhoto} from "../../components/Profile/Profile";
 
 
 //-------------------------------APP-ACTION-------------------------------

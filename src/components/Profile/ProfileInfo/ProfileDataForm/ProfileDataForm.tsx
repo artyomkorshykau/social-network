@@ -11,7 +11,7 @@ type Props = {
 }
 
 
-const ProfileDataForm = ({handleSubmit, profile}: Props & InjectedFormProps<UserProfile, Props>) => {
+const ProfileDataForm = ({handleSubmit, profile, setEditMode}: Props & InjectedFormProps<UserProfile, Props>) => {
     return <form onSubmit={handleSubmit}>
         <div style={{marginTop: '10px', display: 'flex', flexDirection: 'column', width: '450px'}}>
             <div style={{display: 'flex', gap: '10px', justifyContent: 'space-between'}}><b>Full name</b> {<Field
@@ -45,17 +45,19 @@ const ProfileDataForm = ({handleSubmit, profile}: Props & InjectedFormProps<User
                 {Object
                     .keys(profile.contacts)
                     .map((el) => {
-                    return <li style={{marginLeft: '20px'}}><b
-                        style={{display: 'flex', gap: '10px', justifyContent: 'space-between'}}>{el}: {<Field
-                        placeholder={el}
-                        name={`contacts.${el}`}
-                        validate={[]}
-                        component={Input}
-                        key={el}/>}</b>
-                    </li>
-                })}
+                        return <li style={{marginLeft: '20px'}}><b
+                            style={{display: 'flex', gap: '10px', justifyContent: 'space-between'}}>{el}: {<Field
+                            placeholder={el}
+                            name={`contacts.${el}`}
+                            validate={[]}
+                            component={Input}
+                            key={el}/>}</b>
+                        </li>
+                    })}
             </ul>
-            <div>{<button>Сохранить</button>}</div>
+            <div>{<button onClick={() => {
+                setEditMode(false)
+            }}>Сохранить</button>}</div>
         </div>
     </form>
 }

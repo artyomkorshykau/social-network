@@ -11,6 +11,10 @@ export const getIsAuth = (state: AppState) => state.auth.isAuth
 export const getUserFilter = (state: AppState) => state.usersPage.filter
 export const getDialogsPage = (state: AppState) => state.dialogsPage
 export const getUserLogin = (state: AppState) => state.auth.login
+export const getPosts = (state: AppState) => state.profilePage.posts
+export const getProfile = (state: AppState) => state.profilePage.profile
+export const getStatus = (state: AppState) => state.profilePage.status
+export const getLoggedUser = (state: AppState) => state.auth.id
 
 
 

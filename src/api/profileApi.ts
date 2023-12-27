@@ -1,7 +1,7 @@
 import {instance} from "./common.api";
-import {ProfilePhoto} from "../components/Profile/ProfileContainer";
 import {UserProfile} from "./types/typesApi";
 import {Response} from "./types/typesApi";
+import {ProfilePhoto} from "../components/Profile/Profile";
 
 export const profileAPI = {
     async getProfile(userID: number | null) {

@@ -15,10 +15,10 @@ import {thunks} from "../redux/thunks/thunks";
 import Header from "../components/Header/Header";
 
 const Dialogs = React.lazy(() => import('../components/Dialogs/Dialogs'))
-const ProfileContainer = React.lazy(() => import('../components/Profile/ProfileContainer'))
+const Profile = React.lazy(() => import('../components/Profile/Profile'))
 const Users = React.lazy(() => import('../components/Users/Users'))
 
-const SuspendedProfile = withSuspense(ProfileContainer)
+const SuspendedProfile = withSuspense(Profile)
 const SuspendedDialogs = withSuspense(Dialogs)
 const SuspendedUsers = withSuspense(Users)
 
