@@ -1,45 +1,43 @@
 import React, {useEffect} from 'react';
 import {User} from "./User";
 import {Pagination} from "../../common/Pagination/Pagination";
-import {useDispatch, useSelector} from "react-redux";
-import {
-    getCurrentPage,
-    getIsFollowing,
-    getPageSize,
-    getTotalUserCount,
-    getUsers
-} from "../../utils/selectors/userSelectors";
-import {followTC, getUsersTC, pageChangedTC, unFollowTC} from "../../redux/thunks/thunks";
+import {useDispatch} from "react-redux";
+import {UserSearchForm} from "./UserSearchForm";
+import {thunks} from "../../redux/thunks/thunks";
+import {Filter} from "../../redux/users-reducer";
+import {Preloader} from "../../common/Preloader/Preloader";
+import {useUserData} from "../../utils/hooks/useUserData";
+ const Users = () => {
 
-export const Users = () => {
-
-    const totalUserCount = useSelector(getTotalUserCount)
-    const currentPage = useSelector(getCurrentPage)
-    const pageSize = useSelector(getPageSize)
-    const users = useSelector(getUsers)
-    const isFollowing = useSelector(getIsFollowing)
+    const {filter, users, totalUserCount, pageSize, currentPage, isFollowing, isFetching} = useUserData()
 
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(getUsersTC(currentPage, pageSize, users))
+        dispatch(thunks.getUsers(currentPage, pageSize, filter))
     }, [])
     const onPageChanged = (pageNumber: number) => {
-        dispatch(pageChangedTC(pageNumber, pageSize))
+        dispatch(thunks.getUsers(pageNumber, pageSize, filter))
+    }
+
+    const onFilterChanged = (filter: Filter) => {
+        dispatch(thunks.getUsers(1, pageSize, filter))
     }
     const follow = (id: number) => {
-        dispatch(followTC(id))
+        dispatch(thunks.follow(id))
     }
     const unfollow = (id: number) => {
-        dispatch(unFollowTC(id))
+        dispatch(thunks.unFollow(id))
     }
 
     return (
         <div>
+            <UserSearchForm onFilterChanged={onFilterChanged}/>
             <Pagination totalUserCount={totalUserCount}
                         pageSize={pageSize}
                         currentPage={currentPage}
                         onPageChanged={onPageChanged}/>
+            {isFetching ? <Preloader/> : null}
             {
                 users.map((el) => <User followTC={follow}
                                         isFollowing={isFollowing}

@@ -1,6 +1,6 @@
-import {addPostAC, deletePostAC, setPhotoSuccess, setStatusAC, setUserProfile} from "./actions/actions";
 import {ACTION_TYPE} from "../common/enums/Actions";
 import {UserProfile} from "../api/types/typesApi";
+import {actions} from "./actions/actions";
 
 export let initialState = {
     posts: [
@@ -59,8 +59,8 @@ export type InitialState = {
 export type Profile = UserProfile | null
 
 export type ProfileActions =
-    | ReturnType<typeof addPostAC>
-    | ReturnType<typeof setUserProfile>
-    | ReturnType<typeof setStatusAC>
-    | ReturnType<typeof deletePostAC>
-    | ReturnType<typeof setPhotoSuccess>
+    | ReturnType<typeof actions.addPost>
+    | ReturnType<typeof actions.setUserProfile>
+    | ReturnType<typeof actions.setStatus>
+    | ReturnType<typeof actions.deletePost>
+    | ReturnType<typeof actions.setPhotoSuccess>

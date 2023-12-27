@@ -1,5 +1,5 @@
-import {setAuthUserData, setCaptcha} from "./actions/actions";
 import {ACTION_TYPE} from "../common/enums/Actions";
+import {actions} from "./actions/actions";
 
 const initialState = {
     id: null,
@@ -31,4 +31,4 @@ type InitialState = {
     isAuth: boolean
     captcha: null | string
 }
-export type AuthActions = ReturnType<typeof setAuthUserData> | ReturnType<typeof setCaptcha>
+export type AuthActions = ReturnType<typeof actions.setAuthUserData> | ReturnType<typeof actions.setCaptcha>

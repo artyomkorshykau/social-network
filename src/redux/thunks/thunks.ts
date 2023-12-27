@@ -1,18 +1,4 @@
-import {
-    follow,
-    initializedSucceed,
-    setAuthUserData,
-    setCaptcha,
-    setPage,
-    setPhotoSuccess,
-    setStatusAC,
-    setTotalUserCount,
-    setUser,
-    setUserProfile,
-    toggleIsFetching,
-    toggleIsFollowing,
-    unfollow
-} from "../actions/actions";
+import {actions} from "../actions/actions";
 import {stopSubmit} from "redux-form";
 import {AppThunk} from "../store";
 import {ResultCode} from "../../common/enums/Response";
@@ -21,26 +7,27 @@ import {securityAPI} from "../../api/securityApi";
 import {profileAPI} from "../../api/profileApi";
 import {UserProfile, UserType} from "../../api/types/typesApi";
 import {usersAPI} from "../../api/userApi";
+import {Filter} from "../users-reducer";
 
 //-------------------------------APP-THUNK-------------------------------
-export const initializedTC = (): AppThunk => {
+const initialized = (): AppThunk => {
     return async (dispatch) => {
-        const res = dispatch(authMeTC())
+        const res = dispatch(authMe())
         Promise.all([res])
             .then(() => {
-                dispatch(initializedSucceed())
+                dispatch(actions.initializedSucceed)
             })
     };
 };
 
 //-------------------------------AUTH-THUNK-------------------------------
-export const authMeTC = (): AppThunk => {
+const authMe = (): AppThunk => {
     return async (dispatch) => {
         try {
             const res = await authAPI.me();
             if (res.resultCode === ResultCode.SUCCEED) {
                 let {id, login, email} = res.data
-                dispatch(setAuthUserData(id, login, email, true));
+                dispatch(actions.setAuthUserData(id, login, email, true));
             }
         } catch (error) {
             // Handle error
@@ -48,15 +35,15 @@ export const authMeTC = (): AppThunk => {
     };
 };
 
-export const LoginTC = (log: string, pass: string, remember: boolean, captcha: string | null): AppThunk => {
+const login = (log: string, pass: string, remember: boolean, captcha: string | null): AppThunk => {
     return async (dispatch) => {
         try {
             const res = await authAPI.login(log, pass, captcha, remember);
             if (res.resultCode === ResultCode.SUCCEED) {
-                await dispatch(authMeTC());
+                await dispatch(authMe());
             } else {
                 if (res.resultCode === ResultCode.CAPTCHA) {
-                    await dispatch(getCaptchaTC())
+                    await dispatch(getCaptcha())
                 }
                 let message = res.messages.length > 0 ? res.messages[0] : 'Some Error'
                 dispatch(stopSubmit('login', {_error: message}))
@@ -67,12 +54,12 @@ export const LoginTC = (log: string, pass: string, remember: boolean, captcha: s
     };
 };
 
-export const LogoutTC = (): AppThunk => {
+const logout = (): AppThunk => {
     return async (dispatch) => {
         try {
             const res = await authAPI.logout();
             if (res.resultCode === ResultCode.SUCCEED) {
-                dispatch(setAuthUserData(null, null, null, false));
+                dispatch(actions.setAuthUserData(null, null, null, false));
             }
         } catch (error) {
             // Handle error
@@ -80,62 +67,62 @@ export const LogoutTC = (): AppThunk => {
     };
 };
 
-export const getCaptchaTC = (): AppThunk => {
+const getCaptcha = (): AppThunk => {
     return async (dispatch) => {
         const res = await securityAPI.getCaptcha()
-        dispatch(setCaptcha(res.url))
+        dispatch(actions.setCaptcha(res.url))
     }
 }
 
 //--------------------------------PROFILE-THUNK--------------------------------
-export const getProfileTC = (userID: number | null): AppThunk => {
+const getProfile = (userID: number | null): AppThunk => {
     return async (dispatch) => {
         try {
             const data = await profileAPI.getProfile(userID);
-            dispatch(setUserProfile(data));
+            dispatch(actions.setUserProfile(data));
         } catch (error) {
             // Handle error
         }
     };
 };
 
-export const getUserStatusTC = (userId: string): AppThunk => {
+const getUserStatus = (userId: string): AppThunk => {
     return async (dispatch) => {
         try {
             const res = await profileAPI.getStatus(userId);
-            dispatch(setStatusAC(res));
+            dispatch(actions.setStatus(res));
         } catch (error) {
             // Handle error
         }
     };
 };
 
-export const updateStatusTC = (status: string): AppThunk => {
+const updateStatus = (status: string): AppThunk => {
     return async (dispatch) => {
         try {
             await profileAPI.updateStatus(status);
-            dispatch(setStatusAC(status));
+            dispatch(actions.setStatus(status));
         } catch (error) {
             // Handle error
         }
     };
 };
 
-export const savePhotoTC = (file: File): AppThunk => {
+const savePhoto = (file: File): AppThunk => {
     return async (dispatch) => {
         let res = await profileAPI.savePhoto(file)
         if (res.resultCode === ResultCode.SUCCEED) {
-            dispatch(setPhotoSuccess(res.data))
+            dispatch(actions.setPhotoSuccess(res.data))
         }
     }
 }
 
-export const saveProfileTC = (profile: UserProfile): AppThunk => {
+const saveProfile = (profile: UserProfile): AppThunk => {
     return async (dispatch, getState) => {
-        const userId = getState().profilePage.profile?.userId||29875
+        const userId = getState().profilePage.profile?.userId || 29875
         let res = await profileAPI.saveProfile(profile)
         if (res.resultCode === ResultCode.SUCCEED) {
-            await dispatch(getProfileTC(userId))
+            await dispatch(getProfile(userId))
             return Promise.resolve()
         } else if (res.resultCode === ResultCode.ERROR) {
             const errorMessage = res.messages[0].split(' ')
@@ -148,63 +135,79 @@ export const saveProfileTC = (profile: UserProfile): AppThunk => {
 }
 
 //------------------------------USERS-THUNK------------------------------
-export const getUsersTC = (currentPage: number, pageSize: number, users: UserType[]): AppThunk => {
+const getUsers = (currentPage: number, pageSize: number, filter: Filter): AppThunk => {
     return async (dispatch) => {
-        if (users.length === 0) {
-            dispatch(toggleIsFetching(true));
-            try {
-                const data = await usersAPI.getUsers(currentPage, pageSize);
-                dispatch(setUser(data.items));
-                dispatch(toggleIsFetching(false));
-                dispatch(setTotalUserCount(data.totalCount));
-            } catch (error) {
-                // Handle error
-            }
+        try {
+            const data = await usersAPI.getUsers(currentPage, pageSize, filter.term, filter.friend);
+            dispatch(actions.toggleIsFetching(true));
+            dispatch(actions.setUser(data.items));
+            dispatch(actions.toggleIsFetching(false));
+            dispatch(actions.setTotalUserCount(data.totalCount));
+        } catch (error) {
+            // Handle error
         }
-    };
+    }
 };
 
-export const pageChangedTC = (pageNumber: number, pageSize: number): AppThunk => {
+const pageChanged = (pageNumber: number, pageSize: number, filter: Filter): AppThunk => {
     return async (dispatch) => {
-        dispatch(setPage(pageNumber));
-        dispatch(toggleIsFetching(true));
+        dispatch(actions.setPage(pageNumber));
+        dispatch(actions.setUserFilter(filter));
+        dispatch(actions.toggleIsFetching(true));
         try {
-            const data = await usersAPI.getUsers(pageNumber, pageSize);
-            dispatch(setUser(data.items));
-            dispatch(toggleIsFetching(false));
+            const data = await usersAPI.getUsers(pageNumber, pageSize, filter.term, filter.friend);
+            dispatch(actions.setUser(data.items));
+            dispatch(actions.toggleIsFetching(false));
         } catch (error) {
             // Handle error
         }
     };
 };
 
-export const followTC = (id: number): AppThunk => {
+const follow = (id: number): AppThunk => {
     return async (dispatch) => {
-        dispatch(toggleIsFollowing(true, id));
+        dispatch(actions.toggleIsFollowing(true, id));
         try {
             const data = await usersAPI.follow(id);
             if (data.resultCode === ResultCode.SUCCEED) {
-                dispatch(follow(id));
+                dispatch(actions.follow(id));
             }
-            dispatch(toggleIsFollowing(false, id));
+            dispatch(actions.toggleIsFollowing(false, id));
         } catch (error) {
             // Handle error
         }
     };
 };
 
-export const unFollowTC = (id: number): AppThunk => {
+const unFollow = (id: number): AppThunk => {
     return async (dispatch) => {
-        dispatch(toggleIsFollowing(true, id));
+        dispatch(actions.toggleIsFollowing(true, id));
         try {
             const data = await usersAPI.unfollow(id);
             if (data.resultCode === ResultCode.SUCCEED) {
-                dispatch(unfollow(id));
+                dispatch(actions.unfollow(id));
             }
-            dispatch(toggleIsFollowing(false, id));
+            dispatch(actions.toggleIsFollowing(false, id));
         } catch (error) {
             // Handle error
         }
     };
 };
+
+export const thunks = {
+    initialized,
+    authMe,
+    login,
+    logout,
+    getCaptcha,
+    getProfile,
+    getUserStatus,
+    updateStatus,
+    savePhoto,
+    saveProfile,
+    getUsers,
+    pageChanged,
+    follow,
+    unFollow
+}
 

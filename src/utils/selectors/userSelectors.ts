@@ -8,6 +8,9 @@ export const getIsFetching = (state: AppState) => state.usersPage.isFetching
 export const getIsFollowing = (state: AppState) => state.usersPage.isFollowing
 export const getCaptchaUrl = (state: AppState) => state.auth.captcha
 export const getIsAuth = (state: AppState) => state.auth.isAuth
+export const getUserFilter = (state: AppState) => state.usersPage.filter
+export const getDialogsPage = (state: AppState) => state.dialogsPage
+export const getUserLogin = (state: AppState) => state.auth.login
 
 
 

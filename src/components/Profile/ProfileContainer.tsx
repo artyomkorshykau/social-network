@@ -4,8 +4,8 @@ import {connect} from "react-redux";
 import {AppState} from "../../redux/store";
 import {RouteComponentProps, withRouter} from "react-router-dom";
 import {compose} from "redux";
-import {getProfileTC, getUserStatusTC, savePhotoTC, saveProfileTC, updateStatusTC} from "../../redux/thunks/thunks";
 import {UserProfile} from "../../api/types/typesApi";
+import {thunks} from "../../redux/thunks/thunks";
 
 
 class ProfileContainer extends React.Component<Props> {
@@ -23,8 +23,8 @@ class ProfileContainer extends React.Component<Props> {
                 this.props.history.push('/login')
             }
         }
-        this.props.getProfileTC(userID)
-        this.props.getUserStatusTC(userID)
+        this.props.getProfile(userID)
+        this.props.getUserStatus(userID)
     }
 
     componentDidMount() {
@@ -44,9 +44,9 @@ class ProfileContainer extends React.Component<Props> {
                      isOwner={!this.props.match.params.userId}
                      profile={this.props.profile}
                      status={this.props.status}
-                     updateStatus={this.props.updateStatusTC}
-                     savePhoto={this.props.savePhotoTC}
-                     saveProfile={(this.props.saveProfileTC)}
+                     updateStatus={this.props.updateStatus}
+                     savePhoto={this.props.savePhoto}
+                     saveProfile={this.props.saveProfile}
             />
         </div>)
     }
@@ -61,11 +61,11 @@ const mapStateToProps = (state: AppState): MapStateToProps => ({
 
 export default compose<React.ComponentType>(
     connect(mapStateToProps, {
-        getProfileTC,
-        getUserStatusTC,
-        updateStatusTC,
-        savePhotoTC,
-        saveProfileTC
+        getProfile: thunks.getProfile,
+        getUserStatus: thunks.getUserStatus,
+        updateStatus: thunks.updateStatus,
+        savePhoto: thunks.savePhoto,
+        saveProfile: thunks.saveProfile
     }),
     withRouter,
     // withAuthRedirect
@@ -102,11 +102,11 @@ type MapStateToProps = {
     isAuth: boolean
 }
 type MapDispatchToProps = {
-    getProfileTC: (userID: string | null) => void
-    getUserStatusTC: (status: string) => void
-    updateStatusTC: (status: string) => void
-    savePhotoTC: (file: File) => void
-    saveProfileTC: (profile: ProfileDataForm) => Promise<void>
+    getProfile: (userID: string | null) => void
+    getUserStatus: (status: string) => void
+    updateStatus: (status: string) => void
+    savePhoto: (file: File) => void
+    saveProfile: (profile: ProfileDataForm) => Promise<void>
 }
 type ProfileClass = MapStateToProps & MapDispatchToProps
 type Props = RouteComponentProps<PathParams> & ProfileClass

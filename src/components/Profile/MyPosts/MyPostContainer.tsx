@@ -3,7 +3,7 @@ import MyPost from "./MyPost";
 import {connect} from "react-redux";
 import {AppState} from "../../../redux/store";
 import {Dispatch} from "redux";
-import {addPostAC} from "../../../redux/actions/actions";
+import {actions} from "../../../redux/actions/actions";
 
 const mapStateToProps = (state: AppState): MapStateToProps => {
     return {
@@ -13,7 +13,7 @@ const mapStateToProps = (state: AppState): MapStateToProps => {
 const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToProps => {
     return {
         addPost: (newPostElement: string) => {
-            dispatch(addPostAC(newPostElement))
+            dispatch(actions.addPost(newPostElement))
         }
     }
 }

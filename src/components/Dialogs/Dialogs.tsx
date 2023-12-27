@@ -3,14 +3,15 @@ import s from './Dialogs.module.css'
 import {DialogItem} from "./DialogItem/DialogItem";
 import {Message} from "./Message/Message";
 import {Dialog, Messages} from "../../redux/dialogs-reducer";
-import {store} from "../../redux/store";
 import {AddMessageReduxForm} from "./AddMessageForm/AddMessageForm";
-import {Props} from "./DialogsContainer";
+import {actions} from "../../redux/actions/actions";
+import {withAuthRedirect} from "../../hoc/withAuthRedirect";
+import {useDialogsData} from "../../utils/hooks/useDialogsData";
 
 
-const Dialogs = (props: Props) => {
+const Dialogs = withAuthRedirect(() => {
 
-    let dialogsPage = store.getState().dialogsPage
+    const {dialogsPage} = useDialogsData()
 
     let dialogsItem = dialogsPage.dialogs
         .map((dialogs: Dialog, index) => <DialogItem key={index}
@@ -21,7 +22,7 @@ const Dialogs = (props: Props) => {
                                                     message={message.title}/>)
 
     const addNewMessage = (values: MessageBody) => {
-        props.sendMessage(values.newMessageBody)
+        actions.sendMessage(values.newMessageBody)
     }
 
     return (
@@ -35,7 +36,7 @@ const Dialogs = (props: Props) => {
             <AddMessageReduxForm onSubmit={addNewMessage}/>
         </div>
     )
-}
+})
 
 export type MessageBody = {
     newMessageBody: string

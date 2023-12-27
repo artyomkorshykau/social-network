@@ -2,10 +2,13 @@ import headerLogo from "../../img/logo.png";
 import React from "react";
 import s from './Header.module.css'
 import {NavLink} from "react-router-dom";
-import {Props} from "./HeaderContainer";
+import {useHeaderData} from "../../utils/hooks/useHeaderData";
 
 
-const Header = (props: Props) => {
+const Header = () => {
+
+    const {dispatch, logout, isAuth, login} = useHeaderData()
+
 
     return (<header className={s.header}>
         <div className={s.logo}>
@@ -14,8 +17,8 @@ const Header = (props: Props) => {
                 alt="logo"/></div>
 
         <div className={s.loginBlock}>
-            {props.isAuth
-                ? <div>{props.login} - <button onClick={props.logoutTC}>Log out</button></div>
+            {isAuth
+                ? <div>{login} - <button onClick={() => dispatch(logout)}>Log out</button></div>
                 : <NavLink to={'/login'}>Login</NavLink>}
         </div>
     </header>)

@@ -1,14 +1,6 @@
-import {
-    follow,
-    setPage,
-    setTotalUserCount,
-    setUser,
-    toggleIsFetching,
-    toggleIsFollowing,
-    unfollow
-} from "./actions/actions";
 import {ACTION_TYPE} from "../common/enums/Actions";
 import {UserType} from "../api/types/typesApi";
+import {actions} from "./actions/actions";
 
 let initialState: InitialState = {
     users: [],
@@ -16,7 +8,11 @@ let initialState: InitialState = {
     totalUserCount: 1,
     currentPage: 1,
     isFetching: true,
-    isFollowing: []
+    isFollowing: [],
+    filter: {
+        term: '',
+        friend: null as null | boolean
+    }
 }
 
 const usersReducer = (state: InitialState = initialState, action: UserActions): InitialState => {
@@ -46,6 +42,9 @@ const usersReducer = (state: InitialState = initialState, action: UserActions): 
                     : state.isFollowing.filter(id => id != action.id)
             }
         }
+        case ACTION_TYPE.USER_FILTER :
+            return {...state, filter: action.payload}
+
         default :
             return state
     }
@@ -55,13 +54,14 @@ export default usersReducer
 
 //------------------------------TYPES------------------------------
 export type UserActions =
-    | ReturnType<typeof follow>
-    | ReturnType<typeof unfollow>
-    | ReturnType<typeof setUser>
-    | ReturnType<typeof setPage>
-    | ReturnType<typeof setTotalUserCount>
-    | ReturnType<typeof toggleIsFetching>
-    | ReturnType<typeof toggleIsFollowing>
+    | ReturnType<typeof actions.follow>
+    | ReturnType<typeof actions.unfollow>
+    | ReturnType<typeof actions.setUser>
+    | ReturnType<typeof actions.setPage>
+    | ReturnType<typeof actions.setTotalUserCount>
+    | ReturnType<typeof actions.toggleIsFetching>
+    | ReturnType<typeof actions.toggleIsFollowing>
+    | ReturnType<typeof actions.setUserFilter>
 
 export type InitialState = {
     users: UserType[]
@@ -69,5 +69,8 @@ export type InitialState = {
     totalUserCount: number
     currentPage: number
     isFetching: boolean,
-    isFollowing: []
+    isFollowing: [],
+    filter: { term: string, friend: null | boolean }
 }
+
+export type Filter = typeof initialState.filter

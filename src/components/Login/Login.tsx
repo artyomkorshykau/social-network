@@ -1,9 +1,9 @@
 import React from 'react'
 import {Redirect} from "react-router-dom";
-import {LoginTC} from "../../redux/thunks/thunks";
 import {LoginReduxForm} from "./LoginForm";
 import {useDispatch, useSelector} from "react-redux";
 import {getCaptchaUrl, getIsAuth} from "../../utils/selectors/userSelectors";
+import {thunks} from "../../redux/thunks/thunks";
 
 
 export const Login = () => {
@@ -13,7 +13,7 @@ export const Login = () => {
     const dispatch = useDispatch()
 
     const onSubmit = (formData: DataForm) => {
-        dispatch(LoginTC(formData.email, formData.password, formData.rememberMe, formData.captcha))
+        dispatch(thunks.login(formData.email, formData.password, formData.rememberMe, formData.captcha))
     }
 
     if (isAuth) {

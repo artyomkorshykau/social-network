@@ -1,5 +1,5 @@
-import {sendMessageAC} from "./actions/actions";
 import {ACTION_TYPE} from "../common/enums/Actions";
+import {actions} from "./actions/actions";
 
 let initialState = {
     dialogs: [
@@ -45,4 +45,4 @@ export type Messages = {
     title: string
 }
 
-export type DialogsActions = | ReturnType<typeof sendMessageAC>
+export type DialogsActions = | ReturnType<typeof actions.sendMessage>

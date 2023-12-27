@@ -1,4 +1,3 @@
-import HeaderContainer from "../components/Header/HeaderContainer";
 import Navbar from "../components/Navbar/Navbar";
 import {Preloader} from "../common/Preloader/Preloader";
 import {AppState} from "../redux/store";
@@ -7,20 +6,21 @@ import {Login} from "../components/Login/Login";
 import {compose} from "redux";
 import Music from "../components/Music/Music";
 import News from "../components/News/News";
-import {initializedTC} from "../redux/thunks/thunks";
 import Settings from "../components/Settings/Settings";
 import React from "react";
 import {connect} from "react-redux";
 import './App.css';
 import {withSuspense} from "../hoc/withSuspense";
+import {thunks} from "../redux/thunks/thunks";
+import Header from "../components/Header/Header";
 
-const DialogsContainer = React.lazy(() => import('../components/Dialogs/DialogsContainer'))
+const Dialogs = React.lazy(() => import('../components/Dialogs/Dialogs'))
 const ProfileContainer = React.lazy(() => import('../components/Profile/ProfileContainer'))
-const UsersPage = React.lazy(() => import('../components/Users/UsersPage'))
+const Users = React.lazy(() => import('../components/Users/Users'))
 
 const SuspendedProfile = withSuspense(ProfileContainer)
-const SuspendedDialogs = withSuspense(DialogsContainer)
-const SuspendedUsers = withSuspense(UsersPage)
+const SuspendedDialogs = withSuspense(Dialogs)
+const SuspendedUsers = withSuspense(Users)
 
 class App extends React.Component<Props> {
 
@@ -30,7 +30,7 @@ class App extends React.Component<Props> {
     }
 
     componentDidMount() {
-        this.props.initializedTC()
+        this.props.initialized()
         window.addEventListener('unhandledrejection', this.catchAllHandleErrors)
     }
 
@@ -39,13 +39,13 @@ class App extends React.Component<Props> {
     }
 
     render() {
-        if (!this.props.isInitialized) {
+        if (this.props.isInitialized) {
             return <Preloader/>
         }
 
         return (
             <div className='app-wrapper'>
-                <HeaderContainer/>
+                <Header/>
                 <Navbar/>
                 <div className='app-wrapper-content'>
                     <Switch>
@@ -69,7 +69,7 @@ const mapStateToProps = (state: AppState): MapStateToProps => ({isInitialized: s
 
 export default compose<React.ComponentType>(
     withRouter,
-    connect(mapStateToProps, {initializedTC})
+    connect(mapStateToProps, {initialized: thunks.initialized})
 )(App)
 
 //---------------------------------TYPES---------------------------------
@@ -77,7 +77,7 @@ export default compose<React.ComponentType>(
 type Props = MapStateToProps & MapDispatchToProps
 
 type MapDispatchToProps = {
-    initializedTC: () => void
+    initialized: () => void
 }
 
 type MapStateToProps = {

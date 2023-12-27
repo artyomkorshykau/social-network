@@ -3,8 +3,8 @@ import {UsersData} from "./types/typesApi";
 import {Response} from "./types/typesApi";
 
 export const usersAPI = {
-    async getUsers(currentPage: number = 1, pageSize: number) {
-        let res = await instance.get<UsersData>(`users?page=${currentPage}&count=${pageSize}`);
+    async getUsers(currentPage: number = 1, pageSize: number = 10, term: string, friend: null | boolean = null) {
+        let res = await instance.get<UsersData>(`users?page=${currentPage}&count=${pageSize}&term=${term}` + (friend === null ? '' : `&friend${friend}`));
         return res.data;
     },
     follow(id: number) {

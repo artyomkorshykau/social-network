@@ -1,5 +1,5 @@
-import {initializedSucceed} from "./actions/actions";
 import {ACTION_TYPE} from "../common/enums/Actions";
+import {actions} from "./actions/actions";
 
 const initialState = {
     initialized: false
@@ -20,4 +20,4 @@ export default appReducer
 //---------------------------------TYPES---------------------------------
 
 type InitialState = typeof initialState
-export type AppActions = ReturnType<typeof initializedSucceed>
+export type AppActions = ReturnType<typeof actions.initializedSucceed>
