@@ -17,10 +17,12 @@ import Header from "../components/Header/Header";
 const Dialogs = React.lazy(() => import('../components/Dialogs/Dialogs'))
 const Profile = React.lazy(() => import('../components/Profile/Profile'))
 const Users = React.lazy(() => import('../components/Users/Users'))
+const ChatPage = React.lazy(() => import('../pages/ChatPage/ChatPage'))
 
 const SuspendedProfile = withSuspense(Profile)
 const SuspendedDialogs = withSuspense(Dialogs)
 const SuspendedUsers = withSuspense(Users)
+const SuspendedChatPage = withSuspense(ChatPage)
 
 class App extends React.Component<Props> {
 
@@ -56,6 +58,7 @@ class App extends React.Component<Props> {
                         <Route path='/music' render={() => <Music/>}/>
                         <Route path='/settings' render={() => <Settings/>}/>
                         <Route path='/login' render={() => <Login/>}/>
+                        <Route path='/chat' render={() => <SuspendedChatPage/>}/>
                         <Route path='*' render={() => <div>404 PAGE OT FOUND</div>}/>
                     </Switch>
                 </div>
