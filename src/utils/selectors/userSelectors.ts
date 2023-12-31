@@ -15,6 +15,7 @@ export const getPosts = (state: AppState) => state.profilePage.posts
 export const getProfile = (state: AppState) => state.profilePage.profile
 export const getStatus = (state: AppState) => state.profilePage.status
 export const getLoggedUser = (state: AppState) => state.auth.id
+export const getIsInitialized = (state: AppState) => state.app.initialized
 
 
 

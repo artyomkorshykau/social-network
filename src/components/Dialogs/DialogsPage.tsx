@@ -9,7 +9,7 @@ import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import {useDialogsData} from "../../utils/hooks/useDialogsData";
 
 
-const Dialogs = withAuthRedirect(() => {
+const DialogsPage = withAuthRedirect(() => {
 
     const {dialogsPage} = useDialogsData()
 
@@ -42,4 +42,4 @@ export type MessageBody = {
     newMessageBody: string
 }
 
-export default Dialogs
+export default DialogsPage

@@ -2,7 +2,7 @@ import React from "react";
 import s from './MyPost.module.css'
 import Post from "./Post/Post"
 import {AddNewPostReduxForm} from "./AddNewPostForm";
-import {MessageBody} from "../../Dialogs/Dialogs";
+import {MessageBody} from "../../Dialogs/DialogsPage";
 import {useMyPostsData} from "../../../utils/hooks/useMyPostsData";
 import {actions} from "../../../redux/actions/actions";
 

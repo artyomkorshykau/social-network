@@ -7,7 +7,7 @@ import {thunks} from "../../redux/thunks/thunks";
 import {Filter} from "../../redux/users-reducer";
 import {Preloader} from "../../common/Preloader/Preloader";
 import {useUserData} from "../../utils/hooks/useUserData";
- const Users = () => {
+ const UsersPage = () => {
 
     const {filter, users, totalUserCount, pageSize, currentPage, isFollowing, isFetching} = useUserData()
 
@@ -49,4 +49,4 @@ import {useUserData} from "../../utils/hooks/useUserData";
     );
 };
 
-export default Users;
+export default UsersPage;

@@ -1,7 +1,7 @@
 import {Contacts} from "../Contacts/Contacts";
 import React from "react";
 import {UserProfile} from "../../../../api/types/typesApi";
-import {ProfileContacts} from "../../Profile";
+import {ProfileContacts} from "../../ProfilePage";
 
 type Props = {
     profile: UserProfile

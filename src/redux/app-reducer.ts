@@ -2,7 +2,7 @@ import {ACTION_TYPE} from "../common/enums/Actions";
 import {actions} from "./actions/actions";
 
 const initialState = {
-    initialized: false
+    initialized: true
 }
 
 const appReducer = (state: InitialState = initialState, action: AppActions): InitialState => {

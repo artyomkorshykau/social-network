@@ -1,5 +1,5 @@
 import {ResultCode} from "../../common/enums/Response";
-import {ProfileContacts, ProfilePhoto} from "../../components/Profile/Profile";
+import {ProfileContacts, ProfilePhoto} from "../../components/Profile/ProfilePage";
 
 export type Response<T = {}> = {
     resultCode: ResultCode

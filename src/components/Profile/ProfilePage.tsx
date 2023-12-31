@@ -7,7 +7,7 @@ import {useDispatch} from "react-redux";
 import {useProfileData} from "../../utils/hooks/useProfileData";
 import {thunks} from "../../redux/thunks/thunks";
 
-const Profile = () => {
+const ProfilePage = () => {
 
     const {userId} = useParams<{ userId: string }>();
     const history = useHistory();
@@ -39,7 +39,7 @@ const Profile = () => {
     </div>)
 }
 
-export default Profile
+export default ProfilePage
 
 export type ProfilePhoto = {
     small: string | null

@@ -2,7 +2,7 @@ import {maxLengthCreator, required} from "../../../utils/validators/validator";
 import {Field, InjectedFormProps, reduxForm} from "redux-form";
 import {TextArea} from "../../../common/FormControls/FormControls";
 import React from "react";
-import {MessageBody} from "../Dialogs";
+import {MessageBody} from "../DialogsPage";
 
 const maxLength = maxLengthCreator(100)
 

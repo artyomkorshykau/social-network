@@ -1,88 +1,101 @@
-import Navbar from "../components/Navbar/Navbar";
-import {Preloader} from "../common/Preloader/Preloader";
-import {AppState} from "../redux/store";
-import {Route, Switch, withRouter} from "react-router-dom";
-import {Login} from "../components/Login/Login";
-import {compose} from "redux";
-import Music from "../components/Music/Music";
+import React, {useEffect} from 'react';
+import {Breadcrumb, Layout, Menu, theme} from 'antd';
+import {NavLink, Route, Switch} from "react-router-dom";
 import News from "../components/News/News";
+import Music from "../components/Music/Music";
 import Settings from "../components/Settings/Settings";
-import React from "react";
-import {connect} from "react-redux";
-import './App.css';
-import {withSuspense} from "../hoc/withSuspense";
+import {Login} from "../components/Login/Login";
+import {useHeaderData} from "../utils/hooks/useHeaderData";
+import {useAppSuspendedData} from "../utils/hooks/useAppData";
 import {thunks} from "../redux/thunks/thunks";
-import Header from "../components/Header/Header";
+import {Preloader} from "../common/Preloader/Preloader";
 
-const Dialogs = React.lazy(() => import('../components/Dialogs/Dialogs'))
-const Profile = React.lazy(() => import('../components/Profile/Profile'))
-const Users = React.lazy(() => import('../components/Users/Users'))
-const ChatPage = React.lazy(() => import('../pages/ChatPage/ChatPage'))
+const {Header, Content, Footer, Sider} = Layout;
 
-const SuspendedProfile = withSuspense(Profile)
-const SuspendedDialogs = withSuspense(Dialogs)
-const SuspendedUsers = withSuspense(Users)
-const SuspendedChatPage = withSuspense(ChatPage)
+const AppLayout: React.FC = () => {
 
-class App extends React.Component<Props> {
+    const {ChatPage, UsersPage, ProfilePage, DialogsPage, isInitialized} = useAppSuspendedData()
 
-    catchAllHandleErrors = (e: PromiseRejectionEvent) => {
-        alert('Some error occurred, check console')
-        console.error(e)
+    const {dispatch, logout, isAuth, login} = useHeaderData()
+
+    useEffect(() => {
+        dispatch(thunks.initialized());
+        window.addEventListener('unhandledrejection', catchAllHandleErrors);
+
+        return () => {
+            window.removeEventListener('unhandledrejection', catchAllHandleErrors);
+        };
+    }, [dispatch]);
+    const catchAllHandleErrors = (e: PromiseRejectionEvent) => {
+        alert('Some error occurred, check console');
+        console.error(e);
+
+    };
+    if (!isInitialized) {
+        return <Preloader/>;
     }
+    const {
+        token: {colorBgContainer, borderRadiusLG},
+    } = theme.useToken();
 
-    componentDidMount() {
-        this.props.initialized()
-        window.addEventListener('unhandledrejection', this.catchAllHandleErrors)
-    }
-
-    componentWillUnmount() {
-        window.removeEventListener('unhandledrejection', this.catchAllHandleErrors)
-    }
-
-    render() {
-        if (this.props.isInitialized) {
-            return <Preloader/>
-        }
-
-        return (
-            <div className='app-wrapper'>
-                <Header/>
-                <Navbar/>
-                <div className='app-wrapper-content'>
-                    <Switch>
-                        <Route path='/dialogs' render={() => <SuspendedDialogs/>}/>
-                        <Route path='/profile/:userId?' render={() => <SuspendedProfile/>}/>
-                        <Route path='/users' render={() => <SuspendedUsers/>}/>
-                        <Route path='/news' render={() => <News/>}/>
-                        <Route path='/music' render={() => <Music/>}/>
-                        <Route path='/settings' render={() => <Settings/>}/>
-                        <Route path='/login' render={() => <Login/>}/>
-                        <Route path='/chat' render={() => <SuspendedChatPage/>}/>
-                        <Route path='*' render={() => <div>404 PAGE OT FOUND</div>}/>
-                    </Switch>
+    return (
+        <Layout>
+            <Header style={{display: 'flex', alignItems: 'center', flexDirection: 'row-reverse'}}>
+                <div>
+                    {isAuth
+                        ? <div style={{color: 'white'}}>{login} - <button onClick={() => dispatch(logout)}>Log
+                            out</button></div>
+                        : <NavLink to={'/login'}>Login</NavLink>}
                 </div>
-            </div>
-        );
-    }
-}
+                <Menu
+                    theme="dark"
+                    mode="horizontal"
+                    defaultSelectedKeys={['2']}
+                    style={{flex: 1, minWidth: 0}}
+                />
+            </Header>
+            <Content style={{padding: '0 48px'}}>
+                <Breadcrumb style={{margin: '16px 0'}}>
+                    <Breadcrumb.Item>Home</Breadcrumb.Item>
+                    <Breadcrumb.Item>List</Breadcrumb.Item>
+                    <Breadcrumb.Item>App</Breadcrumb.Item>
+                </Breadcrumb>
+                <Layout
+                    style={{padding: '24px 0', background: colorBgContainer, borderRadius: borderRadiusLG}}
+                >
+                    <Sider style={{background: colorBgContainer}} width={200}>
+                        <Menu
+                            mode="inline"
+                            defaultSelectedKeys={['1']}
+                            defaultOpenKeys={['sub1']}
+                            style={{height: '100%'}}
+                        >
+                            <Menu.Item><NavLink to='/profile'>Profile</NavLink></Menu.Item>
+                            <Menu.Item><NavLink to='/dialogs'>Message</NavLink></Menu.Item>
+                            <Menu.Item><NavLink to='/users'>Users</NavLink></Menu.Item>
+                            <Menu.Item><NavLink to='/news'>News</NavLink></Menu.Item>
+                            <Menu.Item><NavLink to='/music'>Music</NavLink></Menu.Item>
+                            <Menu.Item><NavLink to='/settings'>Settings</NavLink></Menu.Item>
+                        </Menu>
+                    </Sider>
+                    <Content style={{padding: '0 24px', minHeight: 280}}>
+                        <Switch>
+                            <Route path='/dialogs' render={() => <DialogsPage/>}/>
+                            <Route path='/profile/:userId?' render={() => <ProfilePage/>}/>
+                            <Route path='/users' render={() => <UsersPage/>}/>
+                            <Route path='/news' component={News}/>
+                            <Route path='/music' component={Music}/>
+                            <Route path='/settings' component={Settings}/>
+                            <Route path='/login' component={Login}/>
+                            <Route path='/chat' render={() => <ChatPage/>}/>
+                            <Route path='*' render={() => <div>404 PAGE NOT FOUND</div>}/>
+                        </Switch>
+                    </Content>
+                </Layout>
+            </Content>
+            <Footer style={{textAlign: 'center'}}>Ant Design ©2023 Created by Ant UED</Footer>
+        </Layout>
+    );
+};
 
-
-const mapStateToProps = (state: AppState): MapStateToProps => ({isInitialized: state.app.initialized})
-
-export default compose<React.ComponentType>(
-    withRouter,
-    connect(mapStateToProps, {initialized: thunks.initialized})
-)(App)
-
-//---------------------------------TYPES---------------------------------
-
-type Props = MapStateToProps & MapDispatchToProps
-
-type MapDispatchToProps = {
-    initialized: () => void
-}
-
-type MapStateToProps = {
-    isInitialized: boolean
-}
+export default AppLayout;
