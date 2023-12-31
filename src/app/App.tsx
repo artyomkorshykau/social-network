@@ -15,7 +15,6 @@ const {Header, Content, Footer, Sider} = Layout;
 const AppLayout: React.FC = () => {
 
     const {ChatPage, UsersPage, ProfilePage, DialogsPage, isInitialized} = useAppSuspendedData()
-
     const {dispatch, logout, isAuth, login} = useHeaderData()
 
     useEffect(() => {
@@ -26,26 +25,29 @@ const AppLayout: React.FC = () => {
             window.removeEventListener('unhandledrejection', catchAllHandleErrors);
         };
     }, [dispatch]);
+
+    const {token: {colorBgContainer, borderRadiusLG},} = theme.useToken();
     const catchAllHandleErrors = (e: PromiseRejectionEvent) => {
         alert('Some error occurred, check console');
+
         console.error(e);
 
     };
+
     if (!isInitialized) {
         return <Preloader/>;
+
     }
-    const {
-        token: {colorBgContainer, borderRadiusLG},
-    } = theme.useToken();
 
     return (
         <Layout>
             <Header style={{display: 'flex', alignItems: 'center', flexDirection: 'row-reverse'}}>
                 <div>
                     {isAuth
-                        ? <div style={{color: 'white'}}>{login} - <button onClick={() => dispatch(logout)}>Log
-                            out</button></div>
-                        : <NavLink to={'/login'}>Login</NavLink>}
+                        ?
+                        <div style={{color: 'white'}}>{login} - <button onClick={() => dispatch(logout)}>Выйти</button>
+                        </div>
+                        : <NavLink to={'/login'}>Войти</NavLink>}
                 </div>
                 <Menu
                     theme="dark"
@@ -70,12 +72,12 @@ const AppLayout: React.FC = () => {
                             defaultOpenKeys={['sub1']}
                             style={{height: '100%'}}
                         >
-                            <Menu.Item><NavLink to='/profile'>Profile</NavLink></Menu.Item>
-                            <Menu.Item><NavLink to='/dialogs'>Message</NavLink></Menu.Item>
-                            <Menu.Item><NavLink to='/users'>Users</NavLink></Menu.Item>
-                            <Menu.Item><NavLink to='/news'>News</NavLink></Menu.Item>
-                            <Menu.Item><NavLink to='/music'>Music</NavLink></Menu.Item>
-                            <Menu.Item><NavLink to='/settings'>Settings</NavLink></Menu.Item>
+                            <Menu.Item><NavLink to='/profile'>Профиль</NavLink></Menu.Item>
+                            <Menu.Item><NavLink to='/dialogs'>Сообщения</NavLink></Menu.Item>
+                            <Menu.Item><NavLink to='/users'>Пользователи</NavLink></Menu.Item>
+                            <Menu.Item><NavLink to='/news'>Новости</NavLink></Menu.Item>
+                            <Menu.Item><NavLink to='/music'>Музыка</NavLink></Menu.Item>
+                            <Menu.Item><NavLink to='/settings'>Настройки</NavLink></Menu.Item>
                         </Menu>
                     </Sider>
                     <Content style={{padding: '0 24px', minHeight: 280}}>
@@ -93,7 +95,7 @@ const AppLayout: React.FC = () => {
                     </Content>
                 </Layout>
             </Content>
-            <Footer style={{textAlign: 'center'}}>Ant Design ©2023 Created by Ant UED</Footer>
+            <Footer style={{textAlign: 'center'}}>Social Network ©2023 Created by Artyom Korshykau</Footer>
         </Layout>
     );
 };
