@@ -1,21 +1,22 @@
 import React, {useEffect} from 'react';
-import {Breadcrumb, Layout, Menu, theme} from 'antd';
+import {Layout, Menu, theme} from 'antd';
 import {NavLink, Route, Switch} from "react-router-dom";
 import News from "../components/News/News";
 import Music from "../components/Music/Music";
 import Settings from "../components/Settings/Settings";
 import {Login} from "../components/Login/Login";
-import {useHeaderData} from "../utils/hooks/useHeaderData";
 import {useAppSuspendedData} from "../utils/hooks/useAppData";
 import {thunks} from "../redux/thunks/thunks";
 import {Preloader} from "../common/Preloader/Preloader";
+import {AppHeader} from "../components/Header/AppHeader";
+import {useDispatch} from "react-redux";
 
-const {Header, Content, Footer, Sider} = Layout;
+const {Content, Footer, Sider} = Layout;
 
-const AppLayout: React.FC = () => {
+const AppLayout = () => {
 
     const {ChatPage, UsersPage, ProfilePage, DialogsPage, isInitialized} = useAppSuspendedData()
-    const {dispatch, logout, isAuth, login} = useHeaderData()
+    const dispatch = useDispatch()
 
     useEffect(() => {
         dispatch(thunks.initialized());
@@ -41,29 +42,16 @@ const AppLayout: React.FC = () => {
 
     return (
         <Layout>
-            <Header style={{display: 'flex', alignItems: 'center', flexDirection: 'row-reverse'}}>
-                <div>
-                    {isAuth
-                        ?
-                        <div style={{color: 'white'}}>{login} - <button onClick={() => dispatch(logout)}>Выйти</button>
-                        </div>
-                        : <NavLink to={'/login'}>Войти</NavLink>}
-                </div>
-                <Menu
-                    theme="dark"
-                    mode="horizontal"
-                    defaultSelectedKeys={['2']}
-                    style={{flex: 1, minWidth: 0}}
-                />
-            </Header>
-            <Content style={{padding: '0 48px'}}>
-                <Breadcrumb style={{margin: '16px 0'}}>
-                    <Breadcrumb.Item>Home</Breadcrumb.Item>
-                    <Breadcrumb.Item>List</Breadcrumb.Item>
-                    <Breadcrumb.Item>App</Breadcrumb.Item>
-                </Breadcrumb>
+            <AppHeader/>
+            <Content style={{padding: '20px 48px'}}>
                 <Layout
-                    style={{padding: '24px 0', background: colorBgContainer, borderRadius: borderRadiusLG}}
+                    style={{
+                        padding: '24px 0',
+                        background: colorBgContainer,
+                        borderRadius: borderRadiusLG,
+                        maxWidth: 1920,
+                        margin: "auto"
+                    }}
                 >
                     <Sider style={{background: colorBgContainer}} width={200}>
                         <Menu
