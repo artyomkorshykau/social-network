@@ -2,6 +2,7 @@ import {UserProfile, UserType} from "../../api/types/typesApi";
 import {ACTION_TYPE} from "../../common/enums/Actions";
 import {Filter} from "../users-reducer";
 import {ProfilePhoto} from "../../components/Profile/ProfilePage";
+import {ChatMessage} from "../../pages/ChatPage/ChatPage";
 
 
 //-------------------------------APP-ACTION-------------------------------
@@ -47,6 +48,9 @@ const toggleIsFollowing = (fetching: boolean, id: number) =>
 const setUserFilter = (filter: Filter) =>
     ({type: ACTION_TYPE.USER_FILTER, payload: filter}) as const
 
+//------------------------------CHAT-ACTION------------------------------
+const messagesReceived = (messages: ChatMessage[]) =>
+    ({type: ACTION_TYPE.MESSAGES_RECEIVED, payload: {messages}}) as const
 
 export const actions = {
     initializedSucceed,
@@ -65,5 +69,6 @@ export const actions = {
     setTotalUserCount,
     toggleIsFetching,
     toggleIsFollowing,
-    setUserFilter
+    setUserFilter,
+    messagesReceived,
 }

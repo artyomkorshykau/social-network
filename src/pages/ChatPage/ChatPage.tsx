@@ -8,11 +8,10 @@ export type ChatMessage = {
     userName: string
 }
 
-const socket = new WebSocket('wss://social-network.samuraijs.com/handlers/ChatHandler.ashx')
 const ChatPage = () => {
 
     return <div>
-        <Chat socket={socket}/>
+        <Chat/>
     </div>
 }
 

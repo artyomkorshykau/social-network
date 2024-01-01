@@ -1,15 +1,17 @@
-import {ChangeEventHandler, useState} from "react";
-import {message} from "antd";
+import {useState} from "react";
+import {useDispatch} from "react-redux";
+import {thunks} from "../../../redux/thunks/thunks";
 
-type Props = {
-    socket: WebSocket
-}
-export const AddMessageForm = ({socket}: Props) => {
+export const AddMessageForm = () => {
 
     const [messageText, setMessageText] = useState('')
 
+    const dispatch = useDispatch()
     const sendMessageHandler = () => {
-        socket.send(messageText)
+        if (!messageText) {
+            return
+        }
+        dispatch(thunks.sendMessage(messageText))
         setMessageText('')
     }
 
@@ -18,7 +20,7 @@ export const AddMessageForm = ({socket}: Props) => {
             <textarea onChange={(event) => setMessageText(event.currentTarget.value)} value={messageText}></textarea>
         </div>
         <div>
-            <button onClick={sendMessageHandler}>Send</button>
+            <button onClick={sendMessageHandler}>Отправить</button>
         </div>
     </div>
 }

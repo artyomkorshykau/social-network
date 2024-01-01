@@ -1,14 +1,23 @@
 import {AddMessageForm} from "../AddMessageForm/AddMessageForm";
 import {Messages} from "../Messages/Messages";
 import {useEffect} from "react";
+import {useDispatch} from "react-redux";
+import {thunks} from "../../../redux/thunks/thunks";
 
-type Props = {
-    socket: WebSocket
-}
-export const Chat = ({socket}: Props) => {
+export const Chat = () => {
+
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(thunks.messagesListening())
+        return () => {
+            dispatch(thunks.stopMessagesListening())
+        }
+    }, []);
+
 
     return <div>
-        <Messages socket={socket}/>
-        <AddMessageForm socket={socket}/>
+        <Messages/>
+        <AddMessageForm/>
     </div>
 }

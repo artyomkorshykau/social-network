@@ -8,6 +8,9 @@ import {profileAPI} from "../../api/profileApi";
 import {UserProfile, UserType} from "../../api/types/typesApi";
 import {usersAPI} from "../../api/userApi";
 import {Filter} from "../users-reducer";
+import {chatApi} from "../../api/chatApi";
+import {Dispatch} from "redux";
+import {ChatMessage} from "../../pages/ChatPage/ChatPage";
 
 //-------------------------------APP-THUNK-------------------------------
 const initialized = (): AppThunk => {
@@ -194,6 +197,29 @@ const unFollow = (id: number): AppThunk => {
     };
 };
 
+//-------------------------------CHAT-THUNK-------------------------------
+let _newMessageHandler: ((messages: ChatMessage[]) => void) | null = null
+const newMessageHandlerCreator = (dispatch: Dispatch) => {
+    if (_newMessageHandler === null) {
+        _newMessageHandler = (messages) => {
+            dispatch(actions.messagesReceived(messages))
+        }
+    }
+    return _newMessageHandler
+}
+const messagesListening = () => async (dispatch: Dispatch) => {
+    chatApi.createConnection()
+    chatApi.subscribe(newMessageHandlerCreator(dispatch))
+}
+const stopMessagesListening = () => async (dispatch: Dispatch) => {
+    chatApi.unsubscribe(newMessageHandlerCreator(dispatch))
+    chatApi.deleteConnection()
+}
+const sendMessage = (message: string) => async (dispatch: Dispatch) => {
+    chatApi.sendMessage(message)
+}
+
+
 export const thunks = {
     initialized,
     authMe,
@@ -208,6 +234,9 @@ export const thunks = {
     getUsers,
     pageChanged,
     follow,
-    unFollow
+    unFollow,
+    messagesListening,
+    stopMessagesListening,
+    sendMessage
 }
 
