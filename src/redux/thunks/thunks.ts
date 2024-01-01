@@ -8,7 +8,7 @@ import {profileAPI} from "../../api/profileApi";
 import {UserProfile, UserType} from "../../api/types/typesApi";
 import {usersAPI} from "../../api/userApi";
 import {Filter} from "../users-reducer";
-import {chatApi} from "../../api/chatApi";
+import {chatApi, EventStatus} from "../../api/chatApi";
 import {Dispatch} from "redux";
 import {ChatMessage} from "../../pages/ChatPage/ChatPage";
 
@@ -199,6 +199,7 @@ const unFollow = (id: number): AppThunk => {
 
 //-------------------------------CHAT-THUNK-------------------------------
 let _newMessageHandler: ((messages: ChatMessage[]) => void) | null = null
+let _statusChangeHandler: ((status: EventStatus) => void) | null = null
 const newMessageHandlerCreator = (dispatch: Dispatch) => {
     if (_newMessageHandler === null) {
         _newMessageHandler = (messages) => {
@@ -207,15 +208,25 @@ const newMessageHandlerCreator = (dispatch: Dispatch) => {
     }
     return _newMessageHandler
 }
+const statusChangedHandlerCreator = (dispatch: Dispatch) => {
+    if (_statusChangeHandler === null) {
+        _statusChangeHandler = (status) => {
+            dispatch(actions.socketStatusChanged(status))
+        }
+    }
+    return _statusChangeHandler
+}
 const messagesListening = () => async (dispatch: Dispatch) => {
     chatApi.createConnection()
-    chatApi.subscribe(newMessageHandlerCreator(dispatch))
+    chatApi.subscribe('message-received', newMessageHandlerCreator(dispatch))
+    chatApi.subscribe('status-changed', statusChangedHandlerCreator(dispatch))
 }
 const stopMessagesListening = () => async (dispatch: Dispatch) => {
-    chatApi.unsubscribe(newMessageHandlerCreator(dispatch))
+    chatApi.unsubscribe('message-received', newMessageHandlerCreator(dispatch))
+    chatApi.unsubscribe('status-changed', statusChangedHandlerCreator(dispatch))
     chatApi.deleteConnection()
 }
-const sendMessage = (message: string) => async (dispatch: Dispatch) => {
+const sendMessage = (message: string) => async () => {
     chatApi.sendMessage(message)
 }
 

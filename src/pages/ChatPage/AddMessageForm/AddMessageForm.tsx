@@ -1,10 +1,12 @@
 import {useState} from "react";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {thunks} from "../../../redux/thunks/thunks";
+import {getSocketStatus} from "../../../utils/selectors/userSelectors";
 
 export const AddMessageForm = () => {
 
     const [messageText, setMessageText] = useState('')
+    const socketStatus = useSelector(getSocketStatus)
 
     const dispatch = useDispatch()
     const sendMessageHandler = () => {
@@ -20,7 +22,7 @@ export const AddMessageForm = () => {
             <textarea onChange={(event) => setMessageText(event.currentTarget.value)} value={messageText}></textarea>
         </div>
         <div>
-            <button onClick={sendMessageHandler}>Отправить</button>
+            <button disabled={socketStatus === 'pending'} onClick={sendMessageHandler}>Отправить</button>
         </div>
     </div>
 }

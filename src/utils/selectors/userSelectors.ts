@@ -17,6 +17,7 @@ export const getStatus = (state: AppState) => state.profilePage.status
 export const getLoggedUser = (state: AppState) => state.auth.id
 export const getIsInitialized = (state: AppState) => state.app.initialized
 export const getChatMessages = (state: AppState) => state.chat.messages
+export const getSocketStatus = (state: AppState) => state.chat.status
 
 
 

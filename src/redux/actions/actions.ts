@@ -3,6 +3,7 @@ import {ACTION_TYPE} from "../../common/enums/Actions";
 import {Filter} from "../users-reducer";
 import {ProfilePhoto} from "../../components/Profile/ProfilePage";
 import {ChatMessage} from "../../pages/ChatPage/ChatPage";
+import {EventStatus} from "../../api/chatApi";
 
 
 //-------------------------------APP-ACTION-------------------------------
@@ -51,6 +52,8 @@ const setUserFilter = (filter: Filter) =>
 //------------------------------CHAT-ACTION------------------------------
 const messagesReceived = (messages: ChatMessage[]) =>
     ({type: ACTION_TYPE.MESSAGES_RECEIVED, payload: {messages}}) as const
+const socketStatusChanged = (status: EventStatus) =>
+    ({type: ACTION_TYPE.SET_SOCKETSTATUS, payload: {status}}) as const
 
 export const actions = {
     initializedSucceed,
@@ -71,4 +74,5 @@ export const actions = {
     toggleIsFollowing,
     setUserFilter,
     messagesReceived,
+    socketStatusChanged
 }
