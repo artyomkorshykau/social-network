@@ -78,7 +78,7 @@ const AppLayout = () => {
                             <Route path='/settings' component={Settings}/>
                             <Route path='/login' component={Login}/>
                             <Route path='/chat' render={() => <ChatPage/>}/>
-                            <Route path='*' render={() => () => <ProfilePage/>}/>
+                            <Route path='*' render={() => <ProfilePage/>}/>
                         </Switch>
                     </Content>
                 </Layout>
