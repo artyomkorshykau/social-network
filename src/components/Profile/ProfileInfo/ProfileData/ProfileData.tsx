@@ -2,6 +2,7 @@ import {Contacts} from "../Contacts/Contacts";
 import React from "react";
 import {UserProfile} from "../../../../api/types/typesApi";
 import {ProfileContacts} from "../../ProfilePage";
+import {Button} from "antd";
 
 type Props = {
     profile: UserProfile
@@ -27,9 +28,16 @@ export const ProfileData = ({profile, isOwner, setEditMode}: Props) => {
                                                                       key={el}/></li>
                 })}
             </ul>
-            <div>{isOwner && <button onClick={() => {
-                setEditMode(true)
-            }}>Редактировать</button>}</div>
+            <div>
+                {isOwner && <Button ghost
+                                    type={'primary'}
+                                    onClick={() => {
+                                        setEditMode(true)
+                                    }}
+                >
+                    Редактировать
+                </Button>}
+            </div>
         </div>
     </>
 }

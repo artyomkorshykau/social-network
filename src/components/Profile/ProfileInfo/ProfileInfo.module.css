@@ -1,9 +1,12 @@
 .diskBlock {
     padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color: #f5f5f5;
 }
 
 .diskBlock img {
-    border-radius: 5px;
 }
 
 .ava {
@@ -14,5 +17,8 @@
 .profileInfo img {
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
+}
 
+.infoIcon {
+    display: flex;
 }

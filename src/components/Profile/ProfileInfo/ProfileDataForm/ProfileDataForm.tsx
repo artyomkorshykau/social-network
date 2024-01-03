@@ -1,7 +1,9 @@
 import React from "react";
-import {Input, TextArea} from "../../../../common/FormControls/FormControls";
+import {Input, TextArea1} from "../../../../common/FormControls/FormControls";
 import {Field, InjectedFormProps, reduxForm} from "redux-form";
 import {UserProfile} from "../../../../api/types/typesApi";
+import {Button} from "antd";
+import Alert from "antd/lib/alert/Alert";
 
 
 type Props = {
@@ -11,7 +13,15 @@ type Props = {
 }
 
 
-const ProfileDataForm = ({handleSubmit, profile, setEditMode}: Props & InjectedFormProps<UserProfile, Props>) => {
+const ProfileDataForm = ({
+                             handleSubmit,
+                             profile,
+                             setEditMode,
+                         }: Props & InjectedFormProps<UserProfile, Props>) => {
+    const saveHandler = () => {
+        setEditMode(false)
+    }
+
     return <form onSubmit={handleSubmit}>
         <div style={{marginTop: '10px', display: 'flex', flexDirection: 'column', width: '450px'}}>
             <div style={{display: 'flex', gap: '10px', justifyContent: 'space-between'}}><b>Full name</b> {<Field
@@ -22,7 +32,7 @@ const ProfileDataForm = ({handleSubmit, profile, setEditMode}: Props & InjectedF
 
             <div style={{display: 'flex', gap: '10px', justifyContent: 'space-between'}}><b>About me</b> {<Field
                 placeholder={'About me'}
-                component={TextArea}
+                component={TextArea1}
                 name={'aboutMe'}
                 validate={[]}/>}</div>
 
@@ -34,7 +44,7 @@ const ProfileDataForm = ({handleSubmit, profile, setEditMode}: Props & InjectedF
                        type={'checkbox'}/>}</div>
             <div style={{display: 'flex', gap: '10px', justifyContent: 'space-between'}}><b>Looking for a job
                 Description</b> {<Field placeholder={'Looking For A Job Description'}
-                                        component={TextArea}
+                                        component={TextArea1}
                                         name={'lookingForAJobDescription'}
                                         validate={[]}/>}</div>
         </div>
@@ -55,9 +65,13 @@ const ProfileDataForm = ({handleSubmit, profile, setEditMode}: Props & InjectedF
                         </li>
                     })}
             </ul>
-            <div>{<button onClick={() => {
-                setEditMode(false)
-            }}>Сохранить</button>}</div>
+            <div>{<Button ghost
+                          type={'primary'}
+                          onClick={saveHandler}
+            >
+                Сохранить
+            </Button>}
+            </div>
         </div>
     </form>
 }

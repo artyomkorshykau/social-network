@@ -8,6 +8,8 @@ import {ProfileDataReduxForm} from './ProfileDataForm/ProfileDataForm';
 import {useProfileData} from "../../../utils/hooks/useProfileData";
 import {thunks} from "../../../redux/thunks/thunks";
 import {UserProfile} from "../../../api/types/typesApi";
+import {InfoCircleOutlined, UploadOutlined} from '@ant-design/icons';
+import {Button, Collapse, CollapseProps, Flex, Spin, Upload} from 'antd';
 
 type Props = {
     isOwner: boolean
@@ -31,35 +33,39 @@ const ProfileInfo = ({isOwner}: Props) => {
     }
 
     const onSubmit = (formData: UserProfile) => {
-
         dispatch(saveProfile(formData))
-            // .then(() => {
-            //     setEditMode(false)
-            // })
-            // .catch(e => {
-            // })
     }
 
+    const items: CollapseProps['items'] = [
+        {
+            key: '1',
+            label: 'More info',
+            children: editMode
+                ? <ProfileDataReduxForm profile={profile}
+                                        isOwner={isOwner}
+                                        setEditMode={setEditMode}
+                                        onSubmit={onSubmit}/>
+                : <ProfileData profile={profile}
+                               isOwner={isOwner}
+                               setEditMode={setEditMode}
+                />
+        }
+
+    ]
     return (
         <div>
             <div className={s.diskBlock}>
                 <img src={profile.photos.large || photo} alt="" className={s.ava}/>
 
                 <div>{isOwner &&
-                    <input type={'file'} onChange={changeMainPhotoHandler}/>}</div>
+                    <Upload {...changeMainPhotoHandler}>
+                        <Button icon={<UploadOutlined/>}>Change photo</Button>
+                    </Upload>}
+                </div>
 
                 <ProfileStatus profileStatus={status} updateStatus={updateStatus}/>
 
-                {editMode
-                    ? <ProfileDataReduxForm profile={profile}
-                                            isOwner={isOwner}
-                                            setEditMode={setEditMode}
-                                            onSubmit={onSubmit}
-                    />
-                    : <ProfileData profile={profile}
-                                   isOwner={isOwner}
-                                   setEditMode={setEditMode}/>}
-
+                <Collapse items={items} ghost/>
 
             </div>
         </div>

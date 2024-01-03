@@ -1,6 +1,6 @@
 import {maxLengthCreator, required} from "../../../utils/validators/validator";
 import {Field, InjectedFormProps, reduxForm} from "redux-form";
-import {TextArea} from "../../../common/FormControls/FormControls";
+import {TextArea1} from "../../../common/FormControls/FormControls";
 import React from "react";
 import {MessageBody} from "../DialogsPage";
 
@@ -10,7 +10,7 @@ const AddMessageForm = (props: InjectedFormProps<MessageBody>) => {
     return (
         <form onSubmit={props.handleSubmit}>
             <div>
-                <Field component={TextArea}
+                <Field component={TextArea1}
                        name={'newMessageBody'}
                        placeholder={'Enter your message'}
                        validate={[required, maxLength]}

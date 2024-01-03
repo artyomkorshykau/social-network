@@ -1,25 +1,28 @@
 import {Field, InjectedFormProps, reduxForm} from "redux-form";
-import {TextArea} from "../../../common/FormControls/FormControls";
-import {maxLengthCreator, required} from "../../../utils/validators/validator";
+import {TextArea1} from "../../../../common/FormControls/FormControls";
+import {maxLengthCreator, required} from "../../../../utils/validators/validator";
 import React from "react";
-import {MessageBody} from "../../Dialogs/DialogsPage";
+import {MessageBody} from "../../../Dialogs/DialogsPage";
+import {Button} from "antd";
+import s from './AddNewPostForm.module.css'
+
 
 const maxLength10 = maxLengthCreator(10)
 
 export const AddNewPostForm = (props: InjectedFormProps<MessageBody>) => {
 
     return (
-        <form onSubmit={props.handleSubmit}>
+        <form onSubmit={props.handleSubmit} className={s.newPostForm}>
             <div>
                 <Field
                     name={'newMessageBody'}
-                    component={TextArea}
+                    component={TextArea1}
                     validate={[required, maxLength10]}
                     placeholder={'Post message'}
                 />
             </div>
             <div>
-                <button>Add post</button>
+                <Button ghost type={'primary'}>Add post</Button>
             </div>
         </form>
     )

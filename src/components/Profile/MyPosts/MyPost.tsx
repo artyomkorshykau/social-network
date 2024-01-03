@@ -1,10 +1,11 @@
 import React from "react";
 import s from './MyPost.module.css'
 import Post from "./Post/Post"
-import {AddNewPostReduxForm} from "./AddNewPostForm";
 import {MessageBody} from "../../Dialogs/DialogsPage";
 import {useMyPostsData} from "../../../utils/hooks/useMyPostsData";
 import {actions} from "../../../redux/actions/actions";
+import {AddNewPostReduxForm} from "./AddNewPostForm/AddNewPostForm";
+import Alert from "antd/lib/alert/Alert";
 
 const MyPost = React.memo(() => {
 

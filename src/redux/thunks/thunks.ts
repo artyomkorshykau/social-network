@@ -10,7 +10,7 @@ import {usersAPI} from "../../api/userApi";
 import {Filter} from "../users-reducer";
 import {chatApi, EventStatus} from "../../api/chatApi";
 import {Dispatch} from "redux";
-import {ChatMessage} from "../../pages/ChatPage/ChatPage";
+import {ChatMessageApi} from "../../pages/ChatPage/ChatPage";
 
 //-------------------------------APP-THUNK-------------------------------
 const initialized = (): AppThunk => {
@@ -198,7 +198,7 @@ const unFollow = (id: number): AppThunk => {
 };
 
 //-------------------------------CHAT-THUNK-------------------------------
-let _newMessageHandler: ((messages: ChatMessage[]) => void) | null = null
+let _newMessageHandler: ((messages: ChatMessageApi[]) => void) | null = null
 let _statusChangeHandler: ((status: EventStatus) => void) | null = null
 const newMessageHandlerCreator = (dispatch: Dispatch) => {
     if (_newMessageHandler === null) {
