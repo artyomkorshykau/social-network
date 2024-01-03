@@ -1,4 +1,14 @@
 .messages {
-    height: 400px;
+    height: 500px;
     overflow-y: auto;
+}
+
+.messages::-webkit-scrollbar{
+    background-color: #ffffff;
+    width: 5px;
+}
+
+.messages::-webkit-scrollbar-thumb{
+    background-color: #001529;
+    border-radius: 50px;
 }

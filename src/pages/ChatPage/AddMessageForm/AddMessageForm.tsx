@@ -2,6 +2,8 @@ import {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {thunks} from "../../../redux/thunks/thunks";
 import {getSocketStatus} from "../../../utils/selectors/userSelectors";
+import s from './AddMessageForm.module.css'
+import {Button} from "antd";
 
 export const AddMessageForm = () => {
 
@@ -17,12 +19,16 @@ export const AddMessageForm = () => {
         setMessageText('')
     }
 
-    return <div>
-        <div>
-            <textarea onChange={(event) => setMessageText(event.currentTarget.value)} value={messageText}></textarea>
+    return <div className={s.AddMessageForm}>
+        <div className={s.textarea}>
+            <textarea onChange={(event) => setMessageText(event.currentTarget.value)}
+                      value={messageText}
+                      placeholder={'Enter your message'}/>
         </div>
         <div>
-            <button disabled={socketStatus === 'pending'} onClick={sendMessageHandler}>Отправить</button>
+            <Button type={'primary'} disabled={socketStatus === 'pending'}
+                    onClick={sendMessageHandler}>Отправить</Button>
         </div>
     </div>
 }
+

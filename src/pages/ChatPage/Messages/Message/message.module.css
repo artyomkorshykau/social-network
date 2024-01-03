@@ -1,0 +1,50 @@
+.message {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    & img {
+        border-radius: 50px;
+        margin-left: 10px;
+    }
+
+    & span {
+        font-weight: bold;
+        color: white;
+    }
+
+    & p {
+        color: white;
+    }
+}
+
+
+.userMessage {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+
+    & img {
+        border-radius: 50px;
+        margin-right: 10px;
+
+    }
+
+    & span {
+        font-weight: bold;
+        color: white;
+    }
+
+    & p {
+        color: white;
+    }
+}
+
+.messageBlock {
+    background-color: #001529;
+    border-radius: 17px;
+    margin-bottom: 10px;
+    padding: 10px;
+}

@@ -1,7 +1,7 @@
-import {ChatMessage} from "../pages/ChatPage/ChatPage";
+import {ChatMessageApi} from "../pages/ChatPage/ChatPage";
 
 type Subscriber = MessageReceivedSubscriber | StatusChangedSubscriber
-type MessageReceivedSubscriber = (messages: ChatMessage[]) => void
+type MessageReceivedSubscriber = (messages: ChatMessageApi[]) => void
 type StatusChangedSubscriber = (status: EventStatus) => void
 export type EventStatus = 'pending' | 'ready' | 'error'
 

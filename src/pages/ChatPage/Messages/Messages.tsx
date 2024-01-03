@@ -27,7 +27,7 @@ export const Messages = () => {
     }, [messages]);
 
     return <div className={s.messages} onScroll={scrollHandler}>
-        {messages.map((m, index) => <Message message={m} key={index}/>)}
+        {messages.map((m) => <Message message={m} key={m.id}/>)}
         <div ref={messageAnchorRef}></div>
     </div>
 }

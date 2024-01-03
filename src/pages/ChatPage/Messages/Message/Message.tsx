@@ -1,14 +1,23 @@
-import {ChatMessage} from "../../ChatPage";
+import {ChatMessageApi} from "../../ChatPage";
+import React from "react";
+import s from './message.module.css'
 
 type Props = {
-    message: ChatMessage
+    message: ChatMessageApi
 }
-export const Message = ({message}: Props) => {
+export const Message = React.memo(({message}: Props) => {
 
-    return <div>
-        <img src={message.photo} alt={'avatar'} width={'40px'}/><b>{message.userName}</b>
-        <br/>
-        {message.message}
-        <hr/>
+    const id = message.userId
+
+    return <div className={id === 29875 ? s.userMessage : s.message}>
+        <div>
+            <img src={message.photo} alt={'avatar'} width={'40px'}/>
+        </div>
+        <div className={s.messageBlock}>
+            <span>{message.userName}</span>
+            <p>{message.message}</p>
+        </div>
+
+
     </div>
-}
+})
