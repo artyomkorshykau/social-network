@@ -1,1 +1,0 @@
-{"version":3,"file":"static/css/792.987b9c91.chunk.css","mappings":"AAAA,wBAEI,WAAY,CADZ,UAEJ,CAEA,2BAEI,cAAe,CADf,eAEJ","sources":["components/Users/Users.module.css"],"sourcesContent":[".userPhoto {\r\n    width: 50px;\r\n    height: 50px;\r\n}\r\n\r\n.selectedPage {\r\n    font-weight: bold;\r\n    cursor: pointer;\r\n}"],"names":[],"sourceRoot":""}
