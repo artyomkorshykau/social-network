@@ -2,7 +2,7 @@ import {UserProfile, UserType} from "../../api/types/typesApi";
 import {ACTION_TYPE} from "../../common/enums/Actions";
 import {Filter} from "../users-reducer";
 import {ProfilePhoto} from "../../components/Profile/ProfilePage";
-import {ChatMessage} from "../../pages/ChatPage/ChatPage";
+import {ChatMessageApi} from "../../pages/ChatPage/ChatPage";
 import {EventStatus} from "../../api/chatApi";
 
 
@@ -50,7 +50,7 @@ const setUserFilter = (filter: Filter) =>
     ({type: ACTION_TYPE.USER_FILTER, payload: filter}) as const
 
 //------------------------------CHAT-ACTION------------------------------
-const messagesReceived = (messages: ChatMessage[]) =>
+const messagesReceived = (messages: ChatMessageApi[]) =>
     ({type: ACTION_TYPE.MESSAGES_RECEIVED, payload: {messages}}) as const
 const socketStatusChanged = (status: EventStatus) =>
     ({type: ACTION_TYPE.SET_SOCKETSTATUS, payload: {status}}) as const

@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {Layout, Menu, theme} from 'antd';
+import {Alert, Layout, Menu, theme} from 'antd';
 import {NavLink, Route, Switch} from "react-router-dom";
 import News from "../components/News/News";
 import Music from "../components/Music/Music";
@@ -15,7 +15,7 @@ const {Content, Footer, Sider} = Layout;
 
 const AppLayout = () => {
 
-    const {ChatPage, UsersPage, ProfilePage, DialogsPage, isInitialized} = useAppSuspendedData()
+    const {ChatPage, UsersPage, ProfilePage, isInitialized} = useAppSuspendedData()
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -29,7 +29,7 @@ const AppLayout = () => {
 
     const {token: {colorBgContainer, borderRadiusLG},} = theme.useToken();
     const catchAllHandleErrors = (e: PromiseRejectionEvent) => {
-        alert('Some error occurred, check console');
+        <Alert message="Some error occurred, check console" type="error"/>;
 
         console.error(e);
 
@@ -70,7 +70,7 @@ const AppLayout = () => {
                     </Sider>
                     <Content style={{padding: '0 24px', minHeight: 280}}>
                         <Switch>
-                            <Route path='/dialogs' render={() => <DialogsPage/>}/>
+                            <Route path='/dialogs' render={() => <ChatPage/>}/>
                             <Route path='/profile/:userId?' render={() => <ProfilePage/>}/>
                             <Route path='/users' render={() => <UsersPage/>}/>
                             <Route path='/news' component={News}/>
