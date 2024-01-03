@@ -6,6 +6,8 @@ import {UserOutlined} from "@ant-design/icons";
 import {Avatar, Button} from "antd";
 import logo from '../../img/logo.png'
 import s from './AppHeader.module.css'
+import {useSelector} from "react-redux";
+import {getUserPhoto} from "../../utils/selectors/userSelectors";
 
 
 export const AppHeader = () => {
