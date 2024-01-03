@@ -3,14 +3,21 @@ import {NavLink} from "react-router-dom";
 import {useHeaderData} from "../../utils/hooks/useHeaderData";
 import {Header} from "antd/lib/layout/layout";
 import {UserOutlined} from "@ant-design/icons";
-import {Avatar, Button, Menu} from "antd";
+import {Avatar, Button} from "antd";
+import logo from '../../img/logo.png'
+import s from './AppHeader.module.css'
 
 
 export const AppHeader = () => {
 
     const {dispatch, logout, isAuth, login} = useHeaderData()
 
-    return <Header style={{display: 'flex', alignItems: 'center', flexDirection: 'row-reverse'}}>
+    return <Header
+        style={{display: 'flex', alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between'}}>
+        <div className={s.logo}>
+            <img src={logo} alt={'logo'}/>
+        </div>
+
         <div>
             {isAuth
                 ?
@@ -20,12 +27,6 @@ export const AppHeader = () => {
                 </div>
                 : <Button type={"primary"} ghost={true}><NavLink to={'/login'}>Войти</NavLink></Button>}
         </div>
-        <Menu
-            theme="dark"
-            mode="horizontal"
-            defaultSelectedKeys={['2']}
-            style={{flex: 1, minWidth: 0}}
-        ></Menu>
     </Header>
 }
 
