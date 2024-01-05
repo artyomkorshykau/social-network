@@ -1,12 +1,12 @@
 import React from "react";
 import s from './dialogs.module.css'
-import {Dialog, Messages} from "../../redux/dialogs-reducer";
 import {actions} from "../../redux/actions/actions";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import {useDialogsData} from "../../utils/hooks/useDialogsData";
-import {DialogItem} from "../../components/Dialogs/dialog-Item/dialog-item";
-import {AddMessageReduxForm} from "../../components/Dialogs/add-message-form/add-message-form";
-import {Message} from "../../components/Dialogs/message/message";
+import {Dialog, Messages} from "../../redux/reducers/dialogs-reducer";
+import {DialogItem} from "../../components/dialog-Item/dialog-item";
+import {AddMessageForm} from "../../components/add-message-form/add-message-form";
+import {Message} from "../../components/dialog-message/dialog-message";
 
 
 const Dialogs = withAuthRedirect(() => {
@@ -33,7 +33,7 @@ const Dialogs = withAuthRedirect(() => {
             <div className={s.messages}>
                 <div>{messageItem}</div>
             </div>
-            <AddMessageReduxForm onSubmit={addNewMessage}/>
+            <AddMessageForm/>
         </div>
     )
 })

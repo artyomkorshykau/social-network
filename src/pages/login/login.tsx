@@ -2,8 +2,8 @@ import React from 'react'
 import {Redirect} from "react-router-dom";
 import {LoginReduxForm} from "./login-form";
 import {useDispatch, useSelector} from "react-redux";
-import {getCaptchaUrl, getIsAuth} from "../../utils/selectors/userSelectors";
 import {thunks} from "../../redux/thunks/thunks";
+import {getCaptchaUrl, getIsAuth} from "../../utils/selectors/auth-selectors/auth-selectors";
 
 export const Login = () => {
 

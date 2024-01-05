@@ -1,6 +1,6 @@
 import {UsersData} from "./types/types-api";
 import {Response} from "./types/types-api";
-import {instance} from "./common/common-api";
+import {instance} from "./instance/instance-api";
 
 export const usersAPI = {
     async getUsers(currentPage: number = 1, pageSize: number = 10, term: string, friend: null | boolean = null) {

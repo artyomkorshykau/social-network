@@ -1,7 +1,7 @@
 import React, {ComponentType} from 'react';
 import {Redirect} from "react-router-dom";
-import {AppState} from "../redux/store";
 import {connect} from "react-redux";
+import {AppState} from "../redux/store/store";
 
 
 const mapStateToProps = (state: AppState): MapStateToProps => ({

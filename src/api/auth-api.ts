@@ -1,8 +1,8 @@
 import {DataAuthMe} from "./types/types-api";
 import {Response} from './types/types-api'
-import {instance} from "./common/common-api";
+import {instance} from "./instance/instance-api";
 
-export const authApi = {
+export const authAPI = {
     async me() {
         let res = await instance.get<Response<DataAuthMe>>(`auth/me`);
         return res.data;

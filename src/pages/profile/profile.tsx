@@ -3,8 +3,8 @@ import {useHistory, useParams} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {useProfileData} from "../../utils/hooks/useProfileData";
 import {thunks} from "../../redux/thunks/thunks";
-import ProfileInfo from "../../components/Profile/ProfileInfo/profile-info";
-import MyPost from "../../components/Profile/MyPosts/my-post";
+import ProfileInfo from "../../components/profile-info/profile-info";
+import MyPost from "./MyPosts/my-post";
 
 const Profile = () => {
 

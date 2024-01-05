@@ -5,19 +5,18 @@ import {UserOutlined} from "@ant-design/icons";
 import {Avatar, Button, Layout, message, Popconfirm} from "antd";
 import s from './header.module.css'
 
-
 export const Header = () => {
 
     const {dispatch, logout, isAuth, login} = useHeaderData()
     const {Header} = Layout;
 
-    const confirm = (e?: React.MouseEvent<HTMLElement>) => {
+    const confirmHandler = (e?: React.MouseEvent<HTMLElement>) => {
         console.log(e);
         message.success('Click on Yes')
         dispatch(logout)
     };
 
-    const cancel = (e?: React.MouseEvent<HTMLElement>) => {
+    const cancelHandler = (e?: React.MouseEvent<HTMLElement>) => {
         console.log(e);
         message.error('Click on No');
     };
@@ -41,8 +40,8 @@ export const Header = () => {
                     <Avatar style={{backgroundColor: '#87d068', margin: "0 20px"}} icon={<UserOutlined/>}/>
                     <Popconfirm
                         title="Попутал?"
-                        onConfirm={confirm}
-                        onCancel={cancel}
+                        onConfirm={confirmHandler}
+                        onCancel={cancelHandler}
                         okText="Да"
                         cancelText="Не уверен"
                     >

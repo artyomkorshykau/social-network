@@ -3,10 +3,10 @@ import {
     getCurrentPage, getIsFetching,
     getIsFollowing,
     getPageSize,
-    getTotalUserCount,
-    getUserFilter,
+    getTotalUserCount, getUserFilter,
     getUsers
-} from "../selectors/userSelectors";
+} from "../selectors/user-selectors/user-selectors";
+
 
 export const useUserData = () => {
     const totalUserCount = useSelector(getTotalUserCount)

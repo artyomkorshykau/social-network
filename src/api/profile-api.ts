@@ -1,9 +1,9 @@
 import {UserProfile} from "./types/types-api";
 import {Response} from "./types/types-api";
 import {ProfilePhoto} from "../pages/profile/profile";
-import {instance} from "./common/common-api";
+import {instance} from "./instance/instance-api";
 
-export const profileApi = {
+export const profileAPI = {
     async getProfile(userID: number | null) {
         let res = await instance.get<UserProfile>(`profile/${userID}`);
         return res.data;

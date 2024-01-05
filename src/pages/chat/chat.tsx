@@ -1,9 +1,9 @@
 import {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {Messages} from "./Messages/messages";
-import {getSocketStatus} from "../../utils/selectors/userSelectors";
 import {thunks} from "../../redux/thunks/thunks";
-import {AddMessageForm} from "./add-message-form/add-message-form";
+import {getSocketStatus} from "../../utils/selectors/chat-selectors/chat-selectors";
+import {Messages} from "./messages/messages";
+import {AddMessageForm} from "../../components/add-message-form/add-message-form";
 
 export type ChatMessageApi = {
     message: string
@@ -28,7 +28,7 @@ const Chat = () => {
 
 
     return <div>
-        {status === 'error' && <div>Error! Please refresh the page.</div>}
+        {status === 'error' && <div>Ошибка! Обновите страницу.</div>}
         <Messages/>
         <AddMessageForm/>
     </div>

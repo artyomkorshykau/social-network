@@ -1,5 +1,6 @@
 import {useDispatch, useSelector} from "react-redux";
-import {getIsAuth, getLoggedUser, getProfile, getStatus} from "../selectors/userSelectors";
+import {getProfile, getStatus} from "../selectors/profile-selectors/profile-selectors";
+import {getIsAuth, getLoggedUser} from "../selectors/auth-selectors/auth-selectors";
 
 export const useProfileData = () => {
     const profile = useSelector(getProfile)

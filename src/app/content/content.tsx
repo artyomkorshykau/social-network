@@ -9,7 +9,7 @@ import {useAppSuspendedData} from "../../utils/hooks/useAppData";
 import Navbar from "../navbar/navbar";
 
 export const AppContent = () => {
-    const {ChatPage, UsersPage, ProfilePage} = useAppSuspendedData()
+    const {SuspendedProfile, SuspendedUsers, SuspendedChat} = useAppSuspendedData()
     const {token: {colorBgContainer, borderRadiusLG},} = theme.useToken();
     const {Content} = Layout;
 
@@ -20,21 +20,22 @@ export const AppContent = () => {
                 background: colorBgContainer,
                 borderRadius: borderRadiusLG,
                 maxWidth: 1920,
-                margin: "auto"
+                margin: "auto",
+                height: '100vh'
             }}
         >
             <Navbar/>
             <Content style={{padding: '0 24px', minHeight: 280}}>
                 <Switch>
-                    <Route path='/dialogs' render={() => <ChatPage/>}/>
-                    <Route path='/profile/:userId?' render={() => <ProfilePage/>}/>
-                    <Route path='/users' render={() => <UsersPage/>}/>
+                    <Route path='/dialogs' render={() => <SuspendedChat/>}/>
+                    <Route path='/profile/:userId?' render={() => <SuspendedProfile/>}/>
+                    <Route path='/users' render={() => <SuspendedUsers/>}/>
                     <Route path='/news' component={News}/>
                     <Route path='/music' component={Music}/>
                     <Route path='/settings' component={Settings}/>
                     <Route path='/login' component={Login}/>
-                    <Route path='/chat' render={() => <ChatPage/>}/>
-                    <Route path='*' render={() => <ProfilePage/>}/>
+                    <Route path='/chat' render={() => <SuspendedChat/>}/>
+                    <Route path='*' render={() => <SuspendedProfile/>}/>
                 </Switch>
             </Content>
         </Layout>

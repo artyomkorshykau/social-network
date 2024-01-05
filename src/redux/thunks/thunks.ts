@@ -1,16 +1,16 @@
 import {actions} from "../actions/actions";
 import {stopSubmit} from "redux-form";
-import {AppThunk} from "../store";
 import {ResultCode} from "../../common/enums/response";
-import {authApi} from "../../api/auth-api";
-import {securityApi} from "../../api/security-api";
-import {profileApi} from "../../api/profile-api";
+import {authAPI} from "../../api/auth-api";
+import {securityAPI} from "../../api/security-api";
+import {profileAPI} from "../../api/profile-api";
 import {UserProfile, UserType} from "../../api/types/types-api";
 import {usersAPI} from "../../api/user-api";
-import {Filter} from "../users-reducer";
-import {chatApi, EventStatus} from "../../api/chat-api";
+import {chatAPI, EventStatus} from "../../api/chat-api";
 import {Dispatch} from "redux";
 import {ChatMessageApi} from "../../pages/chat/chat";
+import {AppThunk} from "../store/store";
+import {Filter} from "../reducers/users-reducer";
 
 //-------------------------------APP-THUNK-------------------------------
 const initialized = (): AppThunk => {
@@ -27,7 +27,7 @@ const initialized = (): AppThunk => {
 const authMe = (): AppThunk => {
     return async (dispatch) => {
         try {
-            const res = await authApi.me();
+            const res = await authAPI.me();
             if (res.resultCode === ResultCode.SUCCEED) {
                 let {id, login, email} = res.data
                 dispatch(actions.setAuthUserData(id, login, email, true));
@@ -41,7 +41,7 @@ const authMe = (): AppThunk => {
 const login = (log: string, pass: string, remember: boolean, captcha: string | null): AppThunk => {
     return async (dispatch) => {
         try {
-            const res = await authApi.login(log, pass, captcha, remember);
+            const res = await authAPI.login(log, pass, captcha, remember);
             if (res.resultCode === ResultCode.SUCCEED) {
                 await dispatch(authMe());
             } else {
@@ -60,7 +60,7 @@ const login = (log: string, pass: string, remember: boolean, captcha: string | n
 const logout = (): AppThunk => {
     return async (dispatch) => {
         try {
-            const res = await authApi.logout();
+            const res = await authAPI.logout();
             if (res.resultCode === ResultCode.SUCCEED) {
                 dispatch(actions.setAuthUserData(null, null, null, false));
             }
@@ -72,7 +72,7 @@ const logout = (): AppThunk => {
 
 const getCaptcha = (): AppThunk => {
     return async (dispatch) => {
-        const res = await securityApi.getCaptcha()
+        const res = await securityAPI.getCaptcha()
         dispatch(actions.setCaptcha(res.url))
     }
 }
@@ -81,7 +81,7 @@ const getCaptcha = (): AppThunk => {
 const getProfile = (userID: number | null): AppThunk => {
     return async (dispatch) => {
         try {
-            const data = await profileApi.getProfile(userID);
+            const data = await profileAPI.getProfile(userID);
             dispatch(actions.setUserProfile(data));
         } catch (error) {
             // Handle error
@@ -92,7 +92,7 @@ const getProfile = (userID: number | null): AppThunk => {
 const getUserStatus = (userId: string): AppThunk => {
     return async (dispatch) => {
         try {
-            const res = await profileApi.getStatus(userId);
+            const res = await profileAPI.getStatus(userId);
             dispatch(actions.setStatus(res));
         } catch (error) {
             // Handle error
@@ -103,7 +103,7 @@ const getUserStatus = (userId: string): AppThunk => {
 const updateStatus = (status: string): AppThunk => {
     return async (dispatch) => {
         try {
-            await profileApi.updateStatus(status);
+            await profileAPI.updateStatus(status);
             dispatch(actions.setStatus(status));
         } catch (error) {
             // Handle error
@@ -113,7 +113,7 @@ const updateStatus = (status: string): AppThunk => {
 
 const savePhoto = (file: File): AppThunk => {
     return async (dispatch) => {
-        let res = await profileApi.savePhoto(file)
+        let res = await profileAPI.savePhoto(file)
         if (res.resultCode === ResultCode.SUCCEED) {
             dispatch(actions.setPhotoSuccess(res.data))
         }
@@ -123,7 +123,7 @@ const savePhoto = (file: File): AppThunk => {
 const saveProfile = (profile: UserProfile): AppThunk => {
     return async (dispatch, getState) => {
         const userId = getState().profilePage.profile?.userId || 29875
-        let res = await profileApi.saveProfile(profile)
+        let res = await profileAPI.saveProfile(profile)
         if (res.resultCode === ResultCode.SUCCEED) {
             await dispatch(getProfile(userId))
             return Promise.resolve()
@@ -217,17 +217,17 @@ const statusChangedHandlerCreator = (dispatch: Dispatch) => {
     return _statusChangeHandler
 }
 const messagesListening = () => async (dispatch: Dispatch) => {
-    chatApi.createConnection()
-    chatApi.subscribe('message-received', newMessageHandlerCreator(dispatch))
-    chatApi.subscribe('status-changed', statusChangedHandlerCreator(dispatch))
+    chatAPI.createConnection()
+    chatAPI.subscribe('message-received', newMessageHandlerCreator(dispatch))
+    chatAPI.subscribe('status-changed', statusChangedHandlerCreator(dispatch))
 }
 const stopMessagesListening = () => async (dispatch: Dispatch) => {
-    chatApi.unsubscribe('message-received', newMessageHandlerCreator(dispatch))
-    chatApi.unsubscribe('status-changed', statusChangedHandlerCreator(dispatch))
-    chatApi.deleteConnection()
+    chatAPI.unsubscribe('message-received', newMessageHandlerCreator(dispatch))
+    chatAPI.unsubscribe('status-changed', statusChangedHandlerCreator(dispatch))
+    chatAPI.deleteConnection()
 }
 const sendMessage = (message: string) => async () => {
-    chatApi.sendMessage(message)
+    chatAPI.sendMessage(message)
 }
 
 

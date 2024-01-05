@@ -1,5 +1,5 @@
 import {useDispatch, useSelector} from "react-redux";
-import {getPosts} from "../selectors/userSelectors";
+import {getPosts} from "../selectors/profile-selectors/profile-selectors";
 
 export const useMyPostsData = () => {
     const posts = useSelector(getPosts)

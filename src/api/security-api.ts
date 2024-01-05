@@ -1,6 +1,6 @@
-import {instance} from "./common/common-api";
+import {instance} from "./instance/instance-api";
 
-export const securityApi = {
+export const securityAPI = {
     async getCaptcha() {
         let res = await instance.get<{ url: string }>(`security/get-captcha-url`);
         return res.data;

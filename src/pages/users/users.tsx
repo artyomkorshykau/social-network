@@ -2,12 +2,13 @@ import React, {useEffect} from 'react';
 import {Pagination} from "../../common/pagination/pagination";
 import {useDispatch} from "react-redux";
 import {thunks} from "../../redux/thunks/thunks";
-import {Filter} from "../../redux/users-reducer";
 import {Preloader} from "../../common/preloader/preloader";
 import {useUserData} from "../../utils/hooks/useUserData";
-import {UserSearchForm} from "../../components/users/user-search-form";
-import {User} from "../../components/users/user";
- const Users = () => {
+import {User} from "../../components/user/user";
+import {Filter} from "../../redux/reducers/users-reducer";
+import {UserSearchForm} from "../../components/user-search-form/user-search-form";
+
+const Users = () => {
 
     const {filter, users, totalUserCount, pageSize, currentPage, isFollowing, isFetching} = useUserData()
 
@@ -31,20 +32,29 @@ import {User} from "../../components/users/user";
     }
 
     return (
-        <div>
+        <div style={{display: 'flex', flexDirection: 'column', gap: '20px'}}>
             <UserSearchForm onFilterChanged={onFilterChanged}/>
             <Pagination totalUserCount={totalUserCount}
                         pageSize={pageSize}
                         currentPage={currentPage}
                         onPageChanged={onPageChanged}/>
             {isFetching ? <Preloader/> : null}
-            {
-                users.map((el) => <User followTC={follow}
-                                        isFollowing={isFollowing}
-                                        unFollowTC={unfollow}
-                                        user={el}
-                                        key={el.id}/>)
-            }
+            <div style={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                gap: ' 10px',
+                height: '200px',
+            }}>
+                {
+                    users.map((el) =>
+                        <User followTC={follow}
+                              isFollowing={isFollowing}
+                              unFollowTC={unfollow}
+                              user={el}
+                              key={el.id}/>)
+                }
+            </div>
+
         </div>
     );
 };

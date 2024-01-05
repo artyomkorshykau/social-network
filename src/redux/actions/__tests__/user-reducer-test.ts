@@ -1,15 +1,8 @@
-import usersReducer from "../../users-reducer";
 import {actions} from "../actions";
 import {UserType} from "../../../api/types/types-api";
+import usersReducer from "../../reducers/users-reducer";
 
-let state: {
-    totalUserCount: number;
-    isFollowing: any[];
-    pageSize: number;
-    isFetching: boolean;
-    currentPage: number;
-    users: UserType[]
-}
+let state: any
 
 beforeEach(() => {
     state = {

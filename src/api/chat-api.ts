@@ -54,7 +54,7 @@ function createChannel() {
     socket.addEventListener('error', errorHandler)
 }
 
-export const chatApi = {
+export const chatAPI = {
     subscribe(event: Event, callback: Subscriber) {
         // @ts-ignore
         subscribers[event].push(callback)

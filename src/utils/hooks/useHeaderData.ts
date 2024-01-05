@@ -1,6 +1,6 @@
-import {getIsAuth, getUserLogin} from "../selectors/userSelectors";
 import {useDispatch, useSelector} from "react-redux";
 import {thunks} from "../../redux/thunks/thunks";
+import {getIsAuth, getUserLogin} from "../selectors/auth-selectors/auth-selectors";
 
 export const useHeaderData = () => {
     const login = useSelector(getUserLogin)

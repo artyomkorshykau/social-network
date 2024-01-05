@@ -4,7 +4,7 @@ import {WrappedFieldProps} from "redux-form";
 import {Form,} from 'antd'
 import TextArea from "antd/lib/input/TextArea";
 
-export const TextArea1 = ({input, meta, ...props}: WrappedFieldProps) => {
+export const Textarea = ({input, meta, ...props}: WrappedFieldProps) => {
 
     const hasError = meta.touched && meta.error
 

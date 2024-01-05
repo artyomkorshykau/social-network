@@ -1,7 +1,7 @@
 import React from "react";
 import {withSuspense} from "../../hoc/withSuspense";
 import {useSelector} from "react-redux";
-import {getIsInitialized} from "../selectors/userSelectors";
+import {getIsInitialized} from "../selectors/app-selectors/app-selectors";
 
 export const useAppSuspendedData = () => {
     const Dialogs = React.lazy(() => import('../../pages/dialogs/dialogs'))
@@ -11,12 +11,12 @@ export const useAppSuspendedData = () => {
 
     const isInitialized = useSelector(getIsInitialized);
 
-    const ProfilePage = withSuspense(Profile)
-    const DialogsPage = withSuspense(Dialogs)
-    const UsersPage = withSuspense(Users)
-    const ChatPage = withSuspense(Chat)
+    const SuspendedProfile = withSuspense(Profile)
+    const SuspendedDialogs = withSuspense(Dialogs)
+    const SuspendedUsers = withSuspense(Users)
+    const SuspendedChat = withSuspense(Chat)
 
     return {
-        ProfilePage, DialogsPage, UsersPage, ChatPage, isInitialized
+        SuspendedProfile, SuspendedDialogs, SuspendedUsers, SuspendedChat, isInitialized
     }
 }
