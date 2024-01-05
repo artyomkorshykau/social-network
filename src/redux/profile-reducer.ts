@@ -1,5 +1,5 @@
-import {ACTION_TYPE} from "../common/enums/Actions";
-import {UserProfile} from "../api/types/typesApi";
+import {ACTION_TYPE} from "../common/enums/actions";
+import {UserProfile} from "../api/types/types-api";
 import {actions} from "./actions/actions";
 
 export let initialState = {

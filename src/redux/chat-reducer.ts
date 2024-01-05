@@ -1,5 +1,5 @@
-import {ChatMessage, ChatMessageApi} from "../pages/ChatPage/ChatPage";
-import {ACTION_TYPE} from "../common/enums/Actions";
+import {ChatMessage} from "../pages/chat/chat";
+import {ACTION_TYPE} from "../common/enums/actions";
 import {v1} from "uuid";
 
 let initialState = {

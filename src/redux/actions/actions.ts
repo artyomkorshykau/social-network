@@ -1,9 +1,9 @@
-import {UserProfile, UserType} from "../../api/types/typesApi";
-import {ACTION_TYPE} from "../../common/enums/Actions";
+import {UserProfile, UserType} from "../../api/types/types-api";
+import {ACTION_TYPE} from "../../common/enums/actions";
 import {Filter} from "../users-reducer";
-import {ProfilePhoto} from "../../components/Profile/ProfilePage";
-import {ChatMessageApi} from "../../pages/ChatPage/ChatPage";
-import {EventStatus} from "../../api/chatApi";
+import {ChatMessageApi} from "../../pages/chat/chat";
+import {EventStatus} from "../../api/chat-api";
+import {ProfilePhoto} from "../../pages/profile/profile";
 
 
 //-------------------------------APP-ACTION-------------------------------

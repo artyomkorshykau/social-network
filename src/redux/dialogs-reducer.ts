@@ -1,4 +1,4 @@
-import {ACTION_TYPE} from "../common/enums/Actions";
+import {ACTION_TYPE} from "../common/enums/actions";
 import {actions} from "./actions/actions";
 
 let initialState = {

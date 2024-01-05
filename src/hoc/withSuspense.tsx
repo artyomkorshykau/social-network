@@ -1,5 +1,5 @@
 import React, {ComponentType} from "react";
-import {Preloader} from "../common/Preloader/Preloader";
+import {Preloader} from "../common/preloader/preloader";
 
 export function withSuspense<T>(Component: ComponentType<T>) {
 

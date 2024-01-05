@@ -1,10 +1,10 @@
-import {usersAPI} from "../../../api/userApi";
-import {Response} from "../../../api/types/typesApi";
-import {ResultCode} from "../../../common/enums/Response";
+import {usersAPI} from "../../../api/user-api";
+import {Response} from "../../../api/types/types-api";
+import {ResultCode} from "../../../common/enums/response";
 import {actions} from "../../actions/actions";
 import {thunks} from "../thunks";
 
-jest.mock('../../../api/userApi')
+jest.mock('../../../api/user-api')
 const userApiMock = usersAPI as jest.Mocked<typeof usersAPI>
 
 const dispatchMock = jest.fn()

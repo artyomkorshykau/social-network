@@ -4,13 +4,13 @@ import {BrowserRouter} from "react-router-dom";
 import {AppState, store} from "./redux/store";
 import React from "react";
 import {Provider} from "react-redux";
-import AppLayout from "./app/App";
+import App from "./app/app";
 
 export let rerenderDom = (state: AppState) => {
     ReactDOM.render(
         <BrowserRouter basename={process.env.PUBLIC_URL}>
             <Provider store={store}>
-                <AppLayout/>
+                <App/>
             </Provider>
         </BrowserRouter>,
         document.getElementById('root')

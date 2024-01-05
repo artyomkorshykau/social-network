@@ -1,16 +1,16 @@
 import {actions} from "../actions/actions";
 import {stopSubmit} from "redux-form";
 import {AppThunk} from "../store";
-import {ResultCode} from "../../common/enums/Response";
-import {authAPI} from "../../api/authApi";
-import {securityAPI} from "../../api/securityApi";
-import {profileAPI} from "../../api/profileApi";
-import {UserProfile, UserType} from "../../api/types/typesApi";
-import {usersAPI} from "../../api/userApi";
+import {ResultCode} from "../../common/enums/response";
+import {authApi} from "../../api/auth-api";
+import {securityApi} from "../../api/security-api";
+import {profileApi} from "../../api/profile-api";
+import {UserProfile, UserType} from "../../api/types/types-api";
+import {usersAPI} from "../../api/user-api";
 import {Filter} from "../users-reducer";
-import {chatApi, EventStatus} from "../../api/chatApi";
+import {chatApi, EventStatus} from "../../api/chat-api";
 import {Dispatch} from "redux";
-import {ChatMessageApi} from "../../pages/ChatPage/ChatPage";
+import {ChatMessageApi} from "../../pages/chat/chat";
 
 //-------------------------------APP-THUNK-------------------------------
 const initialized = (): AppThunk => {
@@ -27,7 +27,7 @@ const initialized = (): AppThunk => {
 const authMe = (): AppThunk => {
     return async (dispatch) => {
         try {
-            const res = await authAPI.me();
+            const res = await authApi.me();
             if (res.resultCode === ResultCode.SUCCEED) {
                 let {id, login, email} = res.data
                 dispatch(actions.setAuthUserData(id, login, email, true));
@@ -41,7 +41,7 @@ const authMe = (): AppThunk => {
 const login = (log: string, pass: string, remember: boolean, captcha: string | null): AppThunk => {
     return async (dispatch) => {
         try {
-            const res = await authAPI.login(log, pass, captcha, remember);
+            const res = await authApi.login(log, pass, captcha, remember);
             if (res.resultCode === ResultCode.SUCCEED) {
                 await dispatch(authMe());
             } else {
@@ -60,7 +60,7 @@ const login = (log: string, pass: string, remember: boolean, captcha: string | n
 const logout = (): AppThunk => {
     return async (dispatch) => {
         try {
-            const res = await authAPI.logout();
+            const res = await authApi.logout();
             if (res.resultCode === ResultCode.SUCCEED) {
                 dispatch(actions.setAuthUserData(null, null, null, false));
             }
@@ -72,7 +72,7 @@ const logout = (): AppThunk => {
 
 const getCaptcha = (): AppThunk => {
     return async (dispatch) => {
-        const res = await securityAPI.getCaptcha()
+        const res = await securityApi.getCaptcha()
         dispatch(actions.setCaptcha(res.url))
     }
 }
@@ -81,7 +81,7 @@ const getCaptcha = (): AppThunk => {
 const getProfile = (userID: number | null): AppThunk => {
     return async (dispatch) => {
         try {
-            const data = await profileAPI.getProfile(userID);
+            const data = await profileApi.getProfile(userID);
             dispatch(actions.setUserProfile(data));
         } catch (error) {
             // Handle error
@@ -92,7 +92,7 @@ const getProfile = (userID: number | null): AppThunk => {
 const getUserStatus = (userId: string): AppThunk => {
     return async (dispatch) => {
         try {
-            const res = await profileAPI.getStatus(userId);
+            const res = await profileApi.getStatus(userId);
             dispatch(actions.setStatus(res));
         } catch (error) {
             // Handle error
@@ -103,7 +103,7 @@ const getUserStatus = (userId: string): AppThunk => {
 const updateStatus = (status: string): AppThunk => {
     return async (dispatch) => {
         try {
-            await profileAPI.updateStatus(status);
+            await profileApi.updateStatus(status);
             dispatch(actions.setStatus(status));
         } catch (error) {
             // Handle error
@@ -113,7 +113,7 @@ const updateStatus = (status: string): AppThunk => {
 
 const savePhoto = (file: File): AppThunk => {
     return async (dispatch) => {
-        let res = await profileAPI.savePhoto(file)
+        let res = await profileApi.savePhoto(file)
         if (res.resultCode === ResultCode.SUCCEED) {
             dispatch(actions.setPhotoSuccess(res.data))
         }
@@ -123,7 +123,7 @@ const savePhoto = (file: File): AppThunk => {
 const saveProfile = (profile: UserProfile): AppThunk => {
     return async (dispatch, getState) => {
         const userId = getState().profilePage.profile?.userId || 29875
-        let res = await profileAPI.saveProfile(profile)
+        let res = await profileApi.saveProfile(profile)
         if (res.resultCode === ResultCode.SUCCEED) {
             await dispatch(getProfile(userId))
             return Promise.resolve()

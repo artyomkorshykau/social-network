@@ -1,7 +1,15 @@
-import usersReducer, {InitialState} from "../../users-reducer";
-import {follow, unfollow} from "../actions";
+import usersReducer from "../../users-reducer";
+import {actions} from "../actions";
+import {UserType} from "../../../api/types/types-api";
 
-let state: InitialState
+let state: {
+    totalUserCount: number;
+    isFollowing: any[];
+    pageSize: number;
+    isFetching: boolean;
+    currentPage: number;
+    users: UserType[]
+}
 
 beforeEach(() => {
     state = {
@@ -43,7 +51,7 @@ beforeEach(() => {
 })
 test('Followed success', () => {
 
-    const newState = usersReducer(state, follow(2))
+    const newState = usersReducer(state, actions.follow(2))
 
     expect((newState.users[0]).followed).toBeFalsy()
     expect(newState.users[1].followed).toBeTruthy()
@@ -51,7 +59,7 @@ test('Followed success', () => {
 })
 
 test('Unfollow success', () => {
-    const newState = usersReducer(state, unfollow(3))
+    const newState = usersReducer(state, actions.unfollow(3))
 
     expect(newState.users[0].followed).toBeFalsy()
     expect(newState.users[2].followed).toBeFalsy()

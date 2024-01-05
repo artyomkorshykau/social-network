@@ -4,10 +4,10 @@ import {useSelector} from "react-redux";
 import {getIsInitialized} from "../selectors/userSelectors";
 
 export const useAppSuspendedData = () => {
-    const Dialogs = React.lazy(() => import('../../components/Dialogs/DialogsPage'))
-    const Profile = React.lazy(() => import('../../components/Profile/ProfilePage'))
-    const Users = React.lazy(() => import('../../components/Users/UsersPage'))
-    const Chat = React.lazy(() => import('../../pages/ChatPage/ChatPage'))
+    const Dialogs = React.lazy(() => import('../../pages/dialogs/dialogs'))
+    const Profile = React.lazy(() => import('../../pages/profile/profile'))
+    const Users = React.lazy(() => import('../../pages/users/users'))
+    const Chat = React.lazy(() => import('../../pages/chat/chat'))
 
     const isInitialized = useSelector(getIsInitialized);
 
